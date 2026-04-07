@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+
+# Prisma generated
+src/generated/prisma/
+
+# Prisma migrations (nếu dùng db push thì không cần)
+# prisma/migrations/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
