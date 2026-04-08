@@ -9,7 +9,7 @@ import bookingRoute from "../modules/bookings/booking.route.js";
 const router = (app) => {
   app.head("/", (req, res) => res.status(200).send("OK"));
   app.get("/", (req, res) =>
-    res.status(200).json({ status: "Server đang hoat động mượt mà!" }),
+    res.status(200).json({ status: "Server đang hoạt động mượt mà!" }),
   );
   setupSwagger(app);
   app.use("/api/v1/auth", authRoute);
