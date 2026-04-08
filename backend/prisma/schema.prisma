@@ -1,10 +1,10 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  // output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
 }
 
 model User {
@@ -41,7 +41,7 @@ model User {
   taskProgressUpdates TaskProgress[]
   area                ServiceArea?        @relation(fields: [areaId], references: [id])
 
-  @@index([areaId], map: "users_area_id_fkey")
+  @@index([areaId])
   @@map("users")
 }
 
@@ -87,9 +87,9 @@ model Booking {
   taskProgress     TaskProgress[]
   bookingDetails   BookingDetails[]
 
-  @@index([areaId], map: "bookings_area_id_fkey")
-  @@index([customerId], map: "bookings_customer_id_fkey")
-  @@index([discountCodeId], map: "bookings_discount_code_id_fkey")
+  @@index([areaId])
+  @@index([customerId])
+  @@index([discountCodeId])
   @@map("bookings")
 }
 
@@ -102,8 +102,8 @@ model StaffAssignment {
   booking    Booking  @relation(fields: [bookingId], references: [id])
   staff      User     @relation("StaffAssignments", fields: [staffId], references: [id])
 
-  @@index([bookingId], map: "staff_assignments_booking_id_fkey")
-  @@index([staffId], map: "staff_assignments_staff_id_fkey")
+  @@index([bookingId])
+  @@index([staffId])
   @@map("staff_assignments")
 }
 
@@ -117,7 +117,7 @@ model Payment {
   paidAt        DateTime? @map("paid_at")
   booking       Booking   @relation(fields: [bookingId], references: [id])
 
-  @@index([bookingId], map: "payments_booking_id_fkey")
+  @@index([bookingId])
   @@map("payments")
 }
 
@@ -130,7 +130,7 @@ model Notification {
   createdAt DateTime @default(now()) @map("created_at")
   user      User     @relation(fields: [userId], references: [id])
 
-  @@index([userId], map: "notifications_user_id_fkey")
+  @@index([userId])
   @@map("notifications")
 }
 
@@ -144,7 +144,7 @@ model AuditLog {
   details   String?  @db.Text
   user      User?    @relation(fields: [userId], references: [id])
 
-  @@index([userId], map: "audit_logs_user_id_fkey")
+  @@index([userId])
   @@map("audit_logs")
 }
 
@@ -177,7 +177,7 @@ model Contract {
   updatedAt      DateTime  @default(now()) @updatedAt @map("updated_at")
   staff          User      @relation(fields: [staffId], references: [id])
 
-  @@index([staffId], map: "contracts_staff_id_fkey")
+  @@index([staffId])
   @@map("contracts")
 }
 
@@ -193,8 +193,8 @@ model LeaveRequest {
   approver   User?    @relation("ApprovedLeaves", fields: [approvedBy], references: [id])
   staff      User     @relation("StaffLeaveRequests", fields: [staffId], references: [id])
 
-  @@index([approvedBy], map: "leave_requests_approved_by_fkey")
-  @@index([staffId], map: "leave_requests_staff_id_fkey")
+  @@index([approvedBy])
+  @@index([staffId])
   @@map("leave_requests")
 }
 
@@ -211,8 +211,8 @@ model Review {
   customer   User     @relation("CustomerReviews", fields: [customerId], references: [id])
   staff      User     @relation("StaffReviews", fields: [staffId], references: [id])
 
-  @@index([customerId], map: "reviews_customer_id_fkey")
-  @@index([staffId], map: "reviews_staff_id_fkey")
+  @@index([customerId])
+  @@index([staffId])
   @@map("reviews")
 }
 
@@ -228,8 +228,8 @@ model IssueReport {
   booking     Booking? @relation(fields: [bookingId], references: [id])
   reporter    User     @relation(fields: [reportedBy], references: [id])
 
-  @@index([bookingId], map: "issue_reports_booking_id_fkey")
-  @@index([reportedBy], map: "issue_reports_reported_by_fkey")
+  @@index([bookingId])
+  @@index([reportedBy])
   @@map("issue_reports")
 }
 
@@ -244,8 +244,8 @@ model TaskProgress {
   booking          Booking  @relation(fields: [bookingId], references: [id])
   staff            User     @relation(fields: [staffId], references: [id])
 
-  @@index([bookingId], map: "task_progress_booking_id_fkey")
-  @@index([staffId], map: "task_progress_staff_id_fkey")
+  @@index([bookingId])
+  @@index([staffId])
   @@map("task_progress")
 }
 
@@ -261,7 +261,7 @@ model ServiceArea {
   staffServiceAreas StaffServiceArea[]
   users             User[]
 
-  @@index([parentId], map: "service_areas_parent_id_fkey")
+  @@index([parentId])
   @@map("service_areas")
 }
 
@@ -273,7 +273,7 @@ model StaffServiceArea {
   staff       User        @relation(fields: [staffId], references: [id])
 
   @@id([staffId, areaId])
-  @@index([areaId], map: "staff_service_areas_area_id_fkey")
+  @@index([areaId])
   @@map("staff_service_areas")
 }
 
@@ -322,8 +322,8 @@ model StaffTraining {
   course         TrainingCourse @relation(fields: [courseId], references: [id])
   staff          User           @relation(fields: [staffId], references: [id])
 
-  @@index([courseId], map: "staff_training_course_id_fkey")
-  @@index([staffId], map: "staff_training_staff_id_fkey")
+  @@index([courseId])
+  @@index([staffId])
   @@map("staff_training")
 }
 
@@ -343,8 +343,8 @@ model RewardsDiscipline {
   approver      User?    @relation("RewardsApprovedBy", fields: [approvedBy], references: [id])
   staff         User     @relation("StaffRewards", fields: [staffId], references: [id])
 
-  @@index([approvedBy], map: "rewards_discipline_approved_by_fkey")
-  @@index([staffId], map: "rewards_discipline_staff_id_fkey")
+  @@index([approvedBy])
+  @@index([staffId])
   @@map("rewards_discipline")
 }
 
@@ -370,8 +370,8 @@ model StaffSchedule {
   shift     WorkShift @relation(fields: [shiftId], references: [id])
   staff     User      @relation(fields: [staffId], references: [id])
 
-  @@index([shiftId], map: "staff_schedules_shift_id_fkey")
-  @@index([staffId], map: "staff_schedules_staff_id_fkey")
+  @@index([shiftId])
+  @@index([staffId])
   @@map("staff_schedules")
 }
 
@@ -384,7 +384,7 @@ model Session {
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
   user         User     @relation(fields: [userId], references: [id])
 
-  @@index([userId], map: "sessions_user_id_fkey")
+  @@index([userId])
   @@map("sessions")
 }
 

@@ -1,5 +1,5 @@
 import { errorResponse } from "../utils/response.handle.js";
-import { Prisma } from "../generated/prisma/client.js";
+import { Prisma } from "@prisma/client";
 import HttpStatus from "../utils/http.status.js";
 const errorHandler = (err, req, res, next) => {
   let statusCode = err.statusCode || 500;

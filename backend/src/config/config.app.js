@@ -11,7 +11,6 @@ const configApp = (app) => {
   dotenv.config({
     quiet: true,
   });
-
   app.set("trust proxy", 1);
   //Cấu hình cors - đặt trước helmet để preflight không bị chặn
   // const allowedOrigins = [
