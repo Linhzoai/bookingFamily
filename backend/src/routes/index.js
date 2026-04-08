@@ -1,5 +1,5 @@
 import setupSwagger from "../config/swagger.js";
-import {authMiddleware, requireRole} from "../middlewares/auth.middleware.js";
+import { authMiddleware, requireRole } from "../middlewares/auth.middleware.js";
 import authRoute from "../modules/auth/auth.route.js";
 import staffRoute from "../modules/staff/staff.route.js";
 import areaRoute from "../modules/areas/area.route.js";
@@ -7,6 +7,10 @@ import categoryRoute from "../modules/services/categories/category.route.js";
 import serviceRoute from "../modules/services/service.route.js";
 import bookingRoute from "../modules/bookings/booking.route.js";
 const router = (app) => {
+  app.head("/", (req, res) => res.status(200).send("OK"));
+  app.get("/", (req, res) =>
+    res.status(200).json({ status: "Server đang hoat động mượt mà!" }),
+  );
   setupSwagger(app);
   app.use("/api/v1/auth", authRoute);
   app.use(authMiddleware);
