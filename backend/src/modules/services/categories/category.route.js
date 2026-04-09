@@ -2,6 +2,7 @@ import express from "express";
 import validateMiddleware from "../../../middlewares/validate.middleware.js";
 import { createCategorySchema, updateCategorySchema, getCategoriesSchema } from "./category.validation.js";
 import CategoryController from "./category.controller.js";
+import { authMiddleware } from "../../../middlewares/auth.middleware.js";
 const router = express.Router();
 
 /**
@@ -10,6 +11,60 @@ const router = express.Router();
  *   name: Categories
  *   description: Quản lý Danh mục dịch vụ
  */
+
+/**
+ * @swagger
+ * /categories:
+ *   get:
+ *     summary: Lấy danh sách danh mục (có phân trang & lọc)
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema: {type: string}
+ *         description: Lọc theo tên danh mục
+ *       - in: query
+ *         name: description
+ *         schema: {type: string}
+ *         description: Lọc theo mô tả
+ *       - in: query
+ *         name: page
+ *         schema: {type: number, default: 1}
+ *       - in: query
+ *         name: limit
+ *         schema: {type: number, default: 10}
+ *       - in: query
+ *         name: orderBy
+ *         schema: {type: string, default: "createdAt"}
+ *       - in: query
+ *         name: order
+ *         schema: {type: string, enum: [asc, desc], default: "desc"}
+ *     responses:
+ *       200:
+ *         description: Thành công
+ */
+router.get('/',validateMiddleware(getCategoriesSchema, 'query'), CategoryController.getCategories);
+
+/**
+ * @swagger
+ * /categories/{id}/get:
+ *   get:
+ *     summary: Lấy chi tiết một danh mục
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: ID danh mục
+ *     responses:
+ *       200:
+ *         description: Thành công
+ */
+router.get('/:id/get', CategoryController.getCategoryById);
+
+router.use(authMiddleware);
 
 /**
  * @swagger
@@ -86,56 +141,5 @@ router.put('/:id/update',validateMiddleware(updateCategorySchema), CategoryContr
  */
 router.delete('/:id/delete', CategoryController.deleteCategory);
 
-/**
- * @swagger
- * /categories:
- *   get:
- *     summary: Lấy danh sách danh mục (có phân trang & lọc)
- *     tags: [Categories]
- *     parameters:
- *       - in: query
- *         name: name
- *         schema: {type: string}
- *         description: Lọc theo tên danh mục
- *       - in: query
- *         name: description
- *         schema: {type: string}
- *         description: Lọc theo mô tả
- *       - in: query
- *         name: page
- *         schema: {type: number, default: 1}
- *       - in: query
- *         name: limit
- *         schema: {type: number, default: 10}
- *       - in: query
- *         name: orderBy
- *         schema: {type: string, default: "createdAt"}
- *       - in: query
- *         name: order
- *         schema: {type: string, enum: [asc, desc], default: "desc"}
- *     responses:
- *       200:
- *         description: Thành công
- */
-router.get('/',validateMiddleware(getCategoriesSchema, 'query'), CategoryController.getCategories);
-
-/**
- * @swagger
- * /categories/{id}/get:
- *   get:
- *     summary: Lấy chi tiết một danh mục
- *     tags: [Categories]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: number
- *         description: ID danh mục
- *     responses:
- *       200:
- *         description: Thành công
- */
-router.get('/:id/get', CategoryController.getCategoryById);
 
 export default router;

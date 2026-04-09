@@ -16,11 +16,11 @@ const router = (app) => {
   );
   setupSwagger(app);
   app.use("/api/v1/auth", authRoute);
+  app.use("/api/v1/categories", categoryRoute);
   app.use("/api/v1/services", serviceRoute);
   app.use(authMiddleware);  
   app.use("/api/v1/staff", requireRole(["staff", "admin"]), staffRoute);
   app.use("/api/v1/areas", areaRoute);
-  app.use("/api/v1/categories", categoryRoute);
   app.use("/api/v1/bookings", bookingRoute);
   app.use("/api/v1/assignments", assignmentRoute);
   app.use("/api/v1/customers", customerRoute);
