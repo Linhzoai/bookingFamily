@@ -21,7 +21,7 @@ class CategoryService {
         if(!existCategory){ throw new AppError("Danh mục không tồn tại", 404); }
         if(data.name){
             const existCategoryByName = await prisma.serviceCategory.findFirst({
-                where:{ name: data.name, id: { not: id } }
+                where:{ name: data.name, id: { not: Number(id) } }
             })
             if(existCategoryByName){ throw new AppError("Tên danh mục đã tồn tại", 400); }
         }

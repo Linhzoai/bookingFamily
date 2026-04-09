@@ -8,8 +8,11 @@
     background-color: $primary-color;
     padding: 20px;
     .nav_menu_container {
+        @include mix.flex_box_custom(center, center, 20px);
+        flex-direction: column;
         width: 100%;
         border-bottom: 1px solid $sky-blue;
+        padding-bottom: 20px;
         flex: 1;
         h1 {
             margin-top: 20px;
@@ -24,15 +27,14 @@
             width: 100%;
             @include mix.flex_box_custom(center, center, 20px);
             flex-direction: column;
-            margin-top: 60px;
-
+            margin-bottom: auto;
             .nav_item {
-                @include mix.flex_box_custom(start, center);
+                @include mix.flex_box_custom(start, center, 20px);
                 width: 100%;
                 padding: 20px 10px;
                 cursor: pointer;
                 transition: $transition-fast;
-                font-size: 20px;
+                font-size: 18px;
                 color: $sky-blue;
                 .active {
                     background-color: $secondary-color;
@@ -44,7 +46,13 @@
                     color: $black;
                     transform: scale(1.05);
                 }
+                svg {
+                    font-size: 24px;
+                }
             }
+        }
+        button {
+            margin-bottom: 20px;
         }
     }
 
@@ -52,5 +60,27 @@
         margin-top: auto;
         width: 100%;
         padding: 20px;
+        .footer_info {
+            @include mix.flex_box_custom(center, center, 20px);
+            flex-direction: column;
+            width: 100%;
+            .footer_info_item {
+                @include mix.flex_box_custom(start, center, 20px);
+                width: 100%;
+                padding-top: 10px;
+                cursor: pointer;
+                transition: $transition-fast;
+                font-size: 18px;
+                color: $sky-blue;
+                svg {
+                    font-size: 28px;
+                }
+                &:hover {
+                    border-radius: 8px;
+                    color: $white;  
+                    transform: translateY(-5px) scale(1.05);
+                }
+            }
+        }
     }
 }

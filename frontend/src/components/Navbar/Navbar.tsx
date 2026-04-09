@@ -3,6 +3,7 @@ import { NavItems } from './contains.tsx';
 import Button from '../Button/Button.tsx';
 import { IoHelpCircleOutline } from 'react-icons/io5';
 import { IoIosLogOut } from 'react-icons/io';
+import { authStore } from '../../stores/useAuthStore.ts';
 export default function Navbar() {
     const {
         container,
@@ -13,10 +14,14 @@ export default function Navbar() {
         nav_label,
         nav_footer,
         footer_info,
-        footer_info_support,
-        footer_info_logout,
+        footer_info_item,
         nav_menu_container
     } = styles;
+    const {logout} = authStore();
+
+    const handleLogout = () => {
+        logout();
+    }
     return (
         <div className={container}>
             <div className={nav_menu_container}>
@@ -35,11 +40,11 @@ export default function Navbar() {
             <div className={nav_footer}>
 
                 <div className={footer_info}>
-                    <div className={footer_info_support}>
+                    <div className={footer_info_item}>
                         <IoHelpCircleOutline />
                         <span>Hỗ trợ</span>
                     </div>
-                    <div className={footer_info_logout}>
+                    <div className={footer_info_item} onClick={handleLogout}>
                         <IoIosLogOut />
                         <span>Đăng xuất</span>
                     </div>
