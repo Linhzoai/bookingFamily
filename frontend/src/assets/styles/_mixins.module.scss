@@ -1,0 +1,41 @@
+@mixin btn($w: 100px, $h: 40px, $color: transparent, $raius: 5px){
+    width: $w;
+    height: $h;
+    background-color: $color;
+    border-radius: $raius;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    &:hover{
+        
+        background-color: darken($color, 10%);
+    }
+}
+
+@mixin flex_box_custom($x: center, $y: center, $gap:0px){
+    display: flex;
+    justify-content: $x;
+    align-items: $y;
+    gap: $gap;
+}
+
+@mixin grid_box_custom($col: 1, $row: 1, $gap:10px){
+    display: grid;
+    grid-template-columns: repeat($col, 1fr);
+    grid-template-rows: repeat($row, 1fr);
+    gap: $gap;
+}
+
+@mixin mobile {
+    @media (max-width: 767px) { @content; }
+}
+
+@mixin tablet {
+    @media (min-width: 768px) and (max-width: 1024px) { @content; }
+}
+
+@mixin desktop {
+    @media (min-width: 1025px) { @content; }
+}
+

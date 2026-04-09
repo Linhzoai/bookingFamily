@@ -1,0 +1,34 @@
+@use '@styles/variable.module.scss' as *;
+@use '@styles/mixins.module.scss' as mix;
+.container {
+    @include mix.flex_box_custom(end, center);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 90px;
+    z-index: 10;
+    height: 80px;
+    .boxMenu {
+        @include mix.flex_box_custom(center, center, 80px);
+        color: $title-color;
+        font-size: 28px;
+        .itemMenu{
+            @include mix.flex_box_custom();
+            color: $title-color;
+            font-size: 28px;
+            width: 150px;
+            height: 50px;
+            font-weight: 600;   
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            &.active {
+                color: $white;
+                border: 1px solid $white;
+                background-color: transparent;
+            }
+            &:hover {
+                background-color: $glass-bg-hover;
+            }
+        }
+    }
+}

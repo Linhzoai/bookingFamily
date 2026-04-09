@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking Family - Quản lý Khách hàng</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#4e77a4",
+                      "surface-dim": "#d7dadc",
+                      "surface-container-high": "#e5e9eb",
+                      "on-surface-variant": "#40484d",
+                      "on-error": "#ffffff",
+                      "on-primary-container": "#fbfdff",
+                      "secondary-fixed-dim": "#96cfe6",
+                      "inverse-primary": "#89d0f2",
+                      "secondary-fixed": "#b8eaff",
+                      "primary-container": "#307d9c",
+                      "primary-fixed-dim": "#89d0f2",
+                      "on-secondary-fixed-variant": "#024d61",
+                      "on-primary": "#ffffff",
+                      "tertiary-fixed": "#d1e4ff",
+                      "outline-variant": "#bfc8ce",
+                      "surface-bright": "#f7fafc",
+                      "surface-container": "#ebeef0",
+                      "surface-variant": "#e0e3e5",
+                      "on-tertiary-fixed-variant": "#1a4973",
+                      "on-primary-fixed": "#001f2a",
+                      "secondary-container": "#ace5fd",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "primary": "#046482",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#181c1e",
+                      "on-secondary-container": "#2c687c",
+                      "secondary": "#29657a",
+                      "on-background": "#181c1e",
+                      "on-tertiary-container": "#fdfcff",
+                      "tertiary-fixed-dim": "#a1cafb",
+                      "surface": "#f7fafc",
+                      "on-tertiary": "#ffffff",
+                      "tertiary": "#345f8a",
+                      "surface-container-highest": "#e0e3e5",
+                      "outline": "#70787e",
+                      "on-secondary-fixed": "#001f29",
+                      "on-tertiary-fixed": "#001d35",
+                      "primary-fixed": "#bfe8ff",
+                      "background": "#f7fafc",
+                      "surface-tint": "#0b6684",
+                      "surface-container-low": "#f1f4f6",
+                      "on-primary-fixed-variant": "#004d65",
+                      "error": "#ba1a1a",
+                      "inverse-on-surface": "#eef1f3",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-surface": "#2d3133"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Space Grotesk"],
+                      "body": ["Inter"],
+                      "label": ["Space Grotesk"]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .mono-text { font-family: 'Space Grotesk', monospace; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-900 dark:bg-slate-950 flex flex-col py-6 shadow-xl z-50">
+<div class="px-6 mb-10">
+<h1 class="text-xl font-bold tracking-tighter text-white font-mono">Booking Family</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-sky-500/70 font-mono">Admin Terminal</p>
+</div>
+<nav class="flex-1 flex flex-col space-y-1">
+<!-- Dashboard -->
+<a class="px-6 py-3 flex items-center space-x-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors duration-200 font-mono tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Quản lý Lịch đặt -->
+<a class="px-6 py-3 flex items-center space-x-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors duration-200 font-mono tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span>Quản lý Lịch đặt</span>
+</a>
+<!-- Dịch vụ -->
+<a class="px-6 py-3 flex items-center space-x-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors duration-200 font-mono tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined text-lg">home_repair_service</span>
+<span>Dịch vụ</span>
+</a>
+<!-- Khách hàng (ACTIVE) -->
+<a class="px-6 py-3 flex items-center space-x-3 bg-sky-500/10 text-sky-400 font-bold border-r-2 border-sky-500 font-mono tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined text-lg fill-icon" style="font-variation-settings: 'FILL' 1;">group</span>
+<span>Khách hàng</span>
+</a>
+<!-- Nhân sự -->
+<a class="px-6 py-3 flex items-center space-x-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors duration-200 font-mono tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined text-lg">badge</span>
+<span>Nhân sự</span>
+</a>
+<!-- Tài chính -->
+<a class="px-6 py-3 flex items-center space-x-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors duration-200 font-mono tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined text-lg">payments</span>
+<span>Tài chính</span>
+</a>
+<!-- Cài đặt -->
+<a class="px-6 py-3 flex items-center space-x-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors duration-200 font-mono tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>Cài đặt</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<div class="flex items-center space-x-3 p-3 bg-slate-800/40 rounded-xl">
+<img alt="Booking Family Admin" class="w-8 h-8 rounded-full border border-slate-700 object-cover" data-alt="Professional headshot of a mature businessman in a dark suit against a neutral studio background, high-end photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLpFACzNjAJjcs_Yhjt-VjEoqQtT87jnK_tTud4jOxbxT7tQBZ65TQvx6VwVbWhd41rdubb4NXEBtfs0GYq4-6pa46xu2hGk7GDtAosvP6MJxWpqmX7o-DZL3AcCwW2zJ6S6av-amAih8dnErb-LsSNM5rTwDr3F8oIX0FUIYEZYlBwW3SAfU_wXhpIisjF7kftkr_ErO7ffkWFSKpsDN3km-Poi5ZcsDzCiY5VPBvJs3xe7zTk7EW9Z89isMFbKpJCKrCNAm2dw"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold text-white truncate">Admin User</p>
+<p class="text-[10px] text-slate-500 truncate">System Manager</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-slate-50/80 backdrop-blur-md flex justify-between items-center px-8 z-40">
+<div class="flex items-center w-1/3">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg group-focus-within:text-sky-600 transition-colors">search</span>
+<input class="w-full bg-slate-100 border-none rounded-xl py-2 pl-10 pr-4 text-sm font-mono focus:ring-2 focus:ring-sky-500/20 placeholder:text-slate-500" placeholder="Tìm kiếm nhanh..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<button class="relative text-slate-500 hover:text-sky-500 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-slate-50"></span>
+</button>
+<div class="h-6 w-[1px] bg-slate-200"></div>
+<div class="flex items-center space-x-3">
+<span class="text-sm font-mono text-sky-700 font-bold">Admin Panel</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-8 pb-12 min-h-screen">
+<!-- Header Actions -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-3xl font-headline font-bold text-on-surface tracking-tight">Quản lý Khách hàng</h2>
+<p class="text-on-surface-variant font-label text-sm mt-1">Theo dõi và quản lý dữ liệu thành viên trong hệ thống.</p>
+</div>
+<div class="flex items-center space-x-3">
+<button class="flex items-center space-x-2 bg-surface-container-low text-on-surface px-4 py-2.5 rounded-xl hover:bg-surface-container-high transition-all font-label text-sm">
+<span class="material-symbols-outlined text-lg">download</span>
+<span>Xuất báo cáo</span>
+</button>
+<button class="flex items-center space-x-2 bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all font-headline font-semibold text-sm">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>Thêm Khách hàng</span>
+</button>
+</div>
+</div>
+<!-- Filter Bar: Bento Style -->
+<div class="grid grid-cols-12 gap-4 mb-8">
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-4 rounded-xl flex items-center space-x-4">
+<div class="flex-1 relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-base">person_search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-2.5 pl-10 text-sm font-mono focus:ring-2 focus:ring-primary/20" placeholder="Tìm theo Tên hoặc Số điện thoại..." type="text"/>
+</div>
+<div class="flex items-center space-x-2">
+<span class="text-xs font-label font-bold text-outline uppercase tracking-wider">Hạng:</span>
+<select class="bg-surface-container-low border-none rounded-lg py-2.5 px-4 text-sm font-mono focus:ring-2 focus:ring-primary/20">
+<option>Tất cả</option>
+<option>Standard</option>
+<option>Premium</option>
+<option>VIP</option>
+</select>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-4 rounded-xl flex items-center">
+<div class="flex-1 flex items-center space-x-2">
+<span class="material-symbols-outlined text-outline">calendar_month</span>
+<input class="w-full bg-transparent border-none text-sm font-mono focus:ring-0" type="date"/>
+</div>
+<div class="h-4 w-[1px] bg-outline-variant mx-2"></div>
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Stats Overview: Asymmetric Layout -->
+<div class="grid grid-cols-4 gap-6 mb-8">
+<div class="col-span-1 bg-surface-container-lowest p-6 rounded-xl relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-[0.03] group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-9xl">group</span>
+</div>
+<p class="text-xs font-label font-bold text-outline uppercase tracking-widest mb-2">Tổng khách hàng</p>
+<h3 class="text-3xl font-headline font-bold text-on-surface">1,284</h3>
+<div class="mt-4 flex items-center text-xs text-green-600 font-mono">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+<span>+12% tháng này</span>
+</div>
+</div>
+<div class="col-span-1 bg-surface-container-lowest p-6 rounded-xl relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-[0.03] group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-9xl">workspace_premium</span>
+</div>
+<p class="text-xs font-label font-bold text-outline uppercase tracking-widest mb-2">Thành viên VIP</p>
+<h3 class="text-3xl font-headline font-bold text-on-surface">156</h3>
+<div class="mt-4 flex items-center text-xs text-primary font-mono">
+<span>Hạng Premium chiếm 12%</span>
+</div>
+</div>
+<div class="col-span-2 bg-primary text-white p-6 rounded-xl relative overflow-hidden shadow-xl shadow-primary/20">
+<div class="relative z-10">
+<p class="text-xs font-label font-bold text-primary-fixed uppercase tracking-widest mb-2 opacity-80">Doanh thu tích lũy</p>
+<h3 class="text-4xl font-headline font-bold">2.480.000.000₫</h3>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-sm font-mono opacity-80">Trung bình 1.9M / KH</span>
+<span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider">Đã tối ưu</span>
+</div>
+</div>
+<!-- Abstract Glass Background Shape -->
+<div class="absolute top-0 right-0 w-48 h-full bg-white/10 skew-x-12 translate-x-10 pointer-events-none"></div>
+</div>
+</div>
+<!-- Customers Table -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="p-6 border-b border-surface-container flex justify-between items-center">
+<h4 class="font-headline font-bold text-on-surface">Danh sách khách hàng</h4>
+<div class="flex space-x-2">
+<button class="p-2 hover:bg-surface-container-low rounded-lg transition-colors"><span class="material-symbols-outlined text-outline">more_horiz</span></button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-[10px] font-label font-bold text-outline uppercase tracking-widest">Mã KH</th>
+<th class="px-6 py-4 text-[10px] font-label font-bold text-outline uppercase tracking-widest">Khách hàng</th>
+<th class="px-6 py-4 text-[10px] font-label font-bold text-outline uppercase tracking-widest">Liên hệ</th>
+<th class="px-6 py-4 text-[10px] font-label font-bold text-outline uppercase tracking-widest text-center">Booking</th>
+<th class="px-6 py-4 text-[10px] font-label font-bold text-outline uppercase tracking-widest">Tổng chi tiêu</th>
+<th class="px-6 py-4 text-[10px] font-label font-bold text-outline uppercase tracking-widest">Hạng</th>
+<th class="px-6 py-4 text-[10px] font-label font-bold text-outline uppercase tracking-widest text-right">Thao tác</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4">
+<span class="font-mono text-xs text-on-surface-variant font-medium">KH-001</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<img alt="Nguyễn Văn An" class="w-10 h-10 rounded-xl object-cover" data-alt="Portrait of a smiling young Asian man with casual haircut in a bright minimalist office setting, professional photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAlC2_RZce5XvzB8JMwL2SoQA4HThO3FjPQXxVnlrIqSghpFWfpKyOFecHNG5cibrzIqX-s6_W8-1HfBBj3NJsWIYjYyF18DRIAYTbb32Erg_ABKSX0GEVcqWzDc8LfH6Cb8o2MhbOCve9SpMUv_hflOwKZfU4jNOLavCrsCiauCAdujO7MKkU4m0-Gb3a45q0xcfgto9paZejok2GDpvhGV8VV89-vP5GOz0trgbnw3MocoG-wxOkyKJ4HbWYdab8-9vb4xdHEK4"/>
+<div>
+<p class="text-sm font-headline font-bold text-on-surface">Nguyễn Văn An</p>
+<p class="text-[11px] font-mono text-outline">Tham gia: 12/10/2023</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-[13px] font-mono leading-tight">
+<p class="text-on-surface">0901.234.567</p>
+<p class="text-outline">an.nv@gmail.com</p>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="font-mono text-sm font-bold text-primary">12</span>
+</td>
+<td class="px-6 py-4">
+<span class="font-mono text-sm font-bold text-on-surface">5.400.000đ</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">Premium</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Chi tiết">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+<button class="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors" title="Gửi thông báo">
+<span class="material-symbols-outlined text-lg">notifications_active</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4">
+<span class="font-mono text-xs text-on-surface-variant font-medium">KH-002</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<img alt="Trần Thị Lan" class="w-10 h-10 rounded-xl object-cover" data-alt="Modern minimalist headshot of a young woman with natural light, clean skin, and neutral expression, high-end editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuItfAnoM55O54vxRsn9RLEKRAZcTb9Roz7X1GiMZwETKR-i65996nR3tZbCIh0sh4gcE0GFvVS6sen9hVNSfTXw-W2guT8ehpVUlPYlLVpGANAO5iH_5sdloiLtPDTpz7iVD3pfez-wSKZQcL_g2sPPYJ-aLCDHs4OrIdDecLcgheWt6tSph72s_fCp2VPDD_4UUylicE2bpw-mo_DAlHYgfW21WcSwOE52z-9PCXEQaYhXRdijvn55w9mWdr1PO7z7Pb5sit1qo"/>
+<div>
+<p class="text-sm font-headline font-bold text-on-surface">Trần Thị Lan</p>
+<p class="text-[11px] font-mono text-outline">Tham gia: 05/11/2023</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-[13px] font-mono leading-tight">
+<p class="text-on-surface">0988.776.655</p>
+<p class="text-outline">lan.tt@yahoo.com</p>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="font-mono text-sm font-bold text-primary">04</span>
+</td>
+<td class="px-6 py-4">
+<span class="font-mono text-sm font-bold text-on-surface">1.250.000đ</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-outline-variant/20 text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider">Standard</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Chi tiết">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+<button class="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors" title="Gửi thông báo">
+<span class="material-symbols-outlined text-lg">notifications_active</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4">
+<span class="font-mono text-xs text-on-surface-variant font-medium">KH-003</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<img alt="Lê Hoàng Nam" class="w-10 h-10 rounded-xl object-cover" data-alt="Professional headshot of an entrepreneur in a light grey studio background, sharp focus, clean lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSMXyKmqtw2L_ProdjfFP6IHQIkeKQvR8mlIsvqq4t-CrCh0dkrkFFM_idHPHh0lmguWuwfz6NDuwnG2idTca3ZHPAE0x6smaw6RMtVUFNsIT1-UsIvMlj3AKi2QTwDmCtNIrfpxw5lncqWIBsKvvRxnlOzOLzzAUxp4pwmow7UgIGiNSffecR_rUd307uy7fAv2Fh6HQHTOzLCndPDg4k7f5JNvNnMXUlEhAP-BUtlE5vvn9w61RrndAhw7NSkg6VdO8dX1ULRrg"/>
+<div>
+<p class="text-sm font-headline font-bold text-on-surface">Lê Hoàng Nam</p>
+<p class="text-[11px] font-mono text-outline">Tham gia: 01/01/2024</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-[13px] font-mono leading-tight">
+<p class="text-on-surface">0912.333.444</p>
+<p class="text-outline">namle@fpt.com.vn</p>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="font-mono text-sm font-bold text-primary">48</span>
+</td>
+<td class="px-6 py-4">
+<span class="font-mono text-sm font-bold text-on-surface">24.600.000đ</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-amber-500/10 text-amber-600 rounded-full text-[10px] font-bold uppercase tracking-wider">VIP</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Chi tiết">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+<button class="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors" title="Gửi thông báo">
+<span class="material-symbols-outlined text-lg">notifications_active</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 bg-surface-container-low/30 border-t border-surface-container flex justify-between items-center">
+<p class="text-[11px] font-mono text-outline uppercase tracking-wider">Hiển thị 1-10 trên 1,284 khách hàng</p>
+<div class="flex items-center space-x-2">
+<button class="p-1.5 rounded-lg hover:bg-surface-container-high text-outline-variant disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-white text-xs font-bold font-mono">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container-high text-on-surface text-xs font-mono">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container-high text-on-surface text-xs font-mono">3</button>
+<span class="text-outline px-1">...</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container-high text-on-surface text-xs font-mono">129</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-high text-outline-variant">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Recent Activity Feed: Atelier Style -->
+<div class="mt-12">
+<h4 class="font-headline font-bold text-on-surface mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">history</span>
+                Hoạt động mới nhất
+            </h4>
+<div class="space-y-4">
+<div class="flex space-x-4">
+<div class="flex-shrink-0 w-1 bg-primary/20 rounded-full"></div>
+<div class="flex-1 bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between border-l-4 border-primary">
+<div>
+<p class="text-sm font-headline font-bold text-on-surface">Khách hàng mới: Đặng Tuấn Anh</p>
+<p class="text-xs text-outline font-mono mt-0.5">Đăng ký tài khoản qua Mobile App</p>
+</div>
+<span class="text-[10px] font-mono text-outline-variant uppercase">15 phút trước</span>
+</div>
+</div>
+<div class="flex space-x-4">
+<div class="flex-shrink-0 w-1 bg-outline-variant/20 rounded-full"></div>
+<div class="flex-1 bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between opacity-80">
+<div>
+<p class="text-sm font-headline font-semibold text-on-surface">Nâng cấp hạng: Lê Hoàng Nam</p>
+<p class="text-xs text-outline font-mono mt-0.5">Thành viên được nâng lên hạng VIP tự động</p>
+</div>
+<span class="text-[10px] font-mono text-outline-variant uppercase">2 giờ trước</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

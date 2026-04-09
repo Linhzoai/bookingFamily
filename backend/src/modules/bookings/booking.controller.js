@@ -1,5 +1,4 @@
 import BookingService from "./booking.service.js";
-import StaffAssignmentService from "./staffAssignment/assignment.service.js";
 import catchAsync from "../../utils/catch.async.js";
 class BookingController{
     //[POST] /api/v1/bookings
@@ -53,13 +52,13 @@ class BookingController{
         })
     })
 
-    //[POST] /api/v1/bookings/assignment
-    createAssignment = catchAsync(async (req, res, next) =>{
-        const assignment = await StaffAssignmentService.createAssignment(req.body)
-        res.status(201).json({
+    //[GET] /api/v1/bookings/:id/progress
+    getProgressNow = catchAsync(async (req, res, next) => {
+        const booking = await BookingService.getProgressNow(req.params.id)
+        res.status(200).json({
             success: true,
-            message: "Giao việc thành công",
-            data: assignment
+            message: "Lấy tiến độ thành công",
+            data: booking
         })
     })
 }

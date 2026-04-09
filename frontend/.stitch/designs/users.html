@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý người dùng - Booking Family</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#001d35",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#d1e4ff",
+                        "tertiary-container": "#4e77a4",
+                        "surface-container-highest": "#d1e4ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-high": "#dbe9ff",
+                        "surface-container": "#e4efff",
+                        "surface-variant": "#d1e4ff",
+                        "secondary": "#29657a",
+                        "outline-variant": "#bfc8ce",
+                        "on-surface-variant": "#40484d",
+                        "inverse-surface": "#003257",
+                        "primary-container": "#307d9c",
+                        "secondary-fixed": "#b8eaff",
+                        "tertiary-fixed-dim": "#a1cafb",
+                        "on-primary-container": "#fbfdff",
+                        "on-background": "#001d35",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#fdfcff",
+                        "on-primary-fixed": "#001f2a",
+                        "on-secondary-fixed-variant": "#024d61",
+                        "secondary-fixed-dim": "#96cfe6",
+                        "on-secondary-fixed": "#001f29",
+                        "on-primary": "#ffffff",
+                        "outline": "#70787e",
+                        "inverse-on-surface": "#e9f1ff",
+                        "on-tertiary-fixed-variant": "#1a4973",
+                        "surface-container-low": "#eef4ff",
+                        "surface": "#f8f9ff",
+                        "on-primary-fixed-variant": "#004d65",
+                        "primary-fixed-dim": "#89d0f2",
+                        "surface-tint": "#0b6684",
+                        "secondary-container": "#ace5fd",
+                        "inverse-primary": "#89d0f2",
+                        "primary": "#046482",
+                        "surface-dim": "#c2dcff",
+                        "on-surface": "#001d35",
+                        "background": "#f8f9ff",
+                        "tertiary": "#345f8a",
+                        "primary-fixed": "#bfe8ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"],
+                        "data": ["Roboto Mono", "monospace"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+        }
+        h1, h2, h3, .brand-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .data-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-[#013a63] flex flex-col py-8 shadow-xl shadow-[#013a63]/20 z-50">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-[#468faf] flex items-center justify-center text-white font-bold text-xl">B</div>
+<div>
+<h1 class="text-2xl font-bold text-white tracking-tight leading-none">Booking Family</h1>
+<p class="text-[10px] text-blue-100/50 uppercase tracking-widest mt-1">Management Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 pr-4">
+<a class="flex items-center gap-4 px-6 py-3 text-blue-100/70 hover:text-white hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<!-- Active Tab: Users -->
+<a class="flex items-center gap-4 px-6 py-3 bg-[#468faf]/20 text-white font-medium rounded-r-full group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform" style="font-variation-settings: 'FILL' 1;">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-blue-100/70 hover:text-white hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">assignment_turned_in</span>
+<span class="font-medium">Tasks</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-blue-100/70 hover:text-white hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">bar_chart</span>
+<span class="font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-blue-100/70 hover:text-white hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-[#468faf] hover:bg-[#307d9c] text-white rounded-xl font-medium transition-all active:scale-95 shadow-lg shadow-[#013a63]/20 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>+ Tạo mới</span>
+</button>
+</div>
+</aside>
+<!-- Main Wrapper -->
+<div class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 h-20 glass-header flex justify-between items-center px-8 border-none">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#468faf] transition-colors">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-2.5 pl-12 pr-4 focus:ring-2 focus:ring-[#468faf]/20 transition-all placeholder:text-slate-400" placeholder="Tìm kiếm người dùng..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-slate-500 hover:text-[#468faf] transition-all">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<div class="h-8 w-px bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-semibold text-on-surface leading-none">Admin Avatar</p>
+<p class="text-xs text-slate-500 data-mono mt-1">Super Admin</p>
+</div>
+<img alt="Admin Avatar" class="w-10 h-10 rounded-full border-2 border-surface-container-high" data-alt="Professional portrait of a male business executive with a friendly expression and clean studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9P_G3kXNPUql3wRi1Hm2tB6Mld_32a7uhuSUndBj20F63pSv05JwtD0yXeD2OL7KW-JvvjfVdUgS7AU6BCpET5hyAopdvdw2oFolQStLfa1FBXBvdNnrtQFBn8PzrRfb4aJ8NZL8FIW2s2YAHgY2Q4fKtvBCCqOnsSp2T0XR9FI4cKWHek8S5q_bB07DGQFDe_WEw2BtguOocnXI06MBFFS2DErI52oXilCF2FL0xBDmCaFcDdE0Z8X6LJ05sR5r8kRvqQA_y7XU"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="mt-20 p-8 flex-1">
+<!-- Page Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+<div class="max-w-2xl">
+<nav class="flex items-center gap-2 text-xs text-slate-400 font-medium mb-2 uppercase tracking-widest">
+<span>Dashboard</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-[#468faf]">Quản lý người dùng</span>
+</nav>
+<h2 class="text-4xl font-bold text-on-surface tracking-tight">Quản lý người dùng</h2>
+<p class="text-on-surface-variant mt-2 max-w-lg">Quản lý và cấp quyền truy cập cho các thành viên trong hệ thống quản trị Booking Family.</p>
+</div>
+<div>
+<button class="bg-gradient-to-r from-[#046482] to-[#468faf] text-white px-6 py-3 rounded-xl font-medium shadow-lg shadow-[#013a63]/10 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined">person_add</span>
+<span>+ Thêm user</span>
+</button>
+</div>
+</div>
+<!-- Bento Stats Overview -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 rounded-xl shadow-sm shadow-[#013a63]/5 flex items-center gap-4 border-l-4 border-[#468faf]">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Tổng User</p>
+<p class="text-2xl font-bold data-mono">1,284</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm shadow-[#013a63]/5 flex items-center gap-4">
+<div class="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Hoạt động</p>
+<p class="text-2xl font-bold data-mono text-emerald-600">1,120</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm shadow-[#013a63]/5 flex items-center gap-4">
+<div class="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined">hourglass_empty</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Chờ duyệt</p>
+<p class="text-2xl font-bold data-mono text-amber-600">42</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm shadow-[#013a63]/5 flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-slate-600">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Admin</p>
+<p class="text-2xl font-bold data-mono">12</p>
+</div>
+</div>
+</div>
+<!-- Precision Table Card -->
+<div class="bg-white rounded-xl shadow-sm shadow-[#013a63]/5 overflow-hidden">
+<div class="px-8 py-6 flex items-center justify-between border-b border-surface-container-low">
+<h3 class="text-lg font-bold">Danh sách thành viên</h3>
+<div class="flex gap-2">
+<button class="p-2 text-slate-400 hover:text-[#468faf] hover:bg-surface-container-low rounded-lg transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-[#468faf] hover:bg-surface-container-low rounded-lg transition-all">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Name</th>
+<th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Role</th>
+<th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Status</th>
+<th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Joined Date</th>
+<th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<!-- Table Row 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-transparent group-hover:ring-[#468faf]/20 transition-all">
+<img alt="Lê Hồng Anh" class="w-full h-full object-cover" data-alt="Close up portrait of a smiling young Asian woman with natural makeup in soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiuVaFMOgsmJMEfAVPPg-rbfMoa14RwvwVrXT4d64rlElpbThvXs1R2IDHC6D0c3kzftvlxfavrthjVW4aDZu3xYk7BJNRRO74IzBzy740ZCMHdK-SLiylhverSazchRp-HN_NFaHOKw-vqp2Oa7U4-5pNgUaK2KxZMN8zTWNMjL14BRAy9Q-VAgbRpA_FkJNgY7TUC7Zd9d_njL6FOgZ-MGCmz01vgIWrQ_QMzlPiCRpSwA9FkeSy-I5HcMua8yIg_dxThx3bsTY"/>
+</div>
+<div>
+<p class="font-semibold text-on-surface">Lê Hồng Anh</p>
+<p class="text-xs text-slate-400 data-mono">anh.lh@bookingfamily.vn</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[11px] font-bold uppercase rounded-lg">Admin</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-sm font-medium text-emerald-600">Active</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="text-sm text-slate-500 data-mono">24/05/2023</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-transparent group-hover:ring-[#468faf]/20 transition-all">
+<img alt="Nguyễn Minh Quân" class="w-full h-full object-cover" data-alt="Medium shot of a professional man with glasses and a beard in an office setting with warm ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOXr0WhMwcjsPhbQt0De4yXwOcIU1X-k8VGhXKMC-Y7VN28h8flBL4mmNEA7zvV9UkGGQSWpJ2AngA54AFFVgOxbPwnxTxetlPMG_im-7zf8uWvPYwkWi8sBbuyy-F-DYsKQ1eRCxdyxiEFMnMdazN8gQEvDQUoojrbmJBp7NWsnAj0zsZ6P0YxWPR0GsWpfhTNlHhaMiFZ3Dh2jAPHfoTjaOVPoXhn1YJfTSTDwa1iOLpFGRBlL1buwCJ545RdLHEFxqqy83tq7k"/>
+</div>
+<div>
+<p class="font-semibold text-on-surface">Nguyễn Minh Quân</p>
+<p class="text-xs text-slate-400 data-mono">quan.nm@gmail.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-secondary/10 text-secondary text-[11px] font-bold uppercase rounded-lg">Member</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-sm font-medium text-emerald-600">Active</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="text-sm text-slate-500 data-mono">12/10/2023</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-transparent group-hover:ring-[#468faf]/20 transition-all">
+<img alt="Trần Thu Hà" class="w-full h-full object-cover" data-alt="Artistic side profile of a woman with dark hair in a bright studio environment with clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASFho_-xTd1rZvwOi_ywweEVDyT0ahrVdoqfYpIZvlQvvxZhjJ6CDxQx0z-sP9N9MAI18gHhxReroUcqhKekF4rgjHDcbnYn9KGoCVkrqnYDLMgTXrteStvQCVNE8FCRK27aN43YQkL4p9I5uoYAhA8Tf20m41jFsICsuL2BKWl_UxG520PWifjFtGbW4c4Ud3On4-akf6-lvDT_-kBHSXx2-PYQe7D_3SKC9kl97LuhBIr5CxQEjgzv6JdreEaEPn77i0lPmXZQs"/>
+</div>
+<div>
+<p class="font-semibold text-on-surface">Trần Thu Hà</p>
+<p class="text-xs text-slate-400 data-mono">ha.tt@outlook.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-secondary/10 text-secondary text-[11px] font-bold uppercase rounded-lg">Member</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-slate-300"></span>
+<span class="text-sm font-medium text-slate-400">Inactive</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="text-sm text-slate-500 data-mono">05/01/2024</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 4 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-transparent group-hover:ring-[#468faf]/20 transition-all">
+<img alt="Phạm Gia Bảo" class="w-full h-full object-cover" data-alt="Close-up headshot of a mature man with distinguished features and confident expression in soft indoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5X_FhCB8gTXQs7m7vvn5zpyDkodry37ndBxGjBxl0LnbLaj9u7_SlUk-cNVUNoOPeR-rdHbRCSYMur4UIzGlUcnPACWk9kcpTXLwKOtPrY8MQua308Co377OvK_aG8ytCnJgBFDmga9ocEXOToaKzyXt_RvQ-4bs-fiZut_2dXqPMfREDGcaumKLoTyoPceBOmFP3iRE9A6bUKFcn21012M7c6qHZJqvQNehJfGAGeKw5kddClkvSe1s22anOmh1IBk8VLyfgUoc"/>
+</div>
+<div>
+<p class="font-semibold text-on-surface">Phạm Gia Bảo</p>
+<p class="text-xs text-slate-400 data-mono">bao.pg@family.net</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[11px] font-bold uppercase rounded-lg">Admin</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-sm font-medium text-emerald-600">Active</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="text-sm text-slate-500 data-mono">15/02/2024</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-4 bg-surface-container-low/30 flex items-center justify-between border-t border-surface-container-low">
+<p class="text-sm text-slate-500 font-medium">Đang xem 1-4 trên 1,284 người dùng</p>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg border border-slate-200 text-slate-400 hover:bg-white hover:text-primary disabled:opacity-50 transition-all" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded-lg bg-[#468faf] text-white text-sm font-bold shadow-sm">1</button>
+<button class="px-3 py-1 rounded-lg hover:bg-white text-slate-600 text-sm font-medium transition-all">2</button>
+<button class="px-3 py-1 rounded-lg hover:bg-white text-slate-600 text-sm font-medium transition-all">3</button>
+<span class="text-slate-400">...</span>
+<button class="px-3 py-1 rounded-lg hover:bg-white text-slate-600 text-sm font-medium transition-all">321</button>
+<button class="p-2 rounded-lg border border-slate-200 text-slate-400 hover:bg-white hover:text-primary transition-all">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Contextual Help / Insights Section (Asymmetric Layout) -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="md:col-span-2 bg-gradient-to-br from-[#013a63] to-[#046482] rounded-xl p-8 text-white relative overflow-hidden shadow-xl shadow-[#013a63]/20">
+<div class="relative z-10">
+<h4 class="text-2xl font-bold mb-4 tracking-tight">Tính năng bảo mật mới</h4>
+<p class="text-blue-100/80 mb-6 max-w-md leading-relaxed">Giờ đây bạn có thể yêu cầu Xác thực 2 yếu tố (2FA) cho toàn bộ các tài khoản Admin để tăng cường an ninh cho hệ thống quản trị.</p>
+<button class="px-6 py-2.5 bg-white text-[#013a63] rounded-xl font-bold text-sm hover:bg-[#468faf] hover:text-white transition-all shadow-lg">Thiết lập ngay</button>
+</div>
+<span class="material-symbols-outlined absolute -bottom-10 -right-10 text-[200px] text-white/5 pointer-events-none select-none">shield</span>
+</div>
+<div class="bg-[#468faf]/5 rounded-xl p-8 border border-[#468faf]/10">
+<h4 class="text-lg font-bold text-[#013a63] mb-4">Mẹo quản trị</h4>
+<ul class="space-y-4">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary shrink-0">tips_and_updates</span>
+<p class="text-sm text-slate-600">Sử dụng tính năng 'Export' để tải danh sách người dùng về định dạng CSV hoặc PDF.</p>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary shrink-0">history</span>
+<p class="text-sm text-slate-600">Bạn có thể xem nhật ký hoạt động của từng user trong mục chi tiết người dùng.</p>
+</li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+</body></html>

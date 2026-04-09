@@ -1,0 +1,126 @@
+// Color Palette (Extracted precisely from the mountain landscape image)
+$sky-blue: #a9d6e5;
+$light-blue: #89c2d9;
+$medium-blue: #61a5c2;
+$ocean-blue: #468faf;
+$deep-blue: #2c7da0;
+$navy-blue: #2a6f97;
+$dark-navy: #014f86;
+$midnight: #013a63;
+$deep-midnight: #012a4a;
+
+$primary-color: $dark-navy;
+$secondary-color: $ocean-blue;
+$accent-color: $sky-blue;
+
+// Neutral Colors
+$white: #ffffff;
+$black: #212529;
+$title-color: #212529;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+
+// Semantic Colors
+$success-color: #28a745;
+$info-color: #17a2b8;
+$warning-color: #ffc107;
+$danger-color: #dc3545;
+
+// Glassmorphism Effects (from the image)
+$glass-bg: rgba(255, 255, 255, 0.1);
+$glass-bg-hover: rgba(255, 255, 255, 0.15);
+$glass-border: rgba(255, 255, 255, 0.2);
+$glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+$glass-blur: blur(8px);
+$border-color: rgba(255, 255, 255, 0.2);
+// Typography
+$font-family-sans: 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+$font-family-serif: Georgia, 'Times New Roman', Times, serif;
+$font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+$font-size-base: 1rem; // 16px
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-lg: 1.25rem;
+$font-size-xl: 1.5rem;
+$font-size-2xl: 2rem;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-xs: 0.25rem; // 4px
+$spacing-sm: 0.5rem;  // 8px
+$spacing-md: 1rem;    // 16px
+$spacing-lg: 1.5rem;  // 24px
+$spacing-xl: 2rem;    // 32px
+$spacing-2xl: 3rem;   // 48px
+
+// Layout
+$container-max-width: 1200px;
+$header-height: 70px;
+$sidebar-width: 260px;
+
+// Border Radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 16px;
+$border-radius-xl: 24px;
+$border-radius-circle: 50%;
+
+// Transitions
+$transition-fast: all 0.2s ease;
+$transition-normal: all 0.3s ease;
+$transition-slow: all 0.5s ease;
+
+// Breakpoints
+$breakpoint-ms: 480px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-2xl: 1400px;
+
+// Z-index
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// CSS Variables for global access
+:root {
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --accent-color: #{$accent-color};
+  --sky-blue: #{$sky-blue};
+  --deep-midnight: #{$deep-midnight};
+  --white: #{$white};
+  --glass-bg: #{$glass-bg};
+  --glass-border: #{$glass-border};
+  --font-family-sans: #{$font-family-sans};
+}
+
+// Export variables to JS (Optional but useful for .module.scss)
+:export {
+  primaryColor: $primary-color;
+  secondaryColor: $secondary-color;
+  skyBlue: $sky-blue;
+  deepMidnight: $deep-midnight;
+  white: $white;
+  black: $black;
+  glassBg: $glass-bg;
+  glassBlur: $glass-blur;
+  fontFamilySans: $font-family-sans;
+  spacingMd: $spacing-md;
+}

@@ -1,9 +1,18 @@
 import express from "express";
 import authController from "./auth.controller.js";
 import validateMiddleware from "../../middlewares/validate.middleware.js";
-import {authMiddleware} from "../../middlewares/auth.middleware.js";
-import { uploadAvatar, CropAndSave } from "../../middlewares/upload.middleware.js";
-import { signUpSchema, signInSchema,fetchUserByIdSchema,updateStatusSchema,updateUserSchema } from "./auth.validation.js";
+import { authMiddleware } from "../../middlewares/auth.middleware.js";
+import {
+  uploadAvatar,
+  CropAndSave,
+} from "../../middlewares/upload.middleware.js";
+import {
+  signUpSchema,
+  signInSchema,
+  fetchUserByIdSchema,
+  updateStatusSchema,
+  updateUserSchema,
+} from "./auth.validation.js";
 const router = express.Router();
 
 /**
@@ -40,7 +49,7 @@ const router = express.Router();
  *       201:
  *         description: Đăng ký thành công
  */
-router.post("/sign-up",uploadAvatar.single('avatar'), CropAndSave('avatar'), validateMiddleware(signUpSchema, 'body'), authController.signUp);
+router.post( "/sign-up", uploadAvatar.single("avatar"), CropAndSave("avatar"), validateMiddleware(signUpSchema, "body"), authController.signUp, );
 
 /**
  * @swagger
@@ -56,13 +65,13 @@ router.post("/sign-up",uploadAvatar.single('avatar'), CropAndSave('avatar'), val
  *             type: object
  *             required: [email, password]
  *             properties:
- *               email: {type: string, format: email, example: "nguyenvana@example.com"}
- *               password: {type: string, minLength: 6, maxLength: 30, example: "123456Aa!"}
+ *               email: {type: string, format: email, example: "admin@bookingfamily.com"}
+ *               password: {type: string, minLength: 6, maxLength: 30, example: "123456"}
  *     responses:
  *       200:
  *         description: Đăng nhập thành công
  */
-router.post("/sign-in", validateMiddleware(signInSchema, 'body'), authController.signIn);
+router.post( "/sign-in", validateMiddleware(signInSchema, "body"), authController.signIn, );
 
 /**
  * @swagger
@@ -123,7 +132,11 @@ router.get("/me", authMiddleware, authController.fetchMe);
  *       200:
  *         description: Lấy thông tin người dùng thành công
  */
-router.get("/:id", validateMiddleware(fetchUserByIdSchema, 'params'), authController.fetchUserById);
+router.get(
+  "/:id",
+  validateMiddleware(fetchUserByIdSchema, "params"),
+  authController.fetchUserById,
+);
 
 /**
  * @swagger
@@ -159,7 +172,13 @@ router.get("/:id", validateMiddleware(fetchUserByIdSchema, 'params'), authContro
  *       200:
  *         description: Cập nhật thành công
  */
-router.put("/:id",uploadAvatar.single('avatar'), CropAndSave('avatar'), validateMiddleware(updateUserSchema, 'body'), authController.updateUserById);
+router.put(
+  "/:id",
+  uploadAvatar.single("avatar"),
+  CropAndSave("avatar"),
+  validateMiddleware(updateUserSchema, "body"),
+  authController.updateUserById,
+);
 
 /**
  * @swagger
@@ -188,7 +207,10 @@ router.put("/:id",uploadAvatar.single('avatar'), CropAndSave('avatar'), validate
  *       200:
  *         description: Cập nhật trạng thái thành công
  */
-router.patch("/:id/status", validateMiddleware(updateStatusSchema, 'body'), authController.updateStatus);
-
+router.patch(
+  "/:id/status",
+  validateMiddleware(updateStatusSchema, "body"),
+  authController.updateStatus,
+);
 
 export default router;

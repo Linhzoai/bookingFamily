@@ -6,7 +6,7 @@ export const createBookingValidation = Joi.object({
     areaId: Joi.number().required().label("Mã khu vực"),
     address: Joi.string().required().label("Địa chỉ").min(5).max(500),
     scheduledTime: Joi.string().required().label("Thời gian đặt lịch"),
-    discountCodeId: Joi.string().optional().label("Mã giảm giá"),
+    discountCodeId: Joi.string().optional().label("Mã giảm giá").empty(''),
     status: Joi.string().optional().default('pending').label("Trạng thái").valid('pending','accepted','in_progress','completed','cancelled'),
     note: Joi.string().optional().label("Ghi chú").max(500),
     serviceId: Joi.array().items(Joi.number()).required().label("Mã dịch vụ"),
@@ -31,7 +31,8 @@ export const getBookingValidation = Joi.object({
     serviceId: Joi.number().optional().label("Mã dịch vụ").empty(''),
     areaId: Joi.number().optional().label("Mã khu vực").empty(''),
     status: Joi.array().items(Joi.string().valid('pending','accepted','in_progress','completed','cancelled')).single().optional().label("Trạng thái").empty(''),
-    scheduledTime: Joi.string().optional().label("Thời gian đặt lịch").empty('')
+    scheduledTime: Joi.string().optional().label("Thời gian đặt lịch").empty(''),
+    assign: Joi.boolean().optional().label("Đã phân công").empty('')
 }).concat(queryPaginationSchema)
 
 export const getBookingByIdValidation = Joi.object({

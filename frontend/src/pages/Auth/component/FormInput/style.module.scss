@@ -1,0 +1,36 @@
+@use '@styles/variable.module.scss' as *;
+@use '@styles/mixins.module.scss' as mix;
+
+.container {
+    @include mix.flex_box_custom();
+    height: 100vh;
+    .boxForm{
+        @include mix.flex_box_custom();
+        flex-direction: column;
+        background-color: $glass-bg;
+        backdrop-filter: $glass-blur;
+        border-radius: 8px;
+        padding: 50px;
+        .title{
+            font-size: 28px;
+            font-weight: 600;
+            color: $title-color;
+            margin-bottom: 30px;
+        }
+                .boxRemember{
+            @include mix.flex_box_custom(start, center);
+            margin-bottom: 30px;
+            input{
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+                cursor: pointer;
+                accent-color: $sky-blue;
+            }
+            label{
+                font-size: 20px;
+                color: $title-color;
+            }
+        }
+    }
+}

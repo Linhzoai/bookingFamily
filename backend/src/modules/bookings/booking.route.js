@@ -100,6 +100,11 @@ router.post("/", validate(createBookingValidation), BookingController.createBook
  *           type: string
  *           format: date-time
  *       - in: query
+ *         name: assign
+ *         schema:
+ *           type: boolean
+ *         description: Lọc theo trạng thái phân công (true nếu chưa có ai nhận việc chính thức)
+ *       - in: query
  *         name: page
  *         schema:
  *           type: integer
@@ -202,4 +207,6 @@ router.put("/:id", validate(updateBookingValidation), BookingController.updateBo
  */
 router.delete("/:id", validate(getBookingByIdValidation, 'params'), BookingController.deleteBooking);
 
+
+router.get("/:id/progress", validate(getBookingByIdValidation, 'params'), BookingController.getProgressNow);
 export default router;

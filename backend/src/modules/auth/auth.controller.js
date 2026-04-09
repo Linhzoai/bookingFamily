@@ -1,8 +1,10 @@
 import catchAsync from "../../utils/catch.async.js";
 import authService from "./auth.service.js";
 import { successResponse } from "../../utils/response.handle.js";
+import env from "../../config/env.js";
 
 const REFRESH_TOKEN_TTL = 7 * 24 * 60 * 60 * 1000;
+const isProduction = env.mode === "production";
 class AuthControlle {
     //[POST] /api/v1/auth/sign-up - đăng kí tài khoản
     signUp = catchAsync(async (req, res) => {
@@ -21,7 +23,7 @@ class AuthControlle {
         res.cookie("refreshToken", result.refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "none", //be và fe khác nhau
+            sameSite: "none",
             maxAge: REFRESH_TOKEN_TTL
         });
         return successResponse(res, { data: { accessToken: result.accessToken, user: result.user }, message: "Đăng nhập thành công" });
@@ -36,12 +38,12 @@ class AuthControlle {
 
     //[POST] /api/v1/auth/refresh-token - làm mới token
     refreshToken = catchAsync(async (req, res) => {
-        const refreshToken = req.cookies.refreshToken;
+        const refreshToken = req.cookies.refreshToken;  
         const token = await authService.refreshToken(refreshToken);
         res.cookie("refreshToken", token.refreshToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none", //be và fe khác nhau
+            secure: isProduction,
+            sameSite: "none",
             maxAge: REFRESH_TOKEN_TTL
         });
         return successResponse(res, { data: { accessToken: token.accessToken}, message: "Làm mới token thành công" });

@@ -25,3 +25,12 @@ export const getStaffListSchema = Joi.object({
     sort: Joi.string().valid("name", "createdAt", "email", "status").default("createdAt"),
     order: Joi.string().valid("asc", "desc").default("desc"),
 });
+
+export const getJobSchema = Joi.object({
+    status: Joi.string().valid("accepted", "rejected", "assigned", "completed").optional(),
+    assignedAt: Joi.date().optional(),
+}).concat(getStaffListSchema);
+
+export const updateJobSchema = Joi.object({
+    status: Joi.string().valid("accepted", "rejected", "assigned", "completed").required(),
+});

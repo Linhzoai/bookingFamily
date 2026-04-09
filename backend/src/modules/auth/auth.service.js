@@ -76,7 +76,7 @@ class authService {
   //Quản lí logic làm mới token
   refreshToken = async (refreshToken) => {
     if (!refreshToken) {
-      throw new AppError("Không tìm thấy refreshToken", HttpStatus.BAD_REQUEST);
+      throw new AppError("Không tìm thấy refreshToken", HttpStatus.FORBIDDEN);
     }
     const decodedToken = verifyRefreshToken(refreshToken);
     return decodedToken;

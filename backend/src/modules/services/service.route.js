@@ -3,6 +3,7 @@ import validateMiddleware from '../../middlewares/validate.middleware.js';
 import { createServiceSchema, updateServiceSchema, getServicesSchema } from './service.validation.js';
 import ServiceController from './service.controller.js';
 import {uploadImageStorage} from '../../middlewares/upload.middleware.js';
+import {authMiddleware} from '../../middlewares/auth.middleware.js';
 const router = express.Router();
 
 /**
@@ -11,6 +12,69 @@ const router = express.Router();
  *   name: Services
  *   description: Quản lý Dịch vụ
  */
+
+/**
+ * @swagger
+ * /services:
+ *   get:
+ *     summary: Lấy danh sách dịch vụ (Tìm kiếm & Phân trang)
+ *     tags: [Services]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema: {type: string}
+ *         description: Lọc theo tên dịch vụ
+ *       - in: query
+ *         name: description
+ *         schema: {type: string}
+ *       - in: query
+ *         name: price
+ *         schema: {type: number}
+ *         description: Lọc giá lớn hơn hoặc bằng
+ *       - in: query
+ *         name: duration
+ *         schema: {type: number}
+ *       - in: query
+ *         name: categoryId
+ *         schema: {type: number}
+ *       - in: query
+ *         name: page
+ *         schema: {type: number, default: 1}
+ *       - in: query
+ *         name: limit
+ *         schema: {type: number, default: 10}
+ *       - in: query
+ *         name: orderBy
+ *         schema: {type: string, default: "createdAt"}
+ *       - in: query
+ *         name: order
+ *         schema: {type: string, enum: [asc, desc], default: "desc"}
+ *     responses:
+ *       200:
+ *         description: Thành công
+ */
+router.get('/', validateMiddleware(getServicesSchema, 'query'), ServiceController.getServices);
+
+/**
+ * @swagger
+ * /services/{id}/get:
+ *   get:
+ *     summary: Lấy chi tiết một dịch vụ
+ *     tags: [Services]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: ID dịch vụ
+ *     responses:
+ *       200:
+ *         description: Thành công
+ */
+router.get('/:id/get', ServiceController.getServiceById);
+
+router.use(authMiddleware);
 
 /**
  * @swagger
@@ -97,65 +161,5 @@ router.put('/:id/update',uploadImageStorage('services').single('image'),validate
  */
 router.delete('/:id/delete', ServiceController.deleteService);
 
-/**
- * @swagger
- * /services:
- *   get:
- *     summary: Lấy danh sách dịch vụ (Tìm kiếm & Phân trang)
- *     tags: [Services]
- *     parameters:
- *       - in: query
- *         name: name
- *         schema: {type: string}
- *         description: Lọc theo tên dịch vụ
- *       - in: query
- *         name: description
- *         schema: {type: string}
- *       - in: query
- *         name: price
- *         schema: {type: number}
- *         description: Lọc giá lớn hơn hoặc bằng
- *       - in: query
- *         name: duration
- *         schema: {type: number}
- *       - in: query
- *         name: categoryId
- *         schema: {type: number}
- *       - in: query
- *         name: page
- *         schema: {type: number, default: 1}
- *       - in: query
- *         name: limit
- *         schema: {type: number, default: 10}
- *       - in: query
- *         name: orderBy
- *         schema: {type: string, default: "createdAt"}
- *       - in: query
- *         name: order
- *         schema: {type: string, enum: [asc, desc], default: "desc"}
- *     responses:
- *       200:
- *         description: Thành công
- */
-router.get('/', validateMiddleware(getServicesSchema, 'query'), ServiceController.getServices);
-
-/**
- * @swagger
- * /services/{id}/get:
- *   get:
- *     summary: Lấy chi tiết một dịch vụ
- *     tags: [Services]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: number
- *         description: ID dịch vụ
- *     responses:
- *       200:
- *         description: Thành công
- */
-router.get('/:id/get', ServiceController.getServiceById);
 
 export default router;

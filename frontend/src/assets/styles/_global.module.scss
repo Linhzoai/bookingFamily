@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+body {
+    font-family: 'Roboto Mono', monospace;
+}
+/* Box sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+/* Improve media defaults */
+img, picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Remove list styles */
+ul, ol {
+  list-style: none;
+}

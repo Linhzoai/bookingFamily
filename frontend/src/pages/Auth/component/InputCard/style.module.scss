@@ -1,0 +1,31 @@
+@use '@styles/variable.module.scss' as *;
+@use '@styles/mixins.module.scss' as mix;
+.container{
+    @include mix.flex_box_custom(center,end,20px);
+    position: relative;
+    margin-bottom: 30px;
+    width: 100%;
+    input{
+        width: 400px;
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid $black;
+        font-size: 20px;
+        color: $black;
+        background-color: transparent;
+        outline: none;
+        transition: all 0.3s ease;
+        &:focus{
+            border-color: none;
+        }
+    }
+    .boxIcon{
+        position: absolute;
+        top: 0;
+        right: 20px;
+        bottom: 0;
+        width: 20px;
+        height: 20px;
+        color: $gray-600;
+    }
+}

@@ -1,11 +1,9 @@
 import prisma from "../../config/prisma.js";
 import AppError from "../../utils/app.error.js";
-import { paginatePrisma } from "../../helper/prisma.helper.js";
-import deleteFile from "../../helper/delete-file.helper.js";
 import checkRecordExist from "../../utils/check-exist.js";
 class AssignmentService{
     createAssignJob = async (data) =>{
-        const {bookingId, staffId, assignAt, status} = data;
+        const {bookingId, staffId, assignedAt, status} = data;
         const [booking, staff] = await Promise.all([
             checkRecordExist(prisma.booking, {id: bookingId}, undefined, 'Booking không tồn tại'),
             checkRecordExist(prisma.user, {id: staffId, role: 'staff'}, undefined, 'Nhân viên không tồn tại')
@@ -22,7 +20,7 @@ class AssignmentService{
             data: {
                 bookingId,
                 staffId,
-                assignAt,
+                assignedAt,
                 status,
             }
         })
@@ -50,3 +48,5 @@ class AssignmentService{
         return assignJob;
     }
 }
+
+export default new AssignmentService();

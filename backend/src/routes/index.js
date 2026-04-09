@@ -6,6 +6,9 @@ import areaRoute from "../modules/areas/area.route.js";
 import categoryRoute from "../modules/services/categories/category.route.js";
 import serviceRoute from "../modules/services/service.route.js";
 import bookingRoute from "../modules/bookings/booking.route.js";
+import assignmentRoute from "../modules/assignments/assignment.route.js";
+import customerRoute from "../modules/customers/customer.route.js";
+import progressRoute from "../modules/progress/progres.route.js";
 const router = (app) => {
   app.head("/", (req, res) => res.status(200).send("OK"));
   app.get("/", (req, res) =>
@@ -13,12 +16,15 @@ const router = (app) => {
   );
   setupSwagger(app);
   app.use("/api/v1/auth", authRoute);
-  app.use(authMiddleware);
+  app.use("/api/v1/services", serviceRoute);
+  app.use(authMiddleware);  
   app.use("/api/v1/staff", requireRole(["staff", "admin"]), staffRoute);
   app.use("/api/v1/areas", areaRoute);
   app.use("/api/v1/categories", categoryRoute);
-  app.use("/api/v1/services", serviceRoute);
   app.use("/api/v1/bookings", bookingRoute);
+  app.use("/api/v1/assignments", assignmentRoute);
+  app.use("/api/v1/customers", customerRoute);
+  app.use("/api/v1/progress", progressRoute);
 };
 
 export default router;

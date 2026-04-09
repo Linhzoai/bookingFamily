@@ -56,6 +56,21 @@ class StaffController {
     return successResponse(res, { message: "Xóa nhân viên thành công", statusCode: HttpStatus.OK, });
   });
 
+  //[GET] /api/v1/staff/:id/jobs - lấy danh sách công việc của nhân viên
+  getJob = catchAsync(async (req, res) => {
+    const id = req.params.id;
+    const data = req.validatedQuery;
+    const jobs = await StaffService.getJob(id, data);
+    return successResponse(res, { data: jobs, message: "Lấy danh sách công việc thành công", statusCode: HttpStatus.OK, });
+  });
+
+  //[PATCH] /api/v1/staff/:id/update-job - cập nhật trạng thái công việc
+  updateJob = catchAsync(async (req, res) => {
+    const id = req.params.id;
+    const status = req.body.status;
+    const job = await StaffService.updateJob(id, status);
+    return successResponse(res, { data: job, message: "Cập nhật trạng thái công việc thành công", statusCode: HttpStatus.OK, });
+  });
 
 }
 

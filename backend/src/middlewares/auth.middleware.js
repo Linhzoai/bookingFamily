@@ -13,7 +13,7 @@ export const authMiddleware = async (req, res, next) => {
     const decodedToken = verifyAccessToken(token);
     const user = await prisma.user.findUnique({ where: { id: decodedToken.userId } });
     if (!user) {
-        throw new AppError("User không tồn tại", HttpStatus.UNAUTHORIZED);
+        throw new AppError("User không tồn tại", HttpStatus.FORBIDDEN);
     }
     req.user = user;
     next();

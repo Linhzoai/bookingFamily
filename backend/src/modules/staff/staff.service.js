@@ -1,5 +1,7 @@
 import prisma from "../../config/prisma.js";
 import { pagination } from "../../utils/response.handle.js";
+import checkRecordExist from "../../utils/check-exist.js";
+import {paginatePrisma} from "../../helper/prisma.helper.js";
 class StaffService {
   //Thêm thông tin nhân viên
   addProfile = async (id, data) => {
@@ -83,6 +85,42 @@ class StaffService {
     const staffProfile = await prisma.user.delete({ where: { id } });
     return staffProfile;
   };
+
+  getJob = async (id, data) =>{
+    const staff = await checkRecordExist(prisma.user, {id});
+    const query = {};
+    if(data.status) query.status = data.status;
+    if(data.assignedAt) query.assignedAt = {
+      gte: new Date(data.assignedAt),
+    };
+    const jobs = paginatePrisma(prisma.staffAssignment, query, data, {
+      booking: true,
+      staff: true,
+    });
+    return jobs;
+  }
+
+  updateJob = async (id, status) =>{
+    return await prisma.$transaction(async (tx)=>{
+      const updateStaffAssignment = await tx.staffAssignment.update({
+        where: {id: id},
+        data: {status: status}
+      })
+      if(status === "accepted"){
+        await tx.booking.update({
+          where: {id: updateStaffAssignment.bookingId},
+          data: {status: "in_progress"}
+        })
+      }
+      if(status === "completed"){
+        await tx.booking.update({
+          where: {id: updateStaffAssignment.bookingId},
+          data: {status: "completed"}
+        })
+      }
+      return updateStaffAssignment;
+    })
+  }
 }
 
 export default new StaffService();

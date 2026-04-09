@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&amp;family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#89d0f2",
+                        "secondary-fixed-dim": "#96cfe6",
+                        "surface-dim": "#d7dadc",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#004d65",
+                        "on-background": "#181c1e",
+                        "primary": "#046482",
+                        "tertiary-fixed-dim": "#a1cafb",
+                        "on-surface": "#181c1e",
+                        "tertiary-container": "#4e77a4",
+                        "surface-variant": "#e0e3e5",
+                        "primary-container": "#307d9c",
+                        "on-secondary-fixed": "#001f29",
+                        "surface-bright": "#f7fafc",
+                        "on-secondary-container": "#2c687c",
+                        "surface": "#f7fafc",
+                        "secondary-fixed": "#b8eaff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#29657a",
+                        "on-surface-variant": "#40484d",
+                        "inverse-on-surface": "#eef1f3",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f7fafc",
+                        "on-secondary-fixed-variant": "#024d61",
+                        "on-primary-container": "#fbfdff",
+                        "surface-container-high": "#e5e9eb",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#bfe8ff",
+                        "surface-container-low": "#f1f4f6",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#001d35",
+                        "secondary-container": "#ace5fd",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "outline-variant": "#bfc8ce",
+                        "primary-fixed-dim": "#89d0f2",
+                        "on-primary-fixed": "#001f2a",
+                        "tertiary": "#345f8a",
+                        "surface-tint": "#0b6684",
+                        "outline": "#70787e",
+                        "tertiary-fixed": "#d1e4ff",
+                        "surface-container": "#ebeef0",
+                        "on-tertiary-fixed-variant": "#1a4973",
+                        "on-tertiary-container": "#fdfcff",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "md": "12px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"],
+                        "mono": ["Roboto Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'Roboto Mono', monospace; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(24px); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased flex">
+<!-- SideNavBar (The Anchor) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 flex flex-col p-6 gap-y-4 font-mono text-sm antialiased z-50">
+<div class="mb-8 px-2">
+<h1 class="text-xl font-medium tracking-widest text-cyan-900 dark:text-cyan-100">ATELIER</h1>
+<p class="text-[10px] text-on-surface-variant/60 uppercase tracking-[0.2em] mt-1">Hệ thống ATELIER</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-cyan-600 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Active Tab: Dịch vụ -->
+<a class="flex items-center gap-3 px-4 py-3 text-cyan-800 dark:text-cyan-200 font-bold bg-white dark:bg-slate-800 rounded-md shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+<span>Dịch vụ</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-cyan-600 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Nhân viên</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-cyan-600 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span>Lịch hẹn</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-cyan-600 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Báo cáo</span>
+</a>
+</nav>
+<div class="mt-auto space-y-4 pt-6 border-t border-outline-variant/15">
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-3 rounded-md text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                Tạo dịch vụ mới
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 text-xs" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help_outline">help_outline</span>
+<span>Hỗ trợ</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 text-xs" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+<span>Đăng xuất</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Content Canvas -->
+<main class="ml-64 flex-1 min-h-screen bg-surface">
+<!-- TopAppBar -->
+<header class="w-full h-16 sticky top-0 flex justify-between items-center px-8 bg-slate-50 dark:bg-slate-900 z-40">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-md text-sm focus:ring-2 focus:ring-secondary-container transition-all placeholder:text-on-surface-variant/50 font-mono" placeholder="Tìm kiếm dịch vụ..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-slate-200/50 rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-slate-200/50 rounded-full transition-colors" data-icon="settings">settings</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface leading-none">Admin Profile</p>
+<p class="text-[10px] text-on-surface-variant font-mono">Quản trị viên</p>
+</div>
+<img alt="Admin Profile" class="w-10 h-10 rounded-full border-2 border-primary/10 object-cover" data-alt="professional portrait of a confident male administrator in a modern office setting, soft corporate lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMHcZPW-gd1yPKfdnOQOJVIyUUH3nFJ7TIbzxIrMC16IvZXqVqIjEEewJQo8FWcQsLxtVprzbH1vyKUvzFReLx8S4HQ9UqgBUeQhP_rhW8D34spHBv1TAAMi0OqvnqJ-vx_1_CMCgKhfIaYPiB_9l-Kx676Od1gOPPlXHN2R26TMy4pSp9Y72T1eTx-EpuY3O4kF8xUjzBebktWbm2dWCKREVpX2zBAhNBooeQdm597Hfc9l1RteKm4qH82ZNxed8OqTC1H-sFzzc"/>
+</div>
+</div>
+</header>
+<!-- Main Content Body -->
+<section class="p-8">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-10">
+<div class="space-y-1">
+<h2 class="text-3xl font-headline font-bold text-on-surface tracking-tight">Quản lý Dịch vụ</h2>
+<p class="text-on-surface-variant font-mono text-sm">Cấu hình và điều chỉnh danh mục dịch vụ trong hệ thống</p>
+</div>
+<div class="flex gap-4">
+<button class="px-5 py-2.5 border-b-2 border-primary text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary/5 transition-colors">
+                        + Quản lý Danh mục
+                    </button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-md text-xs font-bold uppercase tracking-widest shadow-lg shadow-primary/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
+                        + Thêm Dịch vụ
+                    </button>
+</div>
+</div>
+<!-- Category Cards (Horizontal Row) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-md group hover:bg-primary-container/10 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container/30 rounded-md text-primary">
+<span class="material-symbols-outlined" data-icon="cleaning_services">cleaning_services</span>
+</div>
+<span class="text-xs font-mono font-bold px-2 py-1 bg-surface-container text-on-surface-variant rounded">12 DỊCH VỤ</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1">Dọn dẹp nhà</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Dịch vụ vệ sinh định kỳ, tổng vệ sinh và dọn dẹp chuyên sâu.</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-md group hover:bg-primary-container/10 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container/30 rounded-md text-primary">
+<span class="material-symbols-outlined" data-icon="child_care">child_care</span>
+</div>
+<span class="text-xs font-mono font-bold px-2 py-1 bg-surface-container text-on-surface-variant rounded">05 DỊCH VỤ</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1">Bảo mẫu</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Chăm sóc trẻ em tại nhà, hỗ trợ đưa đón và học tập.</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-md group hover:bg-primary-container/10 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container/30 rounded-md text-primary">
+<span class="material-symbols-outlined" data-icon="elderly">elderly</span>
+</div>
+<span class="text-xs font-mono font-bold px-2 py-1 bg-surface-container text-on-surface-variant rounded">03 DỊCH VỤ</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1">Chăm sóc người già</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Hỗ trợ sinh hoạt, y tế cơ bản và bầu bạn cùng người cao tuổi.</p>
+</div>
+</div>
+<!-- Services Table Container -->
+<div class="bg-surface-container-lowest rounded-md overflow-hidden">
+<div class="px-8 py-4 bg-surface-container-low flex justify-between items-center">
+<h4 class="font-mono text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Danh sách dịch vụ chi tiết</h4>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="filter_list">filter_list</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="sort">sort</span>
+</div>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-8 py-3 text-[10px] font-mono font-bold text-on-surface-variant/70 uppercase tracking-widest">Tên Dịch Vụ</th>
+<th class="px-8 py-3 text-[10px] font-mono font-bold text-on-surface-variant/70 uppercase tracking-widest">Danh Mục</th>
+<th class="px-8 py-3 text-[10px] font-mono font-bold text-on-surface-variant/70 uppercase tracking-widest">Giá (VND)</th>
+<th class="px-8 py-3 text-[10px] font-mono font-bold text-on-surface-variant/70 uppercase tracking-widest">Thời Lượng</th>
+<th class="px-8 py-3 text-[10px] font-mono font-bold text-on-surface-variant/70 uppercase tracking-widest">Trạng Thái</th>
+<th class="px-8 py-3 text-[10px] font-mono font-bold text-on-surface-variant/70 uppercase tracking-widest">Cập Nhật</th>
+<th class="px-8 py-3 text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<!-- Table Row 1 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<img alt="Service Thumbnail" class="w-12 h-12 rounded-md object-cover" data-alt="close up of clean domestic supplies and white towels in a bright modern laundry room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2Oep1t7LMKJwQwjhz1Pv9fAYphSotHDt5EX_wgo5De_ZN6xFIRQVkFnHszaxRjUh-ZKdfr2huPxAicMgchuYwTKJwjVF-8YMz7X5SYWXYZa3jJlW8k0Gq_J5F7LGv2JNYHaGX8ZLEHXtplk8fQXF9qh59VLhduKb73yNUGvegvSQ484S8W7jvTanZxfILzk4gKg26S5TRrPtzWg9g_nvJgV503G2BsioWlEbtc4UOsw_N4j1hFwltqyVJUNk5Guv8dQAcm5vrAbI"/>
+<span class="font-bold text-sm text-on-surface">Dọn dẹp căn hộ 2PN</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="text-xs font-mono text-on-surface-variant">Dọn dẹp nhà</span>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-sm font-bold text-primary">350,000</span>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-xs text-on-surface-variant">2h 30m</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed"></div>
+<span class="text-[10px] font-mono font-bold text-primary uppercase">Active</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-[10px] text-on-surface-variant">2023-11-15</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="material-symbols-outlined text-lg text-on-surface-variant hover:text-primary" data-icon="edit">edit</button>
+<button class="material-symbols-outlined text-lg text-on-surface-variant hover:text-error" data-icon="delete">delete</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 2 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<img alt="Service Thumbnail" class="w-12 h-12 rounded-md object-cover" data-alt="professional caregiver gently holding the hand of an elderly woman in a sunlit garden" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNVtuhN8yW0DLI6H0E4fv1Cr-N6OEKp8CKzLe_8mctiaFhjJlB1kK-5V3ExxdSjzgn287_YX8jsYTZxa0uR_0_xltEEkr0LLsARxbET5FaImqnL6OlP_oyZC-2H6SoiNEYVUz_gtfbSLbR5p6oUnQ0g0qneLwjh4ChBagJrSKeDco2MxRL7uGFaXgnM8n5546MKr9Nme7ppTJtZY9_p5tIzgQfAAifX3uJ9ZD4yA3fSkh0aNBjd93pneaqBIWsA7EpE-1TjD1RRO4"/>
+<span class="font-bold text-sm text-on-surface">Chăm sóc y tế tại gia</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="text-xs font-mono text-on-surface-variant">Người già</span>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-sm font-bold text-primary">1,200,000</span>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-xs text-on-surface-variant">8h 00m</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed"></div>
+<span class="text-[10px] font-mono font-bold text-primary uppercase">Active</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-[10px] text-on-surface-variant">2023-11-14</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="material-symbols-outlined text-lg text-on-surface-variant hover:text-primary" data-icon="edit">edit</button>
+<button class="material-symbols-outlined text-lg text-on-surface-variant hover:text-error" data-icon="delete">delete</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 3 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<img alt="Service Thumbnail" class="w-12 h-12 rounded-md object-cover" data-alt="warm cozy nursery room with soft plush toys and wooden cradle in soft focus morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHFO-d0RN1Q4wBw8fDLSey6S7tPCAiPVbQ2CikYYOVjaP4rm0CnwpF2GBiedwVWRVLD7WaGo1xNzIogl_yB1iemXPXCBBA7nWg_n-g891yZJcvGQFA1iWxgGqe7lfWPR2Gh1SlE7pqoDpS63o0rxT5JnhxBws8Us8BrKCUJt1J2fAJl1vyLhLgqCtGE0UwV193j9ykY_fgNEeBnDixXoiQsuwlOaW5GOFlEMdt4RrPgTIbzXxLvP80eBbGXqGT4WnhNKv2aXzOUBs"/>
+<span class="font-bold text-sm text-on-surface">Trông trẻ theo giờ</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="text-xs font-mono text-on-surface-variant">Bảo mẫu</span>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-sm font-bold text-primary">150,000</span>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-xs text-on-surface-variant">1h 00m</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<span class="text-[10px] font-mono font-bold text-on-surface-variant uppercase">Inactive</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-[10px] text-on-surface-variant">2023-11-10</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="material-symbols-outlined text-lg text-on-surface-variant hover:text-primary" data-icon="edit">edit</button>
+<button class="material-symbols-outlined text-lg text-on-surface-variant hover:text-error" data-icon="delete">delete</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 4 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<img alt="Service Thumbnail" class="w-12 h-12 rounded-md object-cover" data-alt="clean sparkling glass window with architectural garden reflection in a modern minimalist house" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLjJ0-4MYcUWG992NpoVR53nmy36djireEU1oo_Vy5Ii0W1uQYiWveLbmMktOxWyhDPSUGhSUMM7Po9b4gqT2EI-o15jxAs9xpe2SmD2tvIzVPYYk1vke39hmOORO-BRDaWWqGxk4Mt20xU-KNerXsFSVBkHvJ_8aNokPsSPiEq-mQq-OoMxNt0Dj91S0MK7FsUvU8v2YHehq8n1A5byiDOeB_1hNuLPVDZlHChUXzOtXh4PRnGH8-qZdGp_Ahj4L9Tr9DHUbC3vM"/>
+<span class="font-bold text-sm text-on-surface">Vệ sinh cửa kính cao tầng</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="text-xs font-mono text-on-surface-variant">Dọn dẹp nhà</span>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-sm font-bold text-primary">850,000</span>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-xs text-on-surface-variant">4h 00m</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed"></div>
+<span class="text-[10px] font-mono font-bold text-primary uppercase">Active</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="font-mono text-[10px] text-on-surface-variant">2023-11-05</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="material-symbols-outlined text-lg text-on-surface-variant hover:text-primary" data-icon="edit">edit</button>
+<button class="material-symbols-outlined text-lg text-on-surface-variant hover:text-error" data-icon="delete">delete</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="px-8 py-6 bg-surface-container-low/50 flex justify-between items-center">
+<p class="text-xs font-mono text-on-surface-variant">Hiển thị 4 trong số 20 dịch vụ</p>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant/30 rounded-md hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-3 py-1 font-mono text-xs font-bold bg-primary text-on-primary rounded-md">1</button>
+<button class="px-3 py-1 font-mono text-xs text-on-surface-variant hover:bg-white rounded-md transition-colors">2</button>
+<button class="px-3 py-1 font-mono text-xs text-on-surface-variant hover:bg-white rounded-md transition-colors">3</button>
+<button class="p-2 border border-outline-variant/30 rounded-md hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>
