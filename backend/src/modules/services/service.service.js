@@ -5,7 +5,7 @@ import deleteFile from "../../helper/delete-file.helper.js";
 class ServiceService{
     createService = async (data) =>{
         const existCategory = await prisma.serviceCategory.findUnique({
-            where:{ id: data.categoryId }
+            where:{ id: Number(data.categoryId) }
         })
         if(!existCategory){ throw new AppError("Danh mục dịch vụ không tồn tại", 404); }
         const existService = await prisma.service.findFirst({
@@ -29,7 +29,7 @@ class ServiceService{
         }
         if(data.name){
             const existServiceByName = await prisma.service.findFirst({
-                where:{ name: data.name, id: { not: id } }
+                where:{ name: data.name, id: { not: Number(id) } }
             })
             if(existServiceByName){ throw new AppError("Tên dịch vụ đã tồn tại", 400); }
         }

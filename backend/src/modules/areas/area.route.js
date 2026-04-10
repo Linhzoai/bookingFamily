@@ -2,6 +2,7 @@ import express from 'express';
 import AreaController from './area.controller.js';
 import validateMiddleware from '../../middlewares/validate.middleware.js';
 import { createAreaSchema, updateAreaSchema, getAreasSchema } from './area.validation.js';
+import { authMiddleware } from '../../middlewares/auth.middleware.js';
 const router = express.Router();
 
 /**
@@ -10,6 +11,62 @@ const router = express.Router();
  *   name: Areas
  *   description: Quản lý Khu vực (Tỉnh/Thành phố, Quận/Huyện)
  */
+/**
+ * @swagger
+ * /areas:
+ *   get:
+ *     summary: Lấy danh sách khu vực (Tìm kiếm & Phân trang)
+ *     tags: [Areas]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema: {type: string}
+ *         description: Lọc theo tên khu vực
+ *       - in: query
+ *         name: parentId
+ *         schema: {type: number}
+ *         description: Lọc theo khu vực cha
+ *       - in: query
+ *         name: isActive
+ *         schema: {type: boolean}
+ *       - in: query
+ *         name: page
+ *         schema: {type: number, default: 1}
+ *       - in: query
+ *         name: limit
+ *         schema: {type: number, default: 10}
+ *       - in: query
+ *         name: orderBy
+ *         schema: {type: string, default: "createdAt"}
+ *       - in: query
+ *         name: order
+ *         schema: {type: string, enum: [asc, desc], default: "desc"}
+ *     responses:
+ *       200:
+ *         description: Thành công
+ */
+router.get('/',validateMiddleware(getAreasSchema, 'query'), AreaController.getAreas);
+
+/**
+ * @swagger
+ * /areas/{id}/get:
+ *   get:
+ *     summary: Lấy chi tiết một khu vực
+ *     tags: [Areas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: ID khu vực
+ *     responses:
+ *       200:
+ *         description: Thành công
+ */
+router.get('/:id/get', AreaController.getAreaById);
+
+router.use(authMiddleware);
 
 /**
  * @swagger
@@ -101,59 +158,6 @@ router.put('/:id/update',validateMiddleware(updateAreaSchema), AreaController.up
  */
 router.delete('/:id/delete', AreaController.deleteArea);
 
-/**
- * @swagger
- * /areas:
- *   get:
- *     summary: Lấy danh sách khu vực (Tìm kiếm & Phân trang)
- *     tags: [Areas]
- *     parameters:
- *       - in: query
- *         name: name
- *         schema: {type: string}
- *         description: Lọc theo tên khu vực
- *       - in: query
- *         name: parentId
- *         schema: {type: number}
- *         description: Lọc theo khu vực cha
- *       - in: query
- *         name: isActive
- *         schema: {type: boolean}
- *       - in: query
- *         name: page
- *         schema: {type: number, default: 1}
- *       - in: query
- *         name: limit
- *         schema: {type: number, default: 10}
- *       - in: query
- *         name: orderBy
- *         schema: {type: string, default: "createdAt"}
- *       - in: query
- *         name: order
- *         schema: {type: string, enum: [asc, desc], default: "desc"}
- *     responses:
- *       200:
- *         description: Thành công
- */
-router.get('/',validateMiddleware(getAreasSchema, 'query'), AreaController.getAreas);
 
-/**
- * @swagger
- * /areas/{id}/get:
- *   get:
- *     summary: Lấy chi tiết một khu vực
- *     tags: [Areas]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: number
- *         description: ID khu vực
- *     responses:
- *       200:
- *         description: Thành công
- */
-router.get('/:id/get', AreaController.getAreaById);
 
 export default router;

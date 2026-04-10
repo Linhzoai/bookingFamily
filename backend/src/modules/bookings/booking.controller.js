@@ -43,7 +43,6 @@ class BookingController{
 
     //[GET] /api/v1/bookings
     getBooking = catchAsync(async (req, res, next) =>{
-        console.log(req.validatedQuery);
         const bookings = await BookingService.getBooking(req.validatedQuery)
         res.status(200).json({
             success: true,

@@ -15,6 +15,6 @@ export const updateAreaSchema = Joi.object({
 
 export const getAreasSchema = Joi.object({
     name: Joi.string().optional().min(3).max(50),
-    parentId: Joi.number().allow(null).optional(),
+    parentId: Joi.number().allow(null).optional().default('null'),
     isActive: Joi.boolean().optional().default(true),
 }).concat(queryPaginationSchema);
