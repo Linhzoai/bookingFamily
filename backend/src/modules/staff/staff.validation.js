@@ -2,11 +2,15 @@ import Joi from "joi";
 export const addProfileSchema = Joi.object({
     cardNumber: Joi.string().required().min(9).max(12).pattern(/^[0-9]+$/),
     skills: Joi.string().required(),
+    experience: Joi.string().required(),
+    review: Joi.string().optional(),
 });
 
 export const updateProfileSchema = Joi.object({
     cardNumber: Joi.string().min(9).max(12).pattern(/^[0-9]+$/).optional(),
     skills: Joi.string().optional(),
+    experience: Joi.string().optional(),
+    review: Joi.string().optional(),
     currentAvailability: Joi.string().valid("available", "busy", "offline").optional(),
 });
 

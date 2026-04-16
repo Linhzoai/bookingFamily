@@ -1,0 +1,108 @@
+@use '@styles/variable.module.scss' as *;
+
+.container {
+    background-color: $white;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    .header {
+        padding: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f1f4f6;
+
+        .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: $black;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+
+        }
+    }
+
+    .table_wrapper {
+        overflow-x: auto;
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+
+            thead {
+                background-color: #f8fbfd;
+                
+                th {
+                    padding: 16px 24px;
+                    font-size: 10px;
+                    font-weight: 700;
+                    color: $gray-600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+            }
+
+            tbody {
+                tr {
+                    border-bottom: 1px solid #f1f4f6;
+                    transition: $transition-fast;
+
+                    &:hover {
+                        background-color: #f8fbfd;
+                    }
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    td {
+                        padding: 16px 24px;
+                    }
+                }
+
+                .id {
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: #468faf;
+                }
+
+                .customer_name {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: $black;
+                }
+
+                .customer_phone {
+                    font-size: 10px;
+                    color: $gray-600;
+                }
+
+                .text_small {
+                    font-size: 12px;
+                    color: $gray-700;
+                }
+
+                .actions_cell {
+                    text-align: right;
+                    
+                    button {
+                        background: none;
+                        border: none;
+                        color: $gray-500;
+                        cursor: pointer;
+                        transition: $transition-fast;
+
+                        &:hover {
+                            color: #468faf;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

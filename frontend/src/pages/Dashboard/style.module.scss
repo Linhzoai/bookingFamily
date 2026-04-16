@@ -1,0 +1,53 @@
+@use '@styles/variable.module.scss' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .header {
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: $black;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: $gray-600;
+            margin-top: 4px;
+        }
+    }
+
+    .stats_grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+
+    .main_grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 24px;
+        align-items: flex-start;
+
+        .left_col {
+            grid-column: span 12;
+            @media (min-width: $breakpoint-lg) {
+                grid-column: span 8;
+            }
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .right_col {
+            grid-column: span 12;
+            @media (min-width: $breakpoint-lg) {
+                grid-column: span 4;
+            }
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+    }
+}

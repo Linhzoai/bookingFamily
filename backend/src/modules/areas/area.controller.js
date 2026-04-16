@@ -7,7 +7,7 @@ class AreaController {
   createArea = catchAsync(async (req, res) => {
     const data = req.body;
     const result = await AreaService.createArea(data);
-    return successResponse(res, result, 201);
+    return successResponse(res, { data: result, message: "Thêm địa điểm thành công" }, 201);
   });
 
   //[PUT] /api/v1/areas/:id/update

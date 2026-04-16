@@ -1,0 +1,29 @@
+@use '@styles/variable.module.scss' as *;
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8fbfd;
+
+    .container_left {
+        width: 256px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .container_right {
+        flex: 1;
+        margin-left: 256px;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+
+        .container_child {
+            padding: 32px 40px;
+            flex: 1;
+        }
+    }
+}

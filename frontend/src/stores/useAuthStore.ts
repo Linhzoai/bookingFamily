@@ -3,7 +3,9 @@ import { create } from "zustand";
 import type { AuthStore } from "../types/store";
 import { persist } from "zustand/middleware";
 import { authService } from "@/services/authService";
-export const authStore = create<AuthStore>()(
+import { toast } from "react-toastify";
+export const useAuthStore = create<AuthStore>()(
+
     persist(
         (set,get) => ({
             loading: false,
@@ -14,7 +16,9 @@ export const authStore = create<AuthStore>()(
                 try {
                     const response = await authService.signIn(data);
                     set({ user: response.user, token: response.accessToken });
-                } catch (error: unknown) {
+                    toast.success("Đăng nhập thành công");
+                } catch (error: unknown) {  
+                    toast.error("Đăng nhập thất bại");
                     throw error;
                 } finally {
                     set({ loading: false });
@@ -24,9 +28,12 @@ export const authStore = create<AuthStore>()(
                 set({ loading: true });
                 try {
                     await authService.signOut();
-                    set({ user: null, token: null, loading: false });
+                    get().clearState();
+                    toast.success("Đăng xuất thành công");
                 } catch (error: unknown) {
+                    toast.error("Đăng xuất thất bại");
                     throw error;
+
                 } finally {
                     set({ loading: false });
                 }
@@ -41,7 +48,7 @@ export const authStore = create<AuthStore>()(
                     }
                 } catch (error: unknown) {
                     console.log(error);
-                    set({ user: null, token: null });
+                    toast.error("Refresh token thất bại");
                 } finally {
                     set({ loading: false });
                 }
@@ -53,10 +60,13 @@ export const authStore = create<AuthStore>()(
                     set({ user: response.data });
                 } catch (error: unknown) {
                     console.log(error);
-                    set({ user: null, token: null });
+                    get().clearState();
                 } finally {
                     set({ loading: false });
                 }
+            },
+            clearState: () => {
+                set({ user: null, token: null });
             }
         }),
         {

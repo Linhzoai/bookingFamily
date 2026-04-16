@@ -1,0 +1,31 @@
+@use '@styles/mixins.module.scss' as mix;
+@use '@styles/variable.module.scss' as *;
+.container {
+    @include mix.flex_box_custom(center, center, 20px);
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    .box_icon {
+        @include mix.flex_box_custom();
+        height: 60px;
+        width: 60px;
+        color: $white;
+        font-size: 32px;
+        box-shadow: $glass-border;
+        transition: $transition-fast;
+    }
+    .box_info {
+        @include mix.flex_box_custom(center, start, 20px);
+        flex-direction: column;
+        .box_title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #666;
+        }
+        .box_description {
+            font-size: 28px;
+            color: black;
+            font-weight: 700;
+        }
+    }
+}

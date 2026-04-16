@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Navigate, Outlet } from 'react-router-dom';
-import { authStore } from '../../stores/useAuthStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 import { useEffect, useState } from 'react';
 
 export default function ProtectedRoute() {
-    const { token, user, loading, refreshToken } = authStore();
+    const { token, user, loading, refreshToken } = useAuthStore();
     const [starting, setStarting] = useState<boolean>(true);
     const init = async () => {
         if (!token) {

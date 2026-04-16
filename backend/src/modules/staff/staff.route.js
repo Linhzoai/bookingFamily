@@ -35,6 +35,8 @@ const router = express.Router();
  *             properties:
  *               cardNumber: {type: string}
  *               skills: {type: string}
+ *               experience: {type: string}
+ *               review: {type: string}
  *     responses:
  *       201:
  *         description: Tạo hồ sơ thành công
@@ -83,6 +85,8 @@ router.get("/:id/profile", validateMiddleware(checkParamSchema), staffController
  *             properties:
  *               cardNumber: {type: string}
  *               skills: {type: string}
+ *               experience: {type: string}
+ *               review: {type: string}
  *               currentAvailability: {type: string}
  *     responses:
  *       200:

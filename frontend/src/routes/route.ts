@@ -1,17 +1,27 @@
-import Auth from "../pages/Auth/Auth";
-import Dashboard from "../pages/Dashboard/Dashboard";
+import { lazy } from 'react';
 
-interface Route{
-    path: string,
-    component: React.ComponentType
+const Auth = lazy(() => import('../pages/Auth/Auth'));
+const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
+const BookingManagement = lazy(() => import('../pages/Bookings/BookingManagement'));
+const ServiceManagement = lazy(() => import('../pages/Services/ServiceManagement'));
+const CustomerManagement = lazy(() => import('../pages/Customers/CustomerManagement'));
+const AreaManagement = lazy(() => import('../pages/Areas/AreaManagement'));
+
+interface Route {
+    path: string;
+    component: React.ComponentType;
 }
 
 const privateRoutes: Route[] = [
-    {path: '/', component: Dashboard}
-]
+    { path: '/', component: Dashboard },
+    { path: '/booking', component: BookingManagement },
+    { path: '/service', component: ServiceManagement },
+    { path: '/customer', component: CustomerManagement },
+    { path: '/area', component: AreaManagement },
+];
 
 const publicRoutes: Route[] = [
-    {path: '/auth', component: Auth},
-]
+    { path: '/auth', component: Auth },
+];
 
-export default {privateRoutes, publicRoutes}
+export default { privateRoutes, publicRoutes };

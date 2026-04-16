@@ -24,7 +24,6 @@ const router = express.Router();
  *         description: Lọc theo tên khu vực
  *       - in: query
  *         name: parentId
- *         schema: {type: number}
  *         description: Lọc theo khu vực cha
  *       - in: query
  *         name: isActive

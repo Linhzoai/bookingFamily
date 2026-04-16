@@ -11,6 +11,8 @@ class StaffService {
         staffId: id,
         idCardNumber: data.cardNumber,
         skills: data.skills,
+        experience: data.experience,
+        review: data.review,
         hireDate: new Date(Date.now()),
         status: "approved",
       },

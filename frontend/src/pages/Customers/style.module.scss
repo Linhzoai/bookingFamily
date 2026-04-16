@@ -1,0 +1,240 @@
+@use '@styles/variable.module.scss' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        .title { font-size: 28px; font-weight: 700; color: $black; }
+        .subtitle { font-size: 14px; color: $gray-600; margin-top: 4px; }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+
+            .export_btn {
+                background-color: #f1f4f6;
+                border: none;
+                padding: 10px 20px;
+                border-radius: $border-radius-md;
+                color: $gray-700;
+                font-size: 12px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+                transition: $transition-fast;
+
+                &:hover { background-color: #e9ecef; }
+            }
+
+            .add_btn {
+                background: linear-gradient(to bottom right, #468faf, #2c7da0);
+                color: $white;
+                padding: 10px 24px;
+                border-radius: $border-radius-md;
+                border: none;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 12px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: $transition-fast;
+                box-shadow: 0 4px 12px rgba(70, 143, 175, 0.2);
+
+                &:active { transform: scale(0.95); }
+            }
+        }
+    }
+
+    .stats_grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+
+        .stat_card, .stat_card_wide {
+            background-color: $white;
+            padding: 24px;
+            border-radius: $border-radius-lg;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+            .stat_label { font-size: 10px; font-weight: 700; color: $gray-600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+            .stat_value { font-size: 32px; font-weight: 700; color: $black; }
+            
+            .stat_trend_pos { font-size: 12px; color: #28a745; font-weight: 700; margin-top: 12px; }
+            .stat_trend_info { font-size: 12px; color: #468faf; font-weight: 500; margin-top: 12px; }
+        }
+
+        .stat_card_wide {
+            grid-column: span 2;
+            background-color: #046482;
+            color: $white;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 40%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.05);
+                transform: skewX(-15deg) translateX(20px);
+            }
+
+            .stat_label_light { font-size: 10px; font-weight: 700; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+            .stat_value_large { font-size: 36px; font-weight: 700; }
+            .stat_info_light { font-size: 12px; color: rgba(255, 255, 255, 0.8); margin-top: 12px; }
+
+            .badge {
+                padding: 4px 12px;
+                background-color: rgba(255, 255, 255, 0.2);
+                border-radius: 999px;
+                font-size: 10px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+        }
+    }
+
+    .filter_bar {
+        background-color: $white;
+        padding: 16px;
+        border-radius: $border-radius-lg;
+        display: flex;
+        gap: 24px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+        .search_box {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: #f1f4f6;
+            padding: 0 16px;
+            border-radius: $border-radius-md;
+            
+            span { color: $gray-500; }
+            input {
+                background: none;
+                border: none;
+                width: 100%;
+                padding: 12px 0;
+                font-size: 14px;
+                outline: none;
+            }
+        }
+
+        .select_box, .date_box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: #f1f4f6;
+            padding: 0 16px;
+            border-radius: $border-radius-md;
+
+            label { font-size: 12px; font-weight: 700; color: $gray-600; text-transform: uppercase; }
+            select, input {
+                background: none;
+                border: none;
+                padding: 12px 0;
+                font-size: 14px;
+                outline: none;
+                cursor: pointer;
+            }
+            span { color: $gray-500; }
+        }
+    }
+
+    .table_card {
+        background-color: $white;
+        border-radius: $border-radius-lg;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+
+            thead {
+                background-color: #f1f4f6;
+                th {
+                    padding: 16px 24px;
+                    text-align: left;
+                    font-size: 10px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    color: $gray-600;
+                }
+            }
+
+            tbody {
+                tr {
+                    border-bottom: 1px solid #f1f4f6;
+                    transition: $transition-fast;
+                    &:hover { background-color: #f8fbfd; .action_btns { opacity: 1; } }
+                    td { padding: 16px 24px; }
+                }
+
+                .mono_text { font-family: 'Roboto Mono', monospace; font-size: 12px; color: $gray-600; }
+
+                .cust_info {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    img { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; }
+                    .cust_name { font-size: 14px; font-weight: 700; color: $black; }
+                    .cust_date { font-size: 11px; color: $gray-600; font-family: 'Roboto Mono', monospace; }
+                }
+
+                .contact_info {
+                    font-size: 13px;
+                    font-family: 'Roboto Mono', monospace;
+                    .email { color: $gray-600; }
+                }
+
+                .booking_count { font-size: 14px; font-weight: 700; color: #468faf; font-family: 'Roboto Mono', monospace; }
+                .amount_text { font-size: 14px; font-weight: 700; color: $black; font-family: 'Roboto Mono', monospace; }
+
+                .rank_badge {
+                    padding: 4px 12px;
+                    border-radius: 999px;
+                    font-size: 10px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+
+                    &.premium { background-color: rgba(70, 143, 175, 0.1); color: #468faf; }
+                    &.vip { background-color: rgba(255, 193, 7, 0.1); color: #856404; }
+                    &.standard { background-color: #f1f4f6; color: $gray-600; }
+                }
+
+                .action_cell { text-align: right; }
+                .action_btns {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 12px;
+                    opacity: 0;
+                    transition: opacity 0.2s;
+                    button {
+                        background: none; border: none; color: $gray-500; cursor: pointer; font-size: 18px;
+                        &:hover { color: #468faf; }
+                    }
+                }
+            }
+        }
+    }
+}

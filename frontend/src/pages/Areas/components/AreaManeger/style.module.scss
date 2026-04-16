@@ -1,0 +1,206 @@
+@use '@styles/variable.module.scss' as *;
+@use '@styles/mixins.module.scss' as mix;
+.container {
+    flex: 1;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #f1f4f6;
+    padding: 32px;
+    border-radius: $border-radius-lg;
+    .section_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 32px;
+        .section_title {
+            font-size: 20px;
+            font-weight: 700;
+            color: $black;
+        }
+        .section_subtitle {
+            font-size: 14px;
+            color: $gray-600;
+            margin-top: 4px;
+        }
+        .header_action {
+            @include mix.flex_box_custom(flex-end, center);
+            gap: 12px;
+            .search_input {
+                @include mix.flex_box_custom(center, center, 10px);
+                padding: 10px;
+                border-radius: $border-radius-md;
+                border: 1px solid #e5e9eb;
+                background-color: $white;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                color: $gray-600;
+                transition: $transition-fast;
+                &:hover {
+                    background-color: #f8fbfd;
+                }
+                input {
+                    border: none;
+                    outline: none;
+                    &:hover {
+                        background-color: #f8fbfd;
+                    }
+                    &::placeholder {
+                        color: $gray-400;
+                    }
+                    &:focus {
+                        outline: none;
+                    }
+                }
+            }
+            .add_btn {
+                background: linear-gradient(to bottom right, #468faf, #307d9c);
+                color: $white;
+                padding: 10px 24px;
+                border-radius: $border-radius-md;
+                border: none;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: $transition-fast;
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(70, 143, 175, 0.2);
+                }
+            }
+        }
+    }
+    .table_wrapper {
+       
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        .table_head {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            padding: 12px 24px;
+            background-color: rgba(229, 233, 235, 0.4);
+            border-radius: 8px;
+            span {
+                font-size: 11px;
+                font-weight: 700;
+                color: $gray-600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+            }
+        }
+        .table_body {
+             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            .row {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                align-items: center;
+                padding: 20px 24px;
+                background-color: $white;
+                border-radius: $border-radius-md;
+                transition: $transition-fast;
+                &:hover {
+                    background-color: #f8fbfd;
+                    .actions {
+                        opacity: 1;
+                    }
+                }
+                .area_id {
+                    font-family: 'Roboto Mono', monospace;
+                    font-size: 13px;
+                    color: #046482;
+                    font-weight: 500;
+                }
+                .area_name {
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: $black;
+                }
+                .status_badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 4px 12px;
+                    border-radius: 999px;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+                    font-size: 11px;
+                    font-weight: 700;
+                    .dot {
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                    }
+                    &.active {
+                        color: #046482;
+                        .dot {
+                            background-color: #046482;
+                        }
+                    }
+                    &.inactive {
+                        color: $gray-500;
+                        .dot {
+                            background-color: $gray-500;
+                        }
+                    }
+                }
+                .date_text {
+                    font-size: 12px;
+                    color: $gray-500;
+                }
+                .actions {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 12px;
+                    opacity: 0;
+                    transition: opacity 0.2s;
+                    button {
+                        background: none;
+                        border: none;
+                        color: $gray-400;
+                        cursor: pointer;
+                        font-size: 18px;
+                        &:hover {
+                            color: #046482;
+                        }
+                        &.delete:hover {
+                            color: $danger-color;
+                        }
+                    }
+                }
+            }
+        }
+        .table_footer {
+            display: flex;
+            justify-content: flex-end;
+            .wrapper_pagination {
+                display: flex;
+                gap: 8px;
+                button {
+                    @include mix.flex_box_custom();
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 4px;
+                    border: 1px solid #e5e9eb;
+                    background-color: $white;
+                    cursor: pointer;
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: $gray-600;
+                    transition: $transition-fast;
+                    &:hover {
+                        background-color: #f8fbfd;
+                    }
+                    &.active {
+                        background-color: #046482;
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+}

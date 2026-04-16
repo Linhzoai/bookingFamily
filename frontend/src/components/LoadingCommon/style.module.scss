@@ -1,0 +1,21 @@
+@use '@styles/variable.module.scss' as *;
+@use '@styles/mixins.module.scss' as mix;
+.loading {
+    @include mix.flex_box_custom();
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    background-color: rgba(119, 119, 119, 0.473);
+    .loading_icon {
+        font-size: 1.4rem;
+        animation: spin 0.8s linear infinite;
+    }
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

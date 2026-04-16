@@ -1,0 +1,48 @@
+@use '@styles/variable.module.scss' as *;
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+
+    .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+
+    &.pending {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #856404;
+        .dot { background-color: #ffc107; }
+    }
+
+    &.in_progress {
+        background-color: rgba(0, 123, 255, 0.1);
+        color: #004085;
+        .dot { background-color: #007bff; }
+    }
+
+    &.completed {
+        background-color: rgba(40, 167, 69, 0.1);
+        color: #155724;
+        .dot { background-color: #28a745; }
+    }
+
+    &.canceled {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #721c24;
+        .dot { background-color: #dc3545; }
+    }
+
+    &.default {
+        background-color: #f1f4f6;
+        color: $gray-600;
+        .dot { background-color: $gray-500; }
+    }
+}

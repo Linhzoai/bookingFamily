@@ -162,13 +162,17 @@ class BookingService {
         status: { in: ['accepted', 'pending', 'completed'] }
       }
     }
-    if (data.areaId) query.areaId = data.areaId;
+    if (data.areaId) query.area = {
+      path: {
+        contains: data.areaId
+      }
+    };
     if (data.status) query.status = { in: data.status };
     if (data.scheduledTime) query.scheduledTime = data.scheduledTime;
-    const include = { customer: true, area: true, bookingDetails: { include: { service: true } } };
+    const include = { customer: true, area: true, bookingDetails: { include: { service: true } }, staffAssignments:  { include: { staff: true } },};
     return paginatePrisma(prisma.booking, query, data, include);
   };
-
+  
   getProgressNow = async (bookingId) =>{
     const booking = await checkRecordExist(prisma.booking, { id: bookingId });
     const progress = await prisma.taskProgress.findFirst({

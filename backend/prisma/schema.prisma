@@ -153,6 +153,8 @@ model StaffProfile {
   staffId             String   @unique @map("staff_id")
   idCardNumber        String   @unique @map("id_card_number") @db.VarChar(50)
   skills              String   @db.Text
+  experience          String?  @db.VarChar(50)
+  review              String?  @db.Text
   hireDate            DateTime @map("hire_date") @db.Date
   status              String   @db.VarChar(50)
   currentAvailability String   @default("available") @map("current_availability") @db.VarChar(50)
@@ -254,8 +256,9 @@ model ServiceArea {
   name              String             @db.VarChar(255)
   parentId          Int?               @map("parent_id")
   isActive          Boolean            @default(true) @map("is_active")
+  path              String?            @db.VarChar(255)
   createdAt         DateTime           @default(now()) @map("created_at")
-  bookings          Booking[]
+  bookings          Booking[]          
   parent            ServiceArea?       @relation("AreaHierarchy", fields: [parentId], references: [id])
   children          ServiceArea[]      @relation("AreaHierarchy")
   staffServiceAreas StaffServiceArea[]

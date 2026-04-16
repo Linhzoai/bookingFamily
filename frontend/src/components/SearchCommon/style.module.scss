@@ -1,0 +1,24 @@
+@use '@styles/variable.module.scss' as *;
+@use '@styles/mixins.module.scss' as mix;
+.container {
+    @include mix.flex_box_custom(center, center, 20px);
+    background-color: #eef4ff;
+    border-radius: 8px;
+    padding: 10px;
+    color: $gray-700;
+    svg {
+        font-size: 28px;
+    }
+    input {
+        width: 100%;
+        border-radius: 8px;
+        height: 100%;
+        border: none;
+        outline: none;
+        padding: 5px 10px;
+        font-size: 18px;
+        background-color: #eef4ff;
+        box-shadow: $glass-border;
+        transition: $transition-fast;
+    }
+}

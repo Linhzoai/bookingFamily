@@ -44,10 +44,21 @@ class BookingController{
     //[GET] /api/v1/bookings
     getBooking = catchAsync(async (req, res, next) =>{
         const bookings = await BookingService.getBooking(req.validatedQuery)
+        const bookingsFormat = bookings.data.map((booking) => {
+            return {
+                ...booking,
+                staff: booking.staffAssignments.find((assignment) =>assignment.status !== 'rejected')?.staff || null,
+                staffAssignments: booking.staffAssignments.filter((assignment) =>{
+                    if(assignment.status !== 'rejected') return assignment
+                }),
+            }
+        })
+        const { data, ...pageData } = bookings;
         res.status(200).json({
             success: true,
             message: "Lấy danh sách đơn hàng thành công",
-            data: bookings
+            data: bookingsFormat,
+            ...pageData
         })
     })
 

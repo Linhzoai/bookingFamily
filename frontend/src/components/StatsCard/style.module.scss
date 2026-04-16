@@ -1,0 +1,79 @@
+@use '@styles/variable.module.scss' as *;
+
+.card {
+    background-color: $white;
+    padding: 24px;
+    border-radius: $border-radius-lg;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: $transition-fast;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .content {
+        .label {
+            font-size: 10px;
+            font-weight: 700;
+            color: $gray-600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: $black;
+            margin-bottom: 8px;
+        }
+
+        .trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+
+            &.positive {
+                color: #28a745;
+            }
+            &.negative {
+                color: #dc3545;
+            }
+            &.neutral {
+                color: $gray-500;
+            }
+
+            span {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .icon_box {
+        width: 48px;
+        height: 48px;
+        border-radius: $border-radius-md;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f4f6;
+        color: #468faf;
+        transition: $transition-fast;
+
+        span {
+            font-size: 24px;
+        }
+    }
+
+    &:hover .icon_box {
+        background-color: #468faf;
+        color: $white;
+    }
+}

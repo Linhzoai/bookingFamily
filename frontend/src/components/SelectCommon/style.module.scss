@@ -1,0 +1,14 @@
+@use '@styles/variable.module.scss' as *;
+@use '@styles/mixins.module.scss' as *;
+
+.select {
+    background-color: #f1f4f6;
+    border: none;
+    border-radius: $border-radius-md;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: $gray-700;
+    cursor: pointer;
+    outline: none;
+}

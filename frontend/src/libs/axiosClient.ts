@@ -1,5 +1,5 @@
 import { authService } from '@/services/authService';
-import { authStore } from '@/stores/useAuthStore';
+import { useAuthStore } from '@/stores/useAuthStore';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 const baseURL = import.meta.env.MODE === 'development' ? 'http://localhost:8000/api/v1' : import.meta.env.VITE_API_URL;
@@ -15,7 +15,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-    const accessToken = authStore.getState().token;
+    const accessToken = useAuthStore.getState().token;
     if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -39,14 +39,14 @@ api.interceptors.response.use(
             originalRequest._retry++;
             try {
                 const newAccessToken = await authService.refreshToken();
-                authStore.setState({ token: newAccessToken });
+                useAuthStore.setState({ token: newAccessToken });
                 originalRequest.headers = {
                     ...originalRequest.headers,
                     Authorization: `Bearer ${newAccessToken}`
                 };
             } catch (error) {
                 Cookies.remove('refreshToken');
-                authStore.setState({ token: null, user: null });
+                useAuthStore.setState({ token: null, user: null });
                 localStorage.clear();
                 sessionStorage.clear();
                 return Promise.reject(error);

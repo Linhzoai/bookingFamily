@@ -1,84 +1,100 @@
 @use '@styles/variable.module.scss' as *;
 @use '@styles/mixins.module.scss' as mix;
+
 .container {
-    @include mix.flex_box_custom(space-between, start);
-    flex-direction: column;
-    width: 400px;
+    position: fixed;
+    left: 0;
+    top: 0;
     height: 100vh;
-    background-color: $primary-color;
-    padding: 20px;
+    width: $sidebar-width;
+    background-color: #013a63; // Midnight blue from design
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0;
+    z-index: $z-index-fixed;
+    transition: $transition-normal;
+
     .nav_menu_container {
-        @include mix.flex_box_custom(center, center, 20px);
+        display: flex;
         flex-direction: column;
-        width: 100%;
-        border-bottom: 1px solid $sky-blue;
-        padding-bottom: 20px;
-        flex: 1;
-        h1 {
-            margin-top: 20px;
-            color: $white;
-            font-size: 32px;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: 600;
+        height: 100%;
+        
+        .title {
+            padding: 0 24px;
             margin-bottom: 40px;
+            color: $white;
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
+
         .nav_menu {
-            width: 100%;
-            @include mix.flex_box_custom(center, center, 20px);
+            flex: 1;
+            display: flex;
             flex-direction: column;
-            margin-bottom: auto;
+            gap: 4px;
+
             .nav_item {
-                @include mix.flex_box_custom(start, center, 20px);
-                width: 100%;
-                padding: 20px 10px;
-                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 0 8px;
+                padding: 12px 16px;
+                color: rgba(255, 255, 255, 0.7);
+                text-decoration: none;
+                border-radius: $border-radius-md;
                 transition: $transition-fast;
-                font-size: 18px;
-                color: $sky-blue;
-                .active {
-                    background-color: $secondary-color;
-                    border-radius: 8px;
-                }
+                transform: scale(0.95);
+
                 &:hover {
-                    background-color: $accent-color;
-                    border-radius: 8px;
-                    color: $black;
-                    transform: scale(1.05);
+                    background-color: rgba(255, 255, 255, 0.1);
+                    color: $white;
+                    transform: scale(0.98);
                 }
-                svg {
-                    font-size: 24px;
+
+                &.active_item {
+                    background-color: #468faf; // Ocean blue active
+                    color: $white;
+                    transform: scale(0.95);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                }
+
+                .nav_icon {
+                    font-size: 20px;
+                }
+
+                .nav_label {
+                    font-size: 14px;
+                    font-weight: 500;
                 }
             }
-        }
-        button {
-            margin-bottom: 20px;
         }
     }
 
     .nav_footer {
         margin-top: auto;
-        width: 100%;
-        padding: 20px;
+        padding: 0 16px;
+        
         .footer_info {
-            @include mix.flex_box_custom(center, center, 20px);
+            padding: 12px;
+            border-radius: $border-radius-md;
+            display: flex;
             flex-direction: column;
-            width: 100%;
+            gap: 8px;
+
             .footer_info_item {
-                @include mix.flex_box_custom(start, center, 20px);
-                width: 100%;
-                padding-top: 10px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 14px;
                 cursor: pointer;
                 transition: $transition-fast;
-                font-size: 18px;
-                color: $sky-blue;
-                svg {
-                    font-size: 28px;
-                }
+                padding: 4px 0;
+
                 &:hover {
-                    border-radius: 8px;
-                    color: $white;  
-                    transform: translateY(-5px) scale(1.05);
+                    color: $white;
                 }
             }
         }

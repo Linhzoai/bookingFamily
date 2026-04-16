@@ -3,25 +3,34 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from './routes/route';
 import ProtectedRoute from './components/ProtectedRouter/ProtectedRoute';
 import Layout from './components/Layout/Layout';
+import AuthRoute from '@components/ProtectedRouter/AuthRoute.tsx';
+import { ToastContainer } from 'react-toastify';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+const queryClient = new QueryClient();
 function App() {
     return (
+        <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Đang tải...</div>}>
                 <Routes>
-                    {routes.publicRoutes.map((route, index) => (
-                        <Route key={index} path={route.path} element={<route.component />} />
-                    ))}
-                    <Route element={<ProtectedRoute />}>
-                        <Route path='/' element={<Layout />}>
-                            {routes.privateRoutes.map((route, index) => (
+                    <Route element={<AuthRoute />}>
+                        {routes.publicRoutes.map((route, index) => (
                             <Route key={index} path={route.path} element={<route.component />} />
                         ))}
+                    </Route>
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/" element={<Layout />}>
+                            {routes.privateRoutes.map((route, index) => (
+                                <Route key={index} path={route.path} element={<route.component />} />
+                            ))}
                         </Route>
                     </Route>
                 </Routes>
+                <ToastContainer position='top-right' autoClose={2000} />
             </Suspense>
         </BrowserRouter>
+        </QueryClientProvider>
     );
 }
 

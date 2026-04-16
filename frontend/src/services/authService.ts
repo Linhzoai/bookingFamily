@@ -9,6 +9,7 @@ export const authService = {
         await api.post('/auth/sign-out');
     },
     refreshToken: async () => {
+        console.log("đã chạy refresh token");
         const response = await api.post('/auth/refresh-token');
         return response.data.data.accessToken;
     },
