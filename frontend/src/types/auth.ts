@@ -1,3 +1,5 @@
+import type { Area } from "./booking";
+
 export interface User {
     id: string,
     email: string,
@@ -10,7 +12,18 @@ export interface User {
     avatarUrl?: string,
     createdAt: string,
     updatedAt: string
+}
+
+export interface Staff extends User {
     staffProfile?: StaffProfile
+}
+
+export interface Customer extends User {
+    Area?: Area
+    _count?: {
+        bookings: number;
+    }
+    totalSpent?: number;
 }
 
 export interface StaffProfile{
@@ -20,5 +33,4 @@ export interface StaffProfile{
     hireDate: string;
     status: string;
     currentAvailability: string;
-    
 }

@@ -66,6 +66,8 @@ export interface GetQuery<T>{
 export interface SideBarStore{
     isOpen: boolean,
     type: string,
+    booking: Booking | null,
+    service: Service | null,
     toggleSidebar: () => void,
-    toggleType: (type: string) => void,
+    toggleType: (type: string, booking?: Booking | null, service?: Service | null) => void,
 }

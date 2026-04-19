@@ -29,13 +29,13 @@ class ProgressService {
           image: image || null,
         },
       });
+      await tx.staffAssignment.update({
+        where: { staffId: data.staffId, bookingId: data.bookingId },
+        data: { status: nextStep },
+      });
       if (nextStep === "completed") {
         await tx.booking.update({
           where: { id: data.bookingId },
-          data: { status: "completed" },
-        });
-        await tx.staffAssignment.updateMany({
-          where: { staffId: data.staffId, bookingId: data.bookingId },
           data: { status: "completed" },
         });
       }

@@ -197,7 +197,7 @@ router.delete("/:id/delete-staff", validateMiddleware(checkParamSchema), staffCo
  * /staff/{id}/jobs:
  *   get:
  *     summary: Lấy danh sách công việc của một nhân viên
- *     tags: [Staffs]
+ *     tags: [Staff]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -229,6 +229,25 @@ router.delete("/:id/delete-staff", validateMiddleware(checkParamSchema), staffCo
  *         schema:
  *           type: integer
  *           default: 10
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Tìm kiếm công việc
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [name, createdAt, email, status]
+ *           default: createdAt
+ *         description: Sắp xếp
+ *       - in: query
+ *         name: order
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *           default: desc
+ *         description: Chiều sắp xếp
  *     responses:
  *       200:
  *         description: Lấy danh sách thành công
@@ -242,7 +261,7 @@ router.get("/:id/jobs", validateMiddleware(getJobSchema, 'query'), staffControll
  * /staff/{id}/update-job:
  *   patch:
  *     summary: Cập nhật trạng thái công việc của nhân viên
- *     tags: [Staffs]
+ *     tags: [Staff]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -250,7 +269,7 @@ router.get("/:id/jobs", validateMiddleware(getJobSchema, 'query'), staffControll
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID của bản ghi phân công (assign_id)
  *     requestBody:
  *       required: true

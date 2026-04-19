@@ -6,13 +6,17 @@ import Layout from './components/Layout/Layout';
 import AuthRoute from '@components/ProtectedRouter/AuthRoute.tsx';
 import { ToastContainer } from 'react-toastify';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import FormCommon from './components/FormCommon/FormCommon';
+import { useSideBarStore } from './stores/useSidebarStore';
 
 const queryClient = new QueryClient();
 function App() {
+    const {isOpen} = useSideBarStore();
     return (
         <QueryClientProvider client={queryClient}>
         <BrowserRouter>
             <Suspense fallback={<div>Đang tải...</div>}>
+            {isOpen && <FormCommon/>}
                 <Routes>
                     <Route element={<AuthRoute />}>
                         {routes.publicRoutes.map((route, index) => (

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import styles from './style.module.scss';
@@ -76,7 +77,7 @@ export default function AreaManagement() {
             if(data.cityId && !data.districtId){
                 newData.parentId = Number(data.cityId);
             }
-            createArea(newData,{ onSuccess: () => { reset(); setIsOpen(false); } } );
+            createArea(newData as any,{ onSuccess: () => { reset(); setIsOpen(false); } } );
         }
     };
     const handleAddAreaDate = (data: Area) =>{

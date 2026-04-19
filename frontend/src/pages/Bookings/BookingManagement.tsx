@@ -1,27 +1,82 @@
+/* eslint-disable no-case-declarations */
+
 import styles from './style.module.scss';
 import StatusBadge from '@components/StatusBadge/StatusBadge';
-import { useGetQuery } from '@/hooks/useQueryCustom';
+import { useDeleteQuery, useGetQuery } from '@/hooks/useQueryCustom';
 import { bookingService } from '@/services/bookingService';
 import formatDate from '@/utils/formatDate';
 import { AreaService } from '@/services/areaService';
 import SelectCommon from '@/components/SelectCommon/SelectCommon';
 import { useState } from 'react';
+import { staffService } from '@/services/staffService';
+import SelectSearch from '@/components/SelectSearch/SelectSearch';
+import cls from 'classnames';
+import type { Booking } from '@/types/booking';
+import { useSideBarStore } from '@/stores/useSidebarStore';
+import Loading from '@/components/LoadingCommon/Loading';
+import { toast } from 'react-toastify';
+import { assignBookingService } from '@/services/assignBookingService';
 
-const statusData = [
-    { label: 'Tất cả trạng thái', value: '' },
-    { label: 'Đang chờ', value: 'pending' },
-    { label: 'Đã xác nhận', value: 'accepted' },
-    { label: 'Đang thực hiện', value: 'in_progress' },
-    { label: 'Đã hoàn thành', value: 'completed' },
-    { label: 'Đã hủy', value: 'cancelled' }
-] as const;
-
-type BookingStatus = typeof statusData[number]['value'];
 export default function BookingManagement() {
-    const [status, setStatus] = useState<BookingStatus>('');
-    const { data: bookings } = useGetQuery('bookings', bookingService.getAllBookings);
+    const statusData = [
+        { label: 'Tất cả trạng thái', value: '' },
+        { label: 'Đang chờ', value: 'pending' },
+        { label: 'Đã xác nhận', value: 'accepted' },
+        { label: 'Đang thực hiện', value: 'in_progress' },
+        { label: 'Đã hoàn thành', value: 'completed' },
+        { label: 'Đã hủy', value: 'cancelled' }
+    ];
+    const [status, setStatus] = useState<string>('');
+    const [areaId, setAreaId] = useState<string>('');
+    const [staffId, setStaffId] = useState<string>('');
+    const [page, setPage] = useState<number>(1);
+
+    const query = `status=${status}&areaId=${areaId}&staffId=${staffId}&page=${page}`;
+    const { data: bookings,  isRefetching } = useGetQuery('bookings', bookingService.getAllBookings, query);
+    const { data: staffs } = useGetQuery('staff', staffService.getAllStaff);
     const { data: areas } = useGetQuery('areas', AreaService.getAllAreas);
     const dataArea = (areas?.data ?? []).map((item) => ({ label: item.name, value: item.id }));
+    const dataStaff = (staffs?.data ?? []).map((item) => ({ label: item.name, value: item.id }));
+    const {mutate: deleteBooking, isPending: isUnssign} = useDeleteQuery('bookings', bookingService.deleteBooking, 'Đơn đặt lịch')
+    const { mutate, isPending: isdelete } = useDeleteQuery( 'bookings', assignBookingService.deleteAssignBooking, 'Phân công' );
+    const { toggleType } = useSideBarStore();
+    const handleAction = (type: string, booking?: Booking) => {
+        switch (type) {
+            case 'assign':
+                if (booking?.staff) {
+                    toast.warning('Booking đã được phân công nhân viên');
+                } else {
+                    toggleType('assignment_booking', booking);
+                }
+                break;
+            case 'cancel_assign':
+                const staffAssign = booking.staffAssignments.find((assign) => assign.status === 'assigned');
+                if (staffAssign) {
+                    mutate(staffAssign.id);
+                }
+                break;
+            case 'update':
+                toggleType('update_booking', booking);
+                break;
+            case 'delete':
+                deleteBooking(booking.id)
+                break;
+            default:
+                break;
+        }
+    };
+    const handlePageChange = (type: string) => {
+        if(type === 'next') {
+            if(page < bookings?.totalPages) {
+                setPage(page + 1);
+            }
+        } else {
+            if(page > 1) {
+                setPage(page - 1);
+            }
+        }
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -29,7 +84,8 @@ export default function BookingManagement() {
                     <h2 className={styles.title}>Quản lý Lịch đặt</h2>
                     <p className={styles.subtitle}>Theo dõi và điều phối 124 lịch hẹn trong ngày hôm nay.</p>
                 </div>
-                <button className={styles.add_btn}>
+                <button className={styles.add_btn} onClick={()=> toggleType('create_booking')}>
+
                     <span className="material-symbols-outlined">add</span>
                     Tạo Booking
                 </button>
@@ -39,19 +95,27 @@ export default function BookingManagement() {
             <section className={styles.filter_bar}>
                 <div className={styles.filter_group}>
                     <label>Khu vực</label>
-                    <SelectCommon options={dataArea} placeholder="Tất cả khu vực" />
+                    <SelectCommon
+                        options={dataArea}
+                        placeholder="Tất cả khu vực"
+                        onChange={(e) => setAreaId(e.target.value)}
+                    />
                 </div>
                 <div className={styles.filter_group}>
                     <label>Trạng thái</label>
-                    <select>
-                        <option>Tất cả trạng thái</option>
-                    </select>
+                    <SelectCommon
+                        options={statusData}
+                        placeholder="Tất cả trạng thái"
+                        onChange={(e) => setStatus(e.target.value)}
+                    />
                 </div>
                 <div className={styles.filter_group}>
                     <label>Nhân viên</label>
-                    <select>
-                        <option>Chọn nhân viên</option>
-                    </select>
+                    <SelectSearch
+                        options={dataStaff}
+                        placeholder="Tất cả nhân viên"
+                        onChange={(e) => setStaffId(e.target.value)}
+                    />
                 </div>
                 <div className={styles.filter_group_wide}>
                     <label>Khoảng thời gian</label>
@@ -79,6 +143,7 @@ export default function BookingManagement() {
                         </tr>
                     </thead>
                     <tbody>
+                        {(isRefetching || isdelete || isUnssign) && <Loading />}
                         {bookings?.data.map((bk) => (
                             <tr key={bk.id}>
                                 <td className={styles.id_cell}>{bk.id}</td>
@@ -126,6 +191,16 @@ export default function BookingManagement() {
                                 </td>
                                 <td className={styles.action_cell}>
                                     <button className="material-symbols-outlined">more_vert</button>
+                                    <div className={cls(styles.action_menu)}>
+                                        <button disabled={!!bk?.staff} onClick={() => handleAction('assign', bk)}>
+                                            Phân công
+                                        </button>
+                                        <button disabled={!bk?.staff} onClick={() => handleAction('cancel_assign', bk)}>
+                                            Hủy phân quyền
+                                        </button>
+                                        <button onClick={()=> handleAction('update', bk)}>Xem chi tiết</button>
+                                        <button onClick={()=> handleAction('delete', bk)}>Xóa</button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -137,10 +212,11 @@ export default function BookingManagement() {
                         {bookings?.totalRecords} bookings
                     </p>
                     <div className={styles.page_btns}>
-                        <button className="material-symbols-outlined">chevron_left</button>
-                        <button className={styles.active_page}>1</button>
-                        <button>2</button>
-                        <button className="material-symbols-outlined">chevron_right</button>
+                        <button className="material-symbols-outlined" onClick={() => handlePageChange('prev')} disabled={page === 1}>chevron_left</button>
+                        {Array.from({ length: bookings?.totalPages }, (_, i) => (
+                            <button key={i} className={cls(page === i + 1 && styles.active_page)} onClick={() => setPage(i + 1)}>{i + 1}</button>
+                        ))}
+                        <button className="material-symbols-outlined" onClick={() => handlePageChange('next')} disabled={page === bookings?.totalPages}>chevron_right</button>
                     </div>
                 </div>
             </div>

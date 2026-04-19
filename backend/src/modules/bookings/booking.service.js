@@ -6,7 +6,7 @@ import { formatArea } from "../../helper/format.helper.js";
 import { paginatePrisma } from "../../helper/prisma.helper.js";
 class BookingService {
   createBooking = async (data) => {
-    const dataBooking = { ...data, status: "pending", };
+    const dataBooking = { ...data, status: "pending" };
     const [customer, area] = await Promise.all([
       checkRecordExist(prisma.user, { id: data.customerId, role: "customer" }),
       checkRecordExist(prisma.serviceArea, { id: data.areaId }),
@@ -14,7 +14,10 @@ class BookingService {
     dataBooking.address = data.address + ", " + (await formatArea(data.areaId));
     const serviceInfo = await Promise.all(
       data.serviceId.map(async (id) => {
-        const service = await checkRecordExist(prisma.service, { id, active: true, });
+        const service = await checkRecordExist(prisma.service, {
+          id,
+          active: true,
+        });
         return {
           serviceId: id,
           price: service.price,
@@ -26,6 +29,7 @@ class BookingService {
       0,
     );
     dataBooking.totalAmount = totalAmount;
+    dataBooking.scheduledTime = new Date(dataBooking.scheduledTime);
     delete dataBooking.serviceId;
     const booking = await prisma.booking.create({
       data: {
@@ -154,26 +158,43 @@ class BookingService {
   getBooking = async (data) => {
     const query = {};
     if (data.customerId) query.customerId = data.customerId;
-    if (data.serviceId) query.bookingDetails = {
-        some: { serviceId: data.serviceId}
-    };
-    if(data.assign) query.staffAssignments = {
-      none: {
-        status: { in: ['accepted', 'pending', 'completed'] }
-      }
+    if (data.serviceId)
+      query.bookingDetails = {
+        some: { serviceId: data.serviceId },
+      };
+    if (data.assign)
+      query.staffAssignments = {
+        none: {
+          status: { in: ["accepted", "pending", "completed"] },
+        },
+      };
+    if (data.areaId)
+      query.area = {
+        path: {
+          contains: `/${data.areaId}/`,
+        },
+      };
+    if (data.staffId) {
+      query.staffAssignments = {
+        some: {
+          staffId: {
+            in: Array.isArray(data.staffId) ? data.staffId : [data.staffId],
+          },
+        },
+      };
     }
-    if (data.areaId) query.area = {
-      path: {
-        contains: data.areaId
-      }
-    };
     if (data.status) query.status = { in: data.status };
     if (data.scheduledTime) query.scheduledTime = data.scheduledTime;
-    const include = { customer: true, area: true, bookingDetails: { include: { service: true } }, staffAssignments:  { include: { staff: true } },};
+    const include = {
+      customer: true,
+      area: true,
+      bookingDetails: { include: { service: true } },
+      staffAssignments: { include: { staff: true } },
+    };
     return paginatePrisma(prisma.booking, query, data, include);
   };
-  
-  getProgressNow = async (bookingId) =>{
+
+  getProgressNow = async (bookingId) => {
     const booking = await checkRecordExist(prisma.booking, { id: bookingId });
     const progress = await prisma.taskProgress.findFirst({
       where: { bookingId: bookingId },
@@ -182,10 +203,10 @@ class BookingService {
       },
       include: {
         staff: true,
-      }
+      },
     });
     return progress;
-  }
+  };
 }
 
 export default new BookingService();

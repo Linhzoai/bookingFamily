@@ -44,9 +44,8 @@ class StaffController {
 
   //[GET] /api/v1/staff/list - lấy danh sách nhân viên
   getStaffList = catchAsync(async (req, res)=>{
-    const data = req.validatedQuery;
-    const staffList = await StaffService.getStaffList(data);
-    return successResponse(res, { data: staffList, message: "Lấy danh sách nhân viên thành công", statusCode: HttpStatus.OK, });
+    const data = await StaffService.getStaffList(req.validatedQuery);
+    return successResponse(res, { data, message: "Lấy danh sách nhân viên thành công", statusCode: HttpStatus.OK, });
   })
 
   //[DELETE] /api/v1/staff/:id/delete-staff - xóa nhân viên

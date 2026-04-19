@@ -34,7 +34,7 @@ export const useGenericMutation = <TVariables, TData = any>( key: string, func: 
 }
 
 
-export const useCreateQuery = <T>(key: string, func: (data: T) => Promise<T>, label = "dữ liệu") => {
+export const useCreateQuery = <T>(key: string, func: (data: Partial<T>) => Promise<T>, label = "dữ liệu") => {
     return useGenericMutation<T>(key, func, {
         successMsg: `Thêm ${label} thành công`,
         errorMsg: `Thêm ${label} thất bại`

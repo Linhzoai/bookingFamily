@@ -16,11 +16,12 @@ class AssignmentService{
         if(asignExist){
             throw new AppError('Booking này đã được giao cho nhân viên khác', 400);
         }
+        
         const assignJob = await prisma.staffAssignment.create({
             data: {
                 bookingId,
                 staffId,
-                assignedAt,
+                assignedAt: new Date(assignedAt),
                 status,
             }
         })

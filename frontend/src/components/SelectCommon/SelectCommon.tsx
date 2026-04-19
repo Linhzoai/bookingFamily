@@ -1,8 +1,9 @@
 import styles from './style.module.scss';
 interface SelectCommonProps {
-    options: { label: string; value: number }[];
+    options: { label: string; value: number|string }[];
     placeholder: string;
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+
 }
 export default function SelectCommon({options, placeholder , onChange, ...props}: SelectCommonProps) {
     const {select} = styles;

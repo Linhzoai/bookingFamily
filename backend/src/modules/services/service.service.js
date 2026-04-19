@@ -69,7 +69,10 @@ class ServiceService{
         if(data.categoryId){
             where.categoryId = data.categoryId;
         }
-        return await paginatePrisma(prisma.service, where, data);
+        const include ={
+            category: true
+        }
+        return await paginatePrisma(prisma.service, where, data, include);
     }
 
     getServiceById = async (id) =>{

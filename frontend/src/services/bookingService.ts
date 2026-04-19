@@ -6,7 +6,7 @@ import type { GetQuery } from "@/types/store";
 export const bookingService = {
     getAllBookings: async (query?: string): Promise<GetQuery<Booking>> => {
         const response = await api.get(`/bookings?${query}`);
-        return response.data;
+        return response.data.data;
     },
     createBooking: async (data: Booking): Promise<Booking> => {
         const response = await api.post('/bookings', data);

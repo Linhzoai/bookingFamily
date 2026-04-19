@@ -30,6 +30,7 @@ export const getBookingValidation = Joi.object({
     customerId: Joi.string().optional().label("Mã khách hàng").empty(''),
     serviceId: Joi.number().optional().label("Mã dịch vụ").empty(''),
     areaId: Joi.number().optional().label("Mã khu vực").empty(''),
+    staffId: Joi.string().optional().label("Mã nhân viên").empty(''),
     status: Joi.array().items(Joi.string().valid('pending','accepted','in_progress','completed','cancelled')).single().optional().label("Trạng thái").empty(''),
     scheduledTime: Joi.string().optional().label("Thời gian đặt lịch").empty(''),
     assign: Joi.boolean().optional().label("Đã phân công").empty('')

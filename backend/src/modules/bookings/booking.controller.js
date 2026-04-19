@@ -57,8 +57,7 @@ class BookingController{
         res.status(200).json({
             success: true,
             message: "Lấy danh sách đơn hàng thành công",
-            data: bookingsFormat,
-            ...pageData
+            data: {data: bookingsFormat, ...pageData}
         })
     })
 

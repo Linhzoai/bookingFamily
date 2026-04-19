@@ -10,8 +10,21 @@ class CustomerService{
         if (data.address) query.address = { contains: data.address };
         if (data.areaId) query.areaId = data.areaId;
         if (data.status) query.status = data.status;
-        const include = { area: true };
-        return paginatePrisma(prisma.user, query, data, include);
+        const include = { _count: { select: { bookings: true } }, area: true };
+        const result = await paginatePrisma(prisma.user, query, data, include);
+        
+        result.data = await Promise.all(result.data.map(async (customer) => {
+            const aggregate = await prisma.booking.aggregate({
+                _sum: { totalAmount: true },
+                where: { customerId: customer.id, status: 'Completed' },
+            });
+            return {
+                ...customer,
+                totalSpent: aggregate._sum.totalAmount || 0
+            };
+        }));
+
+        return result;
     }
 
     getCustomerById = async (id) =>{

@@ -3,8 +3,8 @@ import Joi from "joi";
 export const createProgressValidation = Joi.object({
     bookingId: Joi.string().required(),
     staffId: Joi.string().required(),
-    assignedAt: Joi.date().required().default(Date.now),
-    status: Joi.string().valid('accepted', 'rejected','assigned', 'completed').default('assigned').required(),
+    assignedAt: Joi.date().optional().default(Date.now),
+    status: Joi.string().valid('accepted', 'rejected','assigned', 'completed').default('assigned').optional(),
 })
 
 export const updateProgressValidation = Joi.object({

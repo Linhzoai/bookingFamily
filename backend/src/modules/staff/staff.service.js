@@ -79,7 +79,7 @@ class StaffService {
       where: { role: "staff", name: { contains: search } },
     });
     const totalPages = Math.ceil(totalRecords / limit);
-    return {staffList, ...pagination(page, limit, totalPages, totalRecords)};
+    return {data:staffList, ...pagination(page, limit, totalPages, totalRecords)};
   };
 
   //Xóa nhân viên
@@ -90,11 +90,12 @@ class StaffService {
 
   getJob = async (id, data) =>{
     const staff = await checkRecordExist(prisma.user, {id});
-    const query = {};
+    const query = {staffId: id};
     if(data.status) query.status = data.status;
     if(data.assignedAt) query.assignedAt = {
       gte: new Date(data.assignedAt),
     };
+    console.log(data);
     const jobs = paginatePrisma(prisma.staffAssignment, query, data, {
       booking: true,
       staff: true,
@@ -111,7 +112,7 @@ class StaffService {
       if(status === "accepted"){
         await tx.booking.update({
           where: {id: updateStaffAssignment.bookingId},
-          data: {status: "in_progress"}
+          data: {status: "accepted"}
         })
       }
       if(status === "completed"){

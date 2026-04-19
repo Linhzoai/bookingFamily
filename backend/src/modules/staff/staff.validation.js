@@ -25,15 +25,22 @@ export const checkParamSchema = Joi.object({
 export const getStaffListSchema = Joi.object({
     page: Joi.number().optional().default(1),
     limit: Joi.number().optional().default(10),
+    status: Joi.string().optional().default(""),
     search: Joi.string().optional().default(""),
     sort: Joi.string().valid("name", "createdAt", "email", "status").default("createdAt"),
     order: Joi.string().valid("asc", "desc").default("desc"),
 });
 
 export const getJobSchema = Joi.object({
-    status: Joi.string().valid("accepted", "rejected", "assigned", "completed").optional(),
+    page: Joi.number().optional().default(1),
+    limit: Joi.number().optional().default(10),
+    status: Joi.string().valid("accepted", "rejected", "assigned", "completed", 'is_coming','arrived','is_working').optional(),
     assignedAt: Joi.date().optional(),
-}).concat(getStaffListSchema);
+    orderBy: Joi.string().valid("assignedAt", "status").default("assignedAt"),
+    order: Joi.string().valid("asc", "desc").default("desc"),
+    sort: Joi.string().optional(),
+    search: Joi.string().optional().default(""),
+});
 
 export const updateJobSchema = Joi.object({
     status: Joi.string().valid("accepted", "rejected", "assigned", "completed").required(),

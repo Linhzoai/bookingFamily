@@ -18,6 +18,10 @@ export interface Category {
     description?: string;
     iconUrl?: string;
     isActive: boolean;
+    _count: {
+        services: number;
+    };
+    
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -27,7 +31,7 @@ export interface Service {
     description?: string;
     price: number;
     duration: number;
-    isActive: boolean;
+    active: boolean;
     categoryId: number;
     imageUrl?: string;
     createdAt?: string;
@@ -81,6 +85,20 @@ export interface Booking {
     customer?: User;
     area?: Area;
     bookingDetails?: BookingDetail[];
+    staffAssignments?: AssignBooking[];
     staff?: User;
     
+}
+
+export interface AssignBooking {
+    id: string;
+    bookingId: string;
+    staffId: string;
+    status?: string;
+    assignedAt?: Date;
+    createdAt: Date;
+    updatedAt: Date;
+
+    booking?: Booking;
+    staff?: User;
 }

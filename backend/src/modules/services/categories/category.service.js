@@ -52,7 +52,12 @@ class CategoryService {
         if(data.description){
             where.description = { contains: data.description };
         }
-        return await paginatePrisma(prisma.serviceCategory, where, data);
+        const include ={
+            _count: {
+                select: { services: true }
+            }
+        }
+        return await paginatePrisma(prisma.serviceCategory, where, data, include);
     }
 
     getCategoryById = async (id) =>{
