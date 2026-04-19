@@ -104,11 +104,15 @@ class StaffService {
   }
 
   updateJob = async (id, status) =>{
+
     return await prisma.$transaction(async (tx)=>{
+      // const staffAssignment = await tx.staffAssignment.findUniqueOrThrow({where: {id: id}});
+      // console.log(staffAssignment);
       const updateStaffAssignment = await tx.staffAssignment.update({
-        where: {id: id},
+        where: {id: Number(id)},
         data: {status: status}
       })
+
       if(status === "accepted"){
         await tx.booking.update({
           where: {id: updateStaffAssignment.bookingId},

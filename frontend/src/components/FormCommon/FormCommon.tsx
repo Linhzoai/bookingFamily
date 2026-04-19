@@ -31,40 +31,6 @@ export default function FormCommon() {
                 return null;
         }
     };
-    const handleRender = () => {
-        switch (type) {
-            case 'aSSIGNT':
-                return (
-                    <>
-                        <button>
-                            Chấp nhận<nav></nav>
-                            {/* Api staff/id/update-job --body: {status=='accepted'} */}
-                        </button>
-                        <button>
-                            Từ chối<nav></nav>
-                            {/* Api staff/id/update-job --body: {status=='rejected'} */}
-                        </button>
-                    </>
-                );
-            case 'accept':
-                return <button>Di chuyển đến nhà khách hàng</button>;
-                // Gửi api /progerss --status is_comming
-            case 'is_cooming':
-                return <button>Đã đén</button>;
-                // Gửi api /progerss --status  arrived;
-            case 'arrived':
-                return <button>Bắt đầu công việc</button>;
-                // Gửi api /progerss --status  is_working;
-            case 'is_working':
-                return <button>Hoàn thành công việc</button>;
-                // Gửi api /progerss --status  completed;
-            case 'completed':
-                return <div>Đã hoàn thành</div>;
-                // Gửi api /progerss --status  completed;
-            default:
-                return null;
-        }
-    };
     const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
         if (e.currentTarget === e.target) {
