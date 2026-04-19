@@ -77,6 +77,8 @@ export default function BookingManagement() {
         }
     }
 
+
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -206,7 +208,7 @@ export default function BookingManagement() {
                         ))}
                     </tbody>
                 </table>
-                <div className={styles.pagination}>
+                <div className={styles.pagination}>                                                
                     <p>
                         Showing {bookings?.pageNumber - 1}1-{bookings?.pageSize * bookings?.pageNumber} of{' '}
                         {bookings?.totalRecords} bookings

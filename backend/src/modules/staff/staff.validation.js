@@ -43,5 +43,5 @@ export const getJobSchema = Joi.object({
 });
 
 export const updateJobSchema = Joi.object({
-    status: Joi.string().valid("accepted", "rejected", "assigned", "completed").required(),
+    status: Joi.string().valid("accepted", "rejected", "assigned", "completed", "is_coming", "arrived", "is_working").required(),
 });

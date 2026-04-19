@@ -18,18 +18,19 @@ class ProgressService {
       };
       nextStep = flow[progress.stepName] || progress.stepName;
     }
+
     return await prisma.$transaction(async (tx) => {
       const nextProgress = await tx.taskProgress.create({
         data: {
           bookingId: data.bookingId,
           staffId: data.staffId,
           note: data.note,
-          recordedAt: data.recordAt || new Date(),
+          recordedAt: new Date(data.recordAt || new Date()),
           stepName: nextStep,
-          image: image || null,
+          evidenceImageUrl: image || '',
         },
-      });
-      await tx.staffAssignment.update({
+      });   
+      await tx.staffAssignment.updateMany({
         where: { staffId: data.staffId, bookingId: data.bookingId },
         data: { status: nextStep },
       });
