@@ -5,16 +5,19 @@ import cls from 'clsx';
 import FormBooking from './components/FormBooking/FormBooking';
 import { BsShop } from 'react-icons/bs';
 import FormService from './components/FormService/FormService';
+import FormCustomer from './components/FormCustomer/FormCustomer';
 const labelData = {
     assignment_booking: 'Phân công nhiệm vụ cho nhân viên',
     update_booking: 'Cập nhật đơn đặt lịch',
     create_booking: 'Tạo đơn đặt lịch',
     create_service: 'Thêm dịch vụ mới',
-    update_service: 'Cập nhật dịch vụ'
+    update_service: 'Cập nhật dịch vụ',
+    create_customer: 'Thêm khách hàng mới',
+    update_customer: 'Cập nhật khách hàng'
 };
 export default function FormCommon() {
     const { container, active, form_header, form_body, form_common } = styles;
-    const { type, isOpen, toggleSidebar, booking, service } = useSideBarStore();
+    const { type, isOpen, toggleSidebar, booking, service, customer } = useSideBarStore();
     const handleRenderForm = () => {
         switch (type) {
             case 'assignment_booking':
@@ -27,6 +30,10 @@ export default function FormCommon() {
                 return <FormService />;
             case 'update_service':
                 return <FormService service={service} />;
+            case 'create_customer':
+                return <FormCustomer />;
+            case 'update_customer':
+                return <FormCustomer customer={customer} />;
             default:
                 return null;
         }

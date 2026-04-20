@@ -75,6 +75,11 @@
         flex-direction: column;
         overflow: hidden; /* Đảm bảo góc bo tròn không bị thanh cuộn chọc ra */
     }
+    .dropdown_menu.enabled {
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 
     .search_wrapper {
         display: flex;

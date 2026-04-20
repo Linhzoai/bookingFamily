@@ -6,6 +6,7 @@ import formatDate from '@/utils/formatDate';
 import { useState } from 'react';
 import cls from 'classnames';
 import { useEffect } from 'react';
+import { useSideBarStore } from '@/stores/useSidebarStore';
 export default function CustomerManagement() {
     const {
         container,
@@ -50,9 +51,8 @@ export default function CustomerManagement() {
     let queryCustomer = `page=${page}`
     const [search, setSearch] = useState('');
     const [isSearch, setIsSearch] = useState('');
-    if(isSearch){
-        queryCustomer += `&name=${search}`
-    }
+    if(isSearch){ queryCustomer += `&name=${search}` }
+    const {toggleType} = useSideBarStore();
     const { data: customers, isLoading } = useGetQuery('customer', customerService.getAllCustomers,queryCustomer);
     useEffect(()=>{
         const timer = setTimeout(()=>{
@@ -80,7 +80,7 @@ export default function CustomerManagement() {
                         <span className="material-symbols-outlined">download</span>
                         Xuất báo cáo
                     </button>
-                    <button className={add_btn}>
+                    <button className={add_btn} onClick={()=> toggleType('create_customer')}>
                         <span className="material-symbols-outlined">add</span>
                         Thêm Khách hàng
                     </button>

@@ -78,7 +78,6 @@ export default function FormBooking({booking}: FormBookingProps){
     }, [districts]);
     useEffect(() => {
         if(booking){
-            console.log(booking);
             setValue('customerId', booking.customer.id)
             setValue('address', booking.address)
             setValue('scheduledTime', new Date(booking.scheduledTime).toISOString().slice(0, 16))

@@ -6,6 +6,7 @@ export const useSideBarStore = create<SideBarStore>((set,get)=>({
     type: '',
     booking: null,
     service: null,
+    customer: null,
     toggleSidebar: () => set({ isOpen: !get().isOpen }),
-    toggleType: (type, booking= null, service= null) => set({ type , isOpen: true, booking, service}),
+    toggleType: (type, data= {booking: null, service: null, customer: null}) => set({ type , isOpen: true, booking: data.booking, service: data.service, customer: data.customer}),
 }))

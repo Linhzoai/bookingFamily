@@ -5,10 +5,12 @@ import cls from 'classnames';
 interface SelectSearchProps extends SelectHTMLAttributes<HTMLSelectElement> {
     options: { label: string; value: number | string }[];
     placeholder: string;
+    enabled?: boolean;
+
 }
 
 const SelectSearch = forwardRef<HTMLSelectElement, SelectSearchProps>(
-    ({ options, placeholder, onChange, value, defaultValue, disabled, ...props }, ref) => {
+    ({ options, placeholder, onChange, value, defaultValue, disabled, enabled, ...props }, ref) => {
         const [isOpen, setIsOpen] = useState(false);
         const [searchTerm, setSearchTerm] = useState('');
         const [internalValue, setInternalValue] = useState<string | number>(
@@ -81,8 +83,8 @@ const SelectSearch = forwardRef<HTMLSelectElement, SelectSearchProps>(
 
                 {/* 2. Giao diện Dropdown box  */}
                 <div
-                    className={cls(styles.select_display, isOpen && styles.open, disabled && styles.disabled)}
-                    onClick={() => !disabled && setIsOpen(!isOpen)}
+                    className={cls(styles.select_display, isOpen && styles.open, enabled && styles.enabled)}
+                    onClick={() => !enabled && setIsOpen(!isOpen)}
                 >
                     <span className={cls(styles.label, !selectedOption && styles.placeholder)}>{displayLabel}</span>
                     <span className="material-symbols-outlined">expand_more</span>
@@ -90,7 +92,7 @@ const SelectSearch = forwardRef<HTMLSelectElement, SelectSearchProps>(
 
                 {/* 3. Menu chọn & Ô Search */}
                 {isOpen && (
-                    <div className={styles.dropdown_menu}>
+                    <div className={cls(styles.dropdown_menu, enabled && styles.enabled)} >
                         <div className={styles.search_wrapper}>
                             <span className="material-symbols-outlined">search</span>
                             <input

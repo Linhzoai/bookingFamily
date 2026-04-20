@@ -1,0 +1,130 @@
+@use '@styles/variable.module.scss' as *;
+@use '@styles/mixins.module.scss' as mix;
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    form {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        width: 100%;
+
+        .form_body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            
+          
+            .box_info, .box_area {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                padding: 20px;
+                background-color: $gray-100;
+                border-radius: 12px;
+                border: 1px solid rgba($gray-200, 0.6);
+            }
+
+            // Grid chia 2 cột cho thông tin cơ bản
+            .box_info {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                
+                .box_radio {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    height: 42px; 
+                    padding: 0 8px;
+                    
+                    input[type="radio"] {
+                        margin: 0;
+                        width: 18px;
+                        height: 18px;
+                        cursor: pointer;
+                        accent-color: $primary-color;
+                    }
+                    label {
+                        margin: 0;
+                        font-weight: 400;
+                        font-size: 14px;
+                        color: $gray-800;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            // Grid chia 2 cột cho phần địa chỉ
+            .box_area {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                
+                // Ô địa chỉ chi tiết nằm cuối cùng sẽ chạy dài full 2 cột
+                .box_input:last-child {
+                    grid-column: 1 / -1;
+                }
+            }
+
+            // Style các thành phần ô nhập
+            .box_input {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                label {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: $gray-700;
+                    display: inline-block;
+                }
+
+                input[type="file"] {
+                    font-size: 14px;
+                    color: $gray-700;
+                    &::file-selector-button {
+                        padding: 8px 16px;
+                        border-radius: 8px;
+                        border: 1px solid $gray-300;
+                        background-color: $white;
+                        color: $gray-800;
+                        cursor: pointer;
+                        margin-right: 12px;
+                        transition: $transition-fast;
+                        
+                        &:hover {
+                            background-color: $gray-100;
+                            border-color: $gray-400;
+                        }
+                    }
+                }
+
+                .error {
+                    color: $error-color;
+                    font-size: 12px;
+                    margin-top: 4px;
+                }
+            }
+        }
+
+        .form_footer {
+            margin-top: auto; 
+            padding-top: 24px;
+            border-top: 1px solid rgba($gray-200, 0.5); 
+            @include mix.flex_box_custom(center, flex-end); 
+            gap: 12px;
+
+            button:last-child {
+                background-color: $gray-100;
+                color: $gray-600;
+                &:hover {
+                    color: $gray-800;
+                }
+            }
+        }
+    }
+}

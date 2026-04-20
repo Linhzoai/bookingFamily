@@ -30,6 +30,7 @@ export default function BookingManagement() {
     const [areaId, setAreaId] = useState<string>('');
     const [staffId, setStaffId] = useState<string>('');
     const [page, setPage] = useState<number>(1);
+    const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
     const query = `status=${status}&areaId=${areaId}&staffId=${staffId}&page=${page}`;
     const { data: bookings,  isRefetching } = useGetQuery('bookings', bookingService.getAllBookings, query);
@@ -46,7 +47,7 @@ export default function BookingManagement() {
                 if (booking?.staff) {
                     toast.warning('Booking đã được phân công nhân viên');
                 } else {
-                    toggleType('assignment_booking', booking);
+                    toggleType('assignment_booking', {booking});
                 }
                 break;
             case 'cancel_assign':
@@ -56,7 +57,7 @@ export default function BookingManagement() {
                 }
                 break;
             case 'update':
-                toggleType('update_booking', booking);
+                toggleType('update_booking', {booking});
                 break;
             case 'delete':
                 deleteBooking(booking.id)
@@ -192,8 +193,8 @@ export default function BookingManagement() {
                                         .toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                 </td>
                                 <td className={styles.action_cell}>
-                                    <button className="material-symbols-outlined">more_vert</button>
-                                    <div className={cls(styles.action_menu)}>
+                                    <button className="material-symbols-outlined" onClick={() => setActiveMenu((prev) => prev === bk.id ? null : bk.id)} >more_vert</button>
+                                    <div className={cls(styles.action_menu, activeMenu === bk.id && styles.active)}>
                                         <button disabled={!!bk?.staff} onClick={() => handleAction('assign', bk)}>
                                             Phân công
                                         </button>

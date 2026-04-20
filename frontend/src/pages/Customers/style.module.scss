@@ -333,6 +333,9 @@
                     letter-spacing: 0.08em;
                     color: #64748b;
                 }
+                th:last-child {
+                    text-align: center;
+                }
             }
 
             tbody {
@@ -347,7 +350,10 @@
                         .action_btns { opacity: 1; transform: translateX(0); }
                     }
                     
-                    td { padding: 20px 24px; vertical-align: middle; }
+                    td { 
+                        padding: 20px 24px; 
+                        vertical-align: middle;
+                    }
                 }
 
                 .mono_text {
@@ -428,10 +434,13 @@
                     &.standard { background-color: #f1f5f9; color: #64748b; }
                 }
 
-                .action_cell { text-align: right; }
+                .action_cell { 
+                    text-align: center; 
+                }
                 .action_btns {
                     display: flex;
-                    justify-content: flex-end;
+                    justify-content: center;
+                    align-items: center;
                     gap: 8px;
                     opacity: 0;
                     transform: translateX(10px);

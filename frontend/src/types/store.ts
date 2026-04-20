@@ -1,4 +1,4 @@
-import type { User } from './auth';
+import type { Customer, User } from './auth';
 import type { Area, Booking, Category, Service } from './booking';
 
 export interface AuthStore {
@@ -68,6 +68,7 @@ export interface SideBarStore{
     type: string,
     booking: Booking | null,
     service: Service | null,
+    customer: Customer | null,
     toggleSidebar: () => void,
-    toggleType: (type: string, booking?: Booking | null, service?: Service | null) => void,
+    toggleType: (type: string, data?: {booking?: Booking | null, service?: Service | null, customer?: Customer | null}) => void,
 }

@@ -148,7 +148,7 @@ export default function ServiceManagement() {
                                     )}
                                 </td>
                                 <td className={styles.action_btns}>
-                                    <button className="material-symbols-outlined" onClick={()=> toggleType('update_service', null, sv)}>edit</button>
+                                    <button className="material-symbols-outlined" onClick={()=> toggleType('update_service', {service: sv})}>edit</button>
                                     <button className="material-symbols-outlined" onClick={()=> handleDeleteService(sv.id)}>delete</button>
                                 </td>
                             </tr>

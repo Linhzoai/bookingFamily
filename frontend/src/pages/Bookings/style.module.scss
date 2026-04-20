@@ -163,8 +163,6 @@
                     text-overflow: ellipsis;
                     text-wrap: nowrap;
                     max-width: 200px;
-                    
-                    
                 }
 
                 .bold_text {
@@ -270,11 +268,11 @@
                                 border: 1px solid #468faf;
                             }
                         }
-                    }
-                    &:hover .action_menu {
-                        opacity: 1;
-                        pointer-events: auto;
-                        transform: translateX(0);
+                        &.active {
+                            opacity: 1;
+                            pointer-events: auto;
+                            transform: translateX(0);
+                        }
                     }
                 }
             }
