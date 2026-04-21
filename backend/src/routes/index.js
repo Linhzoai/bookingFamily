@@ -1,5 +1,5 @@
 import setupSwagger from "../config/swagger.js";
-import { authMiddleware, requireRole } from "../middlewares/auth.middleware.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 import authRoute from "../modules/auth/auth.route.js";
 import staffRoute from "../modules/staff/staff.route.js";
 import areaRoute from "../modules/areas/area.route.js";
@@ -20,7 +20,7 @@ const router = (app) => {
   app.use("/api/v1/services", serviceRoute);
   app.use("/api/v1/areas", areaRoute);
   app.use(authMiddleware);  
-  app.use("/api/v1/staff", requireRole(["staff", "admin"]), staffRoute);
+  app.use("/api/v1/staff", staffRoute);
   app.use("/api/v1/bookings", bookingRoute);
   app.use("/api/v1/assignments", assignmentRoute);
   app.use("/api/v1/customers", customerRoute);

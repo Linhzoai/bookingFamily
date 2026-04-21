@@ -85,7 +85,6 @@ export default function FormBooking({booking}: FormBookingProps){
             setValue('note', booking.note)
             setValue('serviceIds', booking.bookingDetails.map((item) => Number(item.service.id)))
             const areas = booking.area.path.split('/').filter((item) => item !== '');
-            console.log(areas);
             setValue('cityId', Number(areas[0]) || 0);
             setValue('districtId', Number(areas[1]) || 0);
             setValue('wardId', Number(areas[2]) || 0);

@@ -17,7 +17,7 @@ export const authMiddleware = async (req, res, next) => {
     }
     req.user = user;
     next();
-}
+}   
 
 export const requireRole = (roles)=>{
     return (req, res, next) =>{

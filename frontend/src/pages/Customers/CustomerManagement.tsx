@@ -1,4 +1,4 @@
-import { useGetQuery } from '@/hooks/useQueryCustom';
+import { useDeleteQuery, useGetQuery } from '@/hooks/useQueryCustom';
 import styles from './style.module.scss';
 import { customerService } from '@/services/customerService';
 import Loading from '@/components/LoadingCommon/Loading';
@@ -7,6 +7,7 @@ import { useState } from 'react';
 import cls from 'classnames';
 import { useEffect } from 'react';
 import { useSideBarStore } from '@/stores/useSidebarStore';
+import { staffService } from '@/services/staffService';
 export default function CustomerManagement() {
     const {
         container,
@@ -36,7 +37,6 @@ export default function CustomerManagement() {
         text_center,
         text_right,
         mono_text,
-        cust_info,
         cust_name,
         cust_date,
         contact_info,
@@ -45,7 +45,6 @@ export default function CustomerManagement() {
         amount_text,
         wide_content,
         action_cell,
-        action_btns
     } = styles;
     const [page, setPage] = useState(1)
     let queryCustomer = `page=${page}`
@@ -53,7 +52,11 @@ export default function CustomerManagement() {
     const [isSearch, setIsSearch] = useState('');
     if(isSearch){ queryCustomer += `&name=${search}` }
     const {toggleType} = useSideBarStore();
-    const { data: customers, isLoading } = useGetQuery('customer', customerService.getAllCustomers,queryCustomer);
+    const { data: customers, isLoading, isFetching } = useGetQuery('customers', customerService.getAllCustomers,queryCustomer);
+    const {mutate: deleteCustomer, isPending} = useDeleteQuery('customers', staffService.deleteStaff);
+    const handleDeleteCustomer = (id: string) => {
+        deleteCustomer(id)
+    } 
     useEffect(()=>{
         const timer = setTimeout(()=>{
             setIsSearch(search)
@@ -129,7 +132,7 @@ export default function CustomerManagement() {
 
             {/* Table */}
             <div className={table_card}>
-                {isLoading && <Loading />}
+                {(isLoading  || isPending || isFetching)&& <Loading />}
                 <table className={table}>
                     <thead>
                         <tr>
@@ -146,13 +149,9 @@ export default function CustomerManagement() {
                             <tr key={cust.id}>
                                 <td className={mono_text}>{cust.id}</td>
                                 <td>
-                                    <div className={cust_info}>
-                                        <img src={cust.avatar} alt={cust.name} />
-                                        <div>
-                                            <p className={cust_name}>{cust.name}</p>
-                                            <p className={cust_date}>Tham gia: {formatDate(cust.createdAt)}</p>
-                                        </div>
-                                    </div>
+                                    <img src={cust.avatarUrl} alt={cust.name} />
+                                    <p className={cust_name}>{cust.name}</p>
+                                    <p className={cust_date}>Tham gia: {formatDate(cust.createdAt)}</p>
                                 </td>
                                 <td>
                                     <div className={contact_info}>
@@ -165,10 +164,9 @@ export default function CustomerManagement() {
                                 </td>
                                 <td className={amount_text}>{cust?.totalSpent}</td>
                                 <td className={action_cell}>
-                                    <div className={action_btns}>
-                                        <button className="material-symbols-outlined">visibility</button>
-                                        <button className="material-symbols-outlined">notifications_active</button>
-                                    </div>
+                                    <button className="material-symbols-outlined" onClick={()=>toggleType('update_customer', {customer: cust})}>visibility</button>
+                                    <button className="material-symbols-outlined" onClick={()=>handleDeleteCustomer(cust.id)}>delete</button>
+                                    <button className="material-symbols-outlined">notifications_active</button>
                                 </td>
                             </tr>
                         ))}

@@ -41,6 +41,7 @@ model User {
   taskProgressUpdates TaskProgress[]
   area                ServiceArea?        @relation(fields: [areaId], references: [id])
 
+
   @@index([areaId])
   @@map("users")
 }

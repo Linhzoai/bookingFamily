@@ -1,7 +1,6 @@
 import express  from "express";
 import staffController  from "./staff.controller.js";
 import validateMiddleware from "../../middlewares/validate.middleware.js";
-import { requireRole } from "../../middlewares/auth.middleware.js";
 import { checkParamSchema,getJobSchema,updateJobSchema, getStaffListSchema,addProfileSchema,updateProfileSchema,updateStatusSchema } from "./staff.validation.js";
 const router = express.Router();
 
@@ -141,7 +140,6 @@ router.patch("/:id/update-status", validateMiddleware(updateStatusSchema), staff
  */
 router.delete("/:id/delete-profile", validateMiddleware(checkParamSchema), staffController.deleteProfile);
 
-router.use(requireRole(["admin"]));
 /**
  * @swagger
  * /staff/list:

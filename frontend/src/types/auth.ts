@@ -9,6 +9,7 @@ export interface User {
     address?: string,
     areaId?: number,
     status: 'active' | 'inactive',
+    gender?: 'male' | 'female',
     avatarUrl?: string,
     createdAt: string,
     updatedAt: string
@@ -16,10 +17,14 @@ export interface User {
 
 export interface Staff extends User {
     staffProfile?: StaffProfile
+    area?: Area
+    _count?: {
+        bookings: number;
+    }
 }
 
 export interface Customer extends User {
-    Area?: Area
+    area?: Area
     _count?: {
         bookings: number;
     }

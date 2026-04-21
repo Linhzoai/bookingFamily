@@ -4,6 +4,7 @@ import AppError from "../../utils/app.error.js";
 import { hashPassword } from "../../utils/password.util.js";
 import { comparePassword } from "../../utils/password.util.js";
 import deleteFile from "../../helper/delete-file.helper.js";
+import { formatArea } from "../../helper/format.helper.js";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -25,6 +26,7 @@ class authService {
     if (!area)
       throw new AppError("Khu vực không tồn tại", HttpStatus.BAD_REQUEST);
     const hashedPassword = await hashPassword(data.password);
+    const newAddress = data.address + ", " + await formatArea(data.areaId);
     const user = await prisma.user.create({
       data: {
         name: data.name,
@@ -33,7 +35,7 @@ class authService {
         role: data.role,
         phone: data.phone,
         areaId: Number(data.areaId),
-        address: data.address,
+        address: newAddress,
         status: "awaiting_activation",
         avatarUrl: data.avatarUrl,
         gender: data.gender,
@@ -100,10 +102,10 @@ class authService {
     });
     if (!user)
       throw new AppError("Không tìm thấy người dùng", HttpStatus.BAD_REQUEST);
-
+    const newAddress = data.address + ", " + await formatArea(data.areaId);
     const updatedUser = await prisma.user.update({
       where: { id },
-      data: data,
+      data: { ...data, address: newAddress },
     });
     if (data.avatarUrl && user.avatarUrl) {
       deleteFile(user.avatarUrl);
