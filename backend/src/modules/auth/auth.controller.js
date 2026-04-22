@@ -22,8 +22,8 @@ class AuthControlle {
         const result = await authService.signIn(data);
         res.cookie("refreshToken", result.refreshToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
             maxAge: REFRESH_TOKEN_TTL
         });
         return successResponse(res, { data: { accessToken: result.accessToken, user: result.user }, message: "Đăng nhập thành công" });
@@ -43,7 +43,7 @@ class AuthControlle {
         res.cookie("refreshToken", token.refreshToken, {
             httpOnly: true,
             secure: isProduction,
-            sameSite: "none",
+            sameSite: isProduction ? "none" : "lax",
             maxAge: REFRESH_TOKEN_TTL
         });
         return successResponse(res, { data: { accessToken: token.accessToken}, message: "Làm mới token thành công" });

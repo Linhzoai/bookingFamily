@@ -68,6 +68,7 @@ class StaffService {
       where: { role: "staff", name: { contains: search } },
       include: {
         staffProfile: true,
+        area: true
       },
       skip,
       take: limit,

@@ -5,8 +5,6 @@ import AppError from "./app.error.js";
 import HttpStatus from "./http.status.js";
 import prisma from "../config/prisma.js";
 
-const REFRESH_TOKEN_EXPIRY_DAYS = Date.now() + 7 * 24 * 60 * 60 * 1000;
-
 export const generateAccessToken = async (userId) => {
   const token = await jwt.sign({ userId }, env.jwt.secret, {
     expiresIn: env.jwt.expiresIn,
@@ -20,7 +18,7 @@ export const generateRefreshToken = async (userId) => {
     where: { userId },
   });
   const token = crypto.randomBytes(64).toString("hex");
-  const expiresAt = new Date(REFRESH_TOKEN_EXPIRY_DAYS);
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const data = { userId, token, expiresAt };
   await prisma.session.create({
     data,

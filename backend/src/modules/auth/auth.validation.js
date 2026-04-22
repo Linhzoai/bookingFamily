@@ -3,25 +3,13 @@ import Joi from "joi";
 export const signUpSchema = Joi.object({
   name: Joi.string().required().min(3).max(30),
   email: Joi.string().email().required(),
-  password: Joi.string()
-    .required()
-    .min(6)
-    .max(30)
-    .pattern(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-    )
-    .messages({
-      "string.pattern.base":
-        "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt",
-    }),
-  phone: Joi.string()
-    .required()
-    .length(10)
-    .pattern(/^[0-9]+$/),
+  password: Joi.string() .required() .min(6) .max(30) .pattern( /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, ) .messages({ "string.pattern.base": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt", }),
+  phone: Joi.string() .required() .length(10) .pattern(/^[0-9]+$/),
   address: Joi.string().required(),
   areaId: Joi.number().required(),
   role: Joi.string().valid("staff", "admin", "customer").required(),
   gender: Joi.string().valid("male", "female", "other").required(),
+  status: Joi.string().valid("active", "on_leave", "terminated").optional().default("active"),
 });
 
 export const signInSchema = Joi.object({
@@ -44,8 +32,9 @@ export const updateUserSchema = Joi.object({
   address: Joi.string().optional().empty(""),
   areaId: Joi.number().optional().empty(""),
   gender: Joi.string().valid("male", "female", "other").optional().empty(""),
+  status: Joi.string().valid("active", "on_leave", "terminated").optional().empty(""),
 });
 
 export const updateStatusSchema = Joi.object({
-  status: Joi.string().valid("active", "locked").required(),
+  status: Joi.string().valid("active", "on_leave", "terminated").required(),
 });

@@ -17,6 +17,7 @@ import { formatOption } from '@/utils/formatOption';
 import { authService } from '@/services/authService';
 interface FormCustomerProps {
     customer?: Customer | null;
+    role: string;
 }
 const schema = z.object({
     name: z.string().min(1, 'Tên không được để trống'),
@@ -45,7 +46,7 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-export default function FormCustomer({ customer }: FormCustomerProps) {
+export default function FormCustomer({ customer, role }: FormCustomerProps) {
     const { toggleSidebar } = useSideBarStore();
     const defauleArea = customer?.area?.path.split('/').filter((item) => item !== '');
     const { container, form_footer, form_body, box_info, box_area, box_input, box_radio, error } = styles;
@@ -74,8 +75,8 @@ export default function FormCustomer({ customer }: FormCustomerProps) {
     const { data: wards } = useGetQuery('areas', AreaService.getAllAreas, `parentId=${watch('district')}&limit=999`, {
         enabled: !!watch('district')
     });
-    const { mutate: createCustomer } = useCreateQuery('customers', authService.signUp);
-    const { mutate: updateCustomer } = useUpdateQuery('customers', authService.updateCustomer);
+    const { mutate: createCustomer } = useCreateQuery(role === 'customer' ? 'customers' : 'staffs', authService.signUp);
+    const { mutate: updateCustomer } = useUpdateQuery(role === 'customer' ? 'customers' : 'staffs', authService.updateCustomer);
     const onSubmit = (_data: FormData) => {
         const formData = new FormData();
         formData.append('name', _data.name);
@@ -90,11 +91,11 @@ export default function FormCustomer({ customer }: FormCustomerProps) {
         if (!customer && _data.password) {
             formData.append('password', _data.password);
         }
-        formData.append('role', 'customer');
+        formData.append('role', role);
         if (_data.avatar && _data.avatar.length > 0) {
             formData.append('avatar', _data.avatar[0]);
         }
-        console.log(formData);
+        formData.append("status", "active");
         if (customer) {
             updateCustomer(
                 { id: customer.id, data: formData },

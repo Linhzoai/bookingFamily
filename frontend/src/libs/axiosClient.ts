@@ -31,9 +31,7 @@ api.interceptors.request.use(async (config) => {
     return config;
 });
 
-api.interceptors.response.use(
-    (res) => res,
-    async (error) => {
+api.interceptors.response.use( (res) => res, async (error) => {
         if (!error.response) return Promise.reject(error);
         const originalRequest = error.config;
         if (

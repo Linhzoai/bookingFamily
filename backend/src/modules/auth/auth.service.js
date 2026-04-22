@@ -36,7 +36,7 @@ class authService {
         phone: data.phone,
         areaId: Number(data.areaId),
         address: newAddress,
-        status: "awaiting_activation",
+        status: data.status,
         avatarUrl: data.avatarUrl,
         gender: data.gender,
       },

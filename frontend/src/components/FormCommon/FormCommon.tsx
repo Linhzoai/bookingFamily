@@ -13,7 +13,9 @@ const labelData = {
     create_service: 'Thêm dịch vụ mới',
     update_service: 'Cập nhật dịch vụ',
     create_customer: 'Thêm khách hàng mới',
-    update_customer: 'Cập nhật khách hàng'
+    update_customer: 'Cập nhật khách hàng',
+    create_staff: 'Thêm nhân viên mới',
+    update_staff: 'Cập nhật nhân viên'
 };
 export default function FormCommon() {
     const { container, active, form_header, form_body, form_common } = styles;
@@ -31,9 +33,13 @@ export default function FormCommon() {
             case 'update_service':
                 return <FormService service={service} />;
             case 'create_customer':
-                return <FormCustomer />;
+                return <FormCustomer role={'customer'}/>;
             case 'update_customer':
-                return <FormCustomer customer={customer} />;
+                return <FormCustomer customer={customer} role={'customer'}/>;
+            case 'create_staff':
+                return <FormCustomer role={'staff'}/>;
+            case 'update_staff':
+                return <FormCustomer customer={customer} role={'staff'}/>;
             default:
                 return null;
         }

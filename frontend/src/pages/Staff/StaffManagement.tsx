@@ -61,8 +61,8 @@ export default function StaffManagement() {
     if (availFilter) queryStaff += `&availability=${availFilter}`;
 
     const { toggleType } = useSideBarStore();
-    const { data: staffList, isLoading, isFetching } = useGetQuery('staff', staffService.getAllStaff, queryStaff);
-    const { mutate: deleteStaff, isPending } = useDeleteQuery('staff', staffService.deleteStaff, 'nhân viên');
+    const { data: staffList, isLoading, isFetching } = useGetQuery('staffs', staffService.getAllStaff, queryStaff);
+    const { mutate: deleteStaff, isPending } = useDeleteQuery('staffs', staffService.deleteStaff, 'nhân viên');
 
     useEffect(() => {
         const timer = setTimeout(() => setIsSearch(search), 1000);
@@ -87,12 +87,17 @@ export default function StaffManagement() {
     };
 
     const getAvailClass = (avail: string) => {
-        return avail === 'available'
-            ? `${avail_badge} ${styles.avail_ready}`
-            : `${avail_badge} ${styles.avail_busy}`;
+        if (avail === 'available') return `${avail_badge} ${styles.avail_ready}`;
+        if (avail === 'busy') return `${avail_badge} ${styles.avail_busy}`;
+        return `${avail_badge} ${styles.avail_no_data}`;
     };
 
-    const getAvailLabel = (avail: string) => (avail === 'available' ? 'Sẵn sàng' : 'Đang bận');
+    const getAvailLabel = (avail: string) => {
+        if (avail === 'available') return 'Sẵn sàng';
+        if (avail === 'busy') return 'Đang bận';
+        return 'Không xác định';
+    };
+
 
     return (
         <div className={container}>
@@ -206,42 +211,24 @@ export default function StaffManagement() {
                                         <p className={email}>{staff.email}</p>
                                     </div>
                                 </td>
-                                <td>{staff.area?.name ?? '—'}</td>
+                                <td>{staff.address.split(",").pop() ?? '—'}</td>
                                 <td className={text_center}>
-                                    <span className={getStatusClass(staff.staffProfile?.status || '')}>
-                                        {getStatusLabel(staff.staffProfile?.status || '')}
+                                    <span className={getStatusClass(staff.status || '')}>
+                                        {getStatusLabel(staff.status || '')}
                                     </span>
                                 </td>
                                 <td className={text_center}>
-                                    <span className={getAvailClass(staff.staffProfile?.currentAvailability || '')}>
-                                        {getAvailLabel(staff.staffProfile?.currentAvailability || '')}
+                                    <span className={getAvailClass(staff?.staffProfile?.currentAvailability || '')}>
+                                        {getAvailLabel(staff?.staffProfile?.currentAvailability || 'Chưa cập nhật')}
                                     </span>
                                 </td>
                                 <td className={text_center}>
                                     <span className={booking_count}>{staff._count?.bookings ?? 0}</span>
                                 </td>
-                                <td className={action_cell}>
-                                    <button
-                                        className="material-symbols-outlined"
-                                        onClick={() => toggleType('view_staff', { booking: null, service: null, customer: null })}
-                                        title="Xem chi tiết"
-                                    >
-                                        visibility
-                                    </button>
-                                    <button
-                                        className="material-symbols-outlined"
-                                        onClick={() => toggleType('update_staff', { booking: null, service: null, customer: null })}
-                                        title="Chỉnh sửa"
-                                    >
-                                        edit
-                                    </button>
-                                    <button
-                                        className="material-symbols-outlined"
-                                        onClick={() => deleteStaff(staff.id)}
-                                        title="Xóa nhân viên"
-                                    >
-                                        delete
-                                    </button>
+                                 <td className={action_cell}>
+                                    <button className="material-symbols-outlined" onClick={()=> toggleType('update_staff', {customer: staff})} >visibility</button>
+                                    <button className="material-symbols-outlined" onClick={()=> deleteStaff(staff.id)} >delete</button>
+                                    <button className="material-symbols-outlined">notifications_active</button>
                                 </td>
                             </tr>
                         ))}
