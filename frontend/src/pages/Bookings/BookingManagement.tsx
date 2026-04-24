@@ -51,9 +51,12 @@ export default function BookingManagement() {
                 }
                 break;
             case 'cancel_assign':
-                const staffAssign = booking.staffAssignments.find((assign) => assign.status === 'assigned');
-                if (staffAssign) {
+                const staffAssign = booking.staffAssignments.pop();
+                if (staffAssign?.status === 'assigned') {
                     mutate(staffAssign.id);
+                }
+                else {
+                    toast.warning('Booking đã được nhận, ko thể hủy phân công');
                 }
                 break;
             case 'update':
@@ -193,7 +196,7 @@ export default function BookingManagement() {
                                         .toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                 </td>
                                 <td className={styles.action_cell}>
-                                    <button className="material-symbols-outlined" onClick={() => setActiveMenu((prev) => prev === bk.id ? null : bk.id)} >more_vert</button>
+                                    <button className="material-symbols-outlined" onClick={(    ) => setActiveMenu((prev) => prev === bk.id ? null : bk.id)} >more_vert</button>
                                     <div className={cls(styles.action_menu, activeMenu === bk.id && styles.active)}>
                                         <button disabled={!!bk?.staff} onClick={() => handleAction('assign', bk)}>
                                             Phân công

@@ -57,6 +57,7 @@ export const useAuthStore = create<AuthStore>()(
                 set({ loading: true });
                 try {
                     const response = await authService.fetchMe();
+                    console.log(response.data);
                     set({ user: response.data });
                 } catch (error: unknown) {
                     console.log(error);

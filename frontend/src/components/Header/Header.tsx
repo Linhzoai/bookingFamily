@@ -1,12 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useAuthStore } from '@/stores/useAuthStore';
 import styles from './style.module.scss';
 import SearchCommon from '@components/SearchCommon/SearchCommon';
-
+import { TiCameraOutline } from "react-icons/ti";
+import { useRef } from 'react';
+import { useUpdateQuery } from '@/hooks/useQueryCustom';
+import { authService } from '@/services/authService';
 export default function Header() {
     const { container, container_box, box_left, box_right, box_actions, action_button, notification_btn, badge } =
         styles;
     const userInfor = useAuthStore((state) => state.user);
-
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const handleOpenFile = async () => {
+        fileInputRef.current?.click();
+    }
+    const {mutate} = useUpdateQuery('user', authService.updateCustomer, 'Ảnh đại diện')
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if(file){
+            const formData = new FormData();
+            formData.append("avatar", file);
+            mutate({id: userInfor.id, data: formData as any},{
+                onSuccess: async() => {
+                    await useAuthStore.getState().fetchMe();
+                }
+            });
+        }
+        return;
+    }
     return (
         <header className={container}>
             <div className={container_box}>
@@ -36,6 +57,8 @@ export default function Header() {
                                 }
                                 alt="Avatar"
                             />
+                            <TiCameraOutline className={styles.camera} size={18} onClick={handleOpenFile}/>
+                            <input type="file" hidden  ref={fileInputRef} onChange={handleFileChange}/>
                         </div>
                     </div>
                 </div>

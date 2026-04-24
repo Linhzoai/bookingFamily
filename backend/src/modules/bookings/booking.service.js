@@ -189,7 +189,12 @@ class BookingService {
       customer: true,
       area: true,
       bookingDetails: { include: { service: true } },
-      staffAssignments: { include: { staff: true } },
+      staffAssignments: {
+        where: {
+          status: { in: ["accepted", "pending", "completed"] },
+        },
+        include: { staff: true },
+      },
     };
     return paginatePrisma(prisma.booking, query, data, include);
   };

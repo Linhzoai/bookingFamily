@@ -172,13 +172,7 @@ router.get(
  *       200:
  *         description: Cập nhật thành công
  */
-router.put(
-  "/:id",
-  uploadAvatar.single("avatar"),
-  CropAndSave("avatar"),
-  validateMiddleware(updateUserSchema, "body"),
-  authController.updateUserById,
-);
+router.put( "/:id", uploadAvatar.single("avatar"), CropAndSave("avatar"), validateMiddleware(updateUserSchema, "body"), authController.updateUserById, );
 
 /**
  * @swagger

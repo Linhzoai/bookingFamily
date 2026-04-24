@@ -52,6 +52,7 @@ class ProgressService {
     if(data.staffId){
       query.staffId = data.staffId;
     }
+    console.log(data);
     return await paginatePrisma(prisma.taskProgress, query, data);
   };
 }

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import BookingController from "./booking.controller.js";
-import validate from "../../middlewares/validate.middleware.js";
+import validateMiddleware from "../../middlewares/validate.middleware.js";
 import { createBookingValidation, getBookingValidation, getBookingByIdValidation, updateBookingValidation } from "./booking.validation.js";
 const router = Router();
 
@@ -67,7 +67,7 @@ const router = Router();
  *       400:
  *         description: Error Validate Input
  */
-router.post("/", validate(createBookingValidation), BookingController.createBooking);
+router.post("/", validateMiddleware(createBookingValidation), BookingController.createBooking);
 
 /**
  * @swagger
@@ -116,7 +116,7 @@ router.post("/", validate(createBookingValidation), BookingController.createBook
  *       200:
  *         description: Danh sách bookings được trả về thành công
  */
-router.get("/", validate(getBookingValidation, 'query'), BookingController.getBooking);
+router.get("/", validateMiddleware(getBookingValidation, 'query'), BookingController.getBooking);
 
 /**
  * @swagger
@@ -138,7 +138,7 @@ router.get("/", validate(getBookingValidation, 'query'), BookingController.getBo
  *       404:
  *         description: Mã Id không tồn tại
  */
-router.get("/:id", validate(getBookingByIdValidation), BookingController.getBookingById);
+router.get("/:id", validateMiddleware(getBookingByIdValidation), BookingController.getBookingById);
 
 /**
  * @swagger
@@ -183,7 +183,7 @@ router.get("/:id", validate(getBookingByIdValidation), BookingController.getBook
  *       400:
  *         description: Logic error (Example trying to cancel a processing order)
  */
-router.put("/:id", validate(updateBookingValidation), BookingController.updateBooking);
+router.put("/:id", validateMiddleware(updateBookingValidation), BookingController.updateBooking);
 
 /**
  * @swagger
@@ -205,8 +205,8 @@ router.put("/:id", validate(updateBookingValidation), BookingController.updateBo
  *       400:
  *         description: Booking đã được tiếp nhận không thể bị xóa
  */
-router.delete("/:id", validate(getBookingByIdValidation, 'params'), BookingController.deleteBooking);
+router.delete("/:id", validateMiddleware(getBookingByIdValidation, 'params'), BookingController.deleteBooking);
 
 
-router.get("/:id/progress", validate(getBookingByIdValidation, 'params'), BookingController.getProgressNow);
+router.get("/:id/progress", validateMiddleware(getBookingByIdValidation, 'params'), BookingController.getProgressNow);
 export default router;

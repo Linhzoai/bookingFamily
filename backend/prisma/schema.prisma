@@ -244,6 +244,7 @@ model TaskProgress {
   evidenceImageUrl String?  @map("evidence_image_url") @db.VarChar(500)
   note             String?  @db.Text
   recordedAt       DateTime @map("recorded_at")
+  updatedAt        DateTime @default(now()) @map("created_at")
   booking          Booking  @relation(fields: [bookingId], references: [id])
   staff            User     @relation(fields: [staffId], references: [id])
 
