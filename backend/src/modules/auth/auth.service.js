@@ -19,14 +19,15 @@ class authService {
     //kiểm tra email có tồn tại không
     if (existUser)
       throw new AppError("Email đã tồn tại", HttpStatus.BAD_REQUEST);
-    const area = await prisma.serviceArea.findUnique({
-      where: { id: data.areaId },
-    });
-    //kiểm tra khu vực có tồn tại không
-    if (!area)
-      throw new AppError("Khu vực không tồn tại", HttpStatus.BAD_REQUEST);
+    // const area = await prisma.serviceArea.findUnique({
+    //   where: { id: data.areaId },
+    // });
+    // //kiểm tra khu vực có tồn tại không
+    // if (!area)
+    //   throw new AppError("Khu vực không tồn tại", HttpStatus.BAD_REQUEST);
     const hashedPassword = await hashPassword(data.password);
-    const newAddress = data.address + ", " + await formatArea(data.areaId);
+    const newAddress = data.address + ", " + (await formatArea(data.areaId));
+    console.log(data);
     const user = await prisma.user.create({
       data: {
         name: data.name,
@@ -34,8 +35,8 @@ class authService {
         hashPassword: hashedPassword,
         role: data.role,
         phone: data.phone,
-        areaId: Number(data.areaId),
-        address: newAddress,
+        //areaId: Number(data.areaId),
+        address: data.address,
         status: data.status,
         avatarUrl: data.avatarUrl,
         gender: data.gender,
@@ -49,6 +50,7 @@ class authService {
     const existUser = await prisma.user.findUnique({
       where: { email: data.email },
     });
+    console.log(data);
     if (!existUser)
       throw new AppError("Email không tồn tại", HttpStatus.BAD_REQUEST);
     const isPasswordValid = await comparePassword(
@@ -102,7 +104,7 @@ class authService {
     });
     if (!user)
       throw new AppError("Không tìm thấy người dùng", HttpStatus.BAD_REQUEST);
-    const newAddress = data.address + ", " + await formatArea(data.areaId);
+    const newAddress = data.address + ", " + (await formatArea(data.areaId));
     const updatedUser = await prisma.user.update({
       where: { id },
       data: { ...data, address: newAddress },

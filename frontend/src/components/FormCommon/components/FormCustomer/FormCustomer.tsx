@@ -49,7 +49,7 @@ type FormData = z.infer<typeof schema>;
 
 export default function FormCustomer({ customer, role }: FormCustomerProps) {
     const { toggleSidebar } = useSideBarStore();
-    const defauleArea = customer?.area?.path.split('/').filter((item) => item !== '');
+    const defauleArea = customer?.area?.path?.split('/').filter((item) => item !== '');
     const { container, form_footer, form_body, box_info, box_area, box_input, box_radio, error } = styles;
     const {
         register,
