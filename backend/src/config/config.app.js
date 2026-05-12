@@ -50,7 +50,7 @@ const configApp = (app) => {
   //cấu hình parser
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-
+  app.set("trust proxy", true);
   //Cấu hình file tĩnh
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);

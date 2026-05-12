@@ -8,7 +8,7 @@
     background-color: rgba(119, 119, 119, 0.473);
     .loading_icon {
         font-size: 1.4rem;
-        animation: spin 0.8s linear infinite;
+        animation: spin 0.8s ease infinite;
     }
 }
 @keyframes spin {

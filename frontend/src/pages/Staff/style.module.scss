@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
-    animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeIn 0.5s ease;
 
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
@@ -16,7 +16,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-
+        
         .title {
             font-size: 28px;
             font-weight: 800;
@@ -544,3 +544,4 @@
 
 .text_right  { text-align: right; }
 .text_center { text-align: center; }
+.text_left { text-align: left; }

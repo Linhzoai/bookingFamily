@@ -190,9 +190,6 @@ class BookingService {
       area: true,
       bookingDetails: { include: { service: true } },
       staffAssignments: {
-        where: {
-          status: { in: ["accepted", "pending", "completed"] },
-        },
         include: { staff: true },
       },
     };

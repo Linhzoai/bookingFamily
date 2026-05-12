@@ -76,6 +76,7 @@ model Booking {
   actualStartTime  DateTime?         @map("actual_start_time")
   cancelReason     String?           @map("cancel_reason") @db.Text
   actualEndTime    DateTime?         @map("actual_end_time")
+  paymentStatus    String            @default("PENDING") @map("payment_status") @db.VarChar(50)
   createdAt        DateTime          @default(now()) @map("created_at")
   updatedAt        DateTime          @default(now()) @updatedAt @map("updated_at")
   area             ServiceArea       @relation(fields: [areaId], references: [id])
@@ -116,6 +117,10 @@ model Payment {
   status        String    @db.VarChar(50)
   transactionId String?   @map("transaction_id") @db.VarChar(255)
   paidAt        DateTime? @map("paid_at")
+  gatewayResponse Json?     @map("gateway_response")
+  vnpayTnxRef String    @map("vnpay_tnx_ref") @default("")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
   booking       Booking   @relation(fields: [bookingId], references: [id])
 
   @@index([bookingId])

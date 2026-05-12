@@ -10,6 +10,7 @@ import { useSideBarStore } from '@/stores/useSidebarStore';
 export default function StaffManagement() {
     const {
         container,
+        text_left,
         header,
         title,
         subtitle,
@@ -81,9 +82,10 @@ export default function StaffManagement() {
     };
 
     const getStatusLabel = (status: string) => {
-        if (status === 'active') return 'Đang làm';
-        if (status === 'on_leave') return 'Tạm nghỉ';
-        return 'Đã nghỉ';
+        if (status === 'active') return 'Đang hoạt động';
+        if (status === 'locked') return 'Đã khóa';
+        if (status === 'in_active') return "Chờ kích hoạt";
+        return 'Không hoạt động';
     };
 
     const getAvailClass = (avail: string) => {
@@ -212,12 +214,12 @@ export default function StaffManagement() {
                                     </div>
                                 </td>
                                 <td>{staff.address.split(",").pop() ?? '—'}</td>
-                                <td className={text_center}>
+                                <td className={text_left}>
                                     <span className={getStatusClass(staff.status || '')}>
                                         {getStatusLabel(staff.status || '')}
                                     </span>
                                 </td>
-                                <td className={text_center}>
+                                <td className={text_left}>
                                     <span className={getAvailClass(staff?.staffProfile?.currentAvailability || '')}>
                                         {getAvailLabel(staff?.staffProfile?.currentAvailability || 'Chưa cập nhật')}
                                     </span>
@@ -225,7 +227,7 @@ export default function StaffManagement() {
                                 <td className={text_center}>
                                     <span className={booking_count}>{staff._count?.bookings ?? 0}</span>
                                 </td>
-                                 <td className={action_cell}>
+                                <td className={action_cell}>
                                     <button className="material-symbols-outlined" onClick={()=> toggleType('update_staff', {customer: staff})} >visibility</button>
                                     <button className="material-symbols-outlined" onClick={()=> deleteStaff(staff.id)} >delete</button>
                                     <button className="material-symbols-outlined">notifications_active</button>

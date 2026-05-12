@@ -18,11 +18,11 @@ interface TabItem {
 
 const TABS: TabItem[] = [
     { key: 'profile', label: 'Hồ sơ cá nhân', icon: 'person', description: 'Quản lý thông tin và ảnh đại diện' },
-    { key: 'business', label: 'Thông tin doanh nghiệp', icon: 'business', description: 'Cập nhật thông tin công ty' },
-    { key: 'notifications', label: 'Thông báo', icon: 'notifications', description: 'Tuỳ chỉnh cảnh báo hệ thống' },
-    { key: 'security', label: 'Bảo mật', icon: 'shield', description: 'Mật khẩu và xác thực' },
-    { key: 'payment', label: 'Thanh toán', icon: 'payments', description: 'Phương thức thanh toán' },
-    { key: 'integrations', label: 'Tích hợp', icon: 'extension', description: 'Kết nối dịch vụ bên thứ ba' },
+    // { key: 'business', label: 'Thông tin doanh nghiệp', icon: 'business', description: 'Cập nhật thông tin công ty' },
+    // { key: 'notifications', label: 'Thông báo', icon: 'notifications', description: 'Tuỳ chỉnh cảnh báo hệ thống' },
+    // { key: 'security', label: 'Bảo mật', icon: 'shield', description: 'Mật khẩu và xác thực' },
+    // { key: 'payment', label: 'Thanh toán', icon: 'payments', description: 'Phương thức thanh toán' },
+    // { key: 'integrations', label: 'Tích hợp', icon: 'extension', description: 'Kết nối dịch vụ bên thứ ba' },
 ];
 
 export default function SettingManagement() {

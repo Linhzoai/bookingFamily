@@ -18,9 +18,9 @@
             display: flex;
             flex-direction: column;
             gap: 24px;
-            
-          
-            .box_info, .box_area {
+
+            .box_info,
+            .box_area {
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
@@ -34,15 +34,15 @@
             .box_info {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                
+
                 .box_radio {
                     display: flex;
                     align-items: center;
                     gap: 16px;
-                    height: 42px; 
+                    height: 42px;
                     padding: 0 8px;
-                    
-                    input[type="radio"] {
+
+                    input[type='radio'] {
                         margin: 0;
                         width: 18px;
                         height: 18px;
@@ -63,7 +63,7 @@
             .box_area {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                
+
                 // Ô địa chỉ chi tiết nằm cuối cùng sẽ chạy dài full 2 cột
                 .box_input:last-child {
                     grid-column: 1 / -1;
@@ -83,7 +83,7 @@
                     display: inline-block;
                 }
 
-                input[type="file"] {
+                input[type='file'] {
                     font-size: 14px;
                     color: $gray-700;
                     &::file-selector-button {
@@ -95,7 +95,7 @@
                         cursor: pointer;
                         margin-right: 12px;
                         transition: $transition-fast;
-                        
+
                         &:hover {
                             background-color: $gray-100;
                             border-color: $gray-400;
@@ -109,13 +109,35 @@
                     margin-top: 4px;
                 }
             }
+            .box_radio {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                height: 42px;
+                padding: 0 8px;
+
+                input[type='radio'] {
+                    margin: 0;
+                    width: 18px;
+                    height: 18px;
+                    cursor: pointer;
+                    accent-color: $primary-color;
+                }
+                label {
+                    margin: 0;
+                    font-weight: 400;
+                    font-size: 14px;
+                    color: $gray-800;
+                    cursor: pointer;
+                }
+            }
         }
 
         .form_footer {
-            margin-top: auto; 
+            margin-top: auto;
             padding-top: 24px;
-            border-top: 1px solid rgba($gray-200, 0.5); 
-            @include mix.flex_box_custom(center, flex-end); 
+            border-top: 1px solid rgba($gray-200, 0.5);
+            @include mix.flex_box_custom(center, flex-end);
             gap: 12px;
 
             button:last-child {

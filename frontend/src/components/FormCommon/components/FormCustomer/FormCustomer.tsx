@@ -35,6 +35,7 @@ const schema = z.object({
     ward: z.number().optional().nullable(),
     address: z.string().min(1, 'Địa chỉ không được để trống'),
     avatar: z.any().optional(),
+    status: z.string().optional(),
     password: z
         .string()
         .min(1, 'Password không được để trống')
@@ -65,7 +66,8 @@ export default function FormCustomer({ customer, role }: FormCustomerProps) {
             address: customer?.address.split(',')[0] || '',
             city: Number(defauleArea?.[0]) || null,
             district: Number(defauleArea?.[1]) || null,
-            ward: Number(defauleArea?.[2]) || null
+            ward: Number(defauleArea?.[2]) || null,
+            status: customer?.status || 'active'
         }
     });
     const { data: cities } = useGetQuery('areas', AreaService.getAllAreas);
@@ -95,7 +97,7 @@ export default function FormCustomer({ customer, role }: FormCustomerProps) {
         if (_data.avatar && _data.avatar.length > 0) {
             formData.append('avatar', _data.avatar[0]);
         }
-        formData.append("status", "active");
+        formData.append('status', _data.status);
         if (customer) {
             updateCustomer(
                 { id: customer.id, data: formData },
@@ -190,6 +192,18 @@ export default function FormCustomer({ customer, role }: FormCustomerProps) {
                                 {...register('address')}
                             />
                             {errors.address && <p className={error}>{errors.address.message}</p>}
+                        </div>
+                    </div>
+                    <div className={box_input}>
+                        <label htmlFor="status">Trạng thái tài khoản</label>
+                        <div className={box_radio}>
+                            <input type="radio" name="status" id="active" value="active" {...register('status')} />
+                            <label htmlFor="active">Kích hoạt</label>
+                            <input type="radio" name="status" id="in_active" value="in_active" {...register('status')} />
+                            <label htmlFor="in_active">Không kích hoạt</label>
+                            <input type="radio" name="status" id="locked" value="locked" {...register('status')} />
+                            <label htmlFor="locked">Khóa tài khoản</label>
+
                         </div>
                     </div>
                     <div className={box_input}>

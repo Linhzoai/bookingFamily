@@ -9,7 +9,7 @@ export const signUpSchema = Joi.object({
   areaId: Joi.number().required(),
   role: Joi.string().valid("staff", "admin", "customer").required(),
   gender: Joi.string().valid("male", "female", "other").required(),
-  status: Joi.string().valid("active", "on_leave", "terminated").optional().default("active"),
+  status: Joi.string().valid("active", "in_active", "locked").optional().default("in_active"),
 });
 
 export const signInSchema = Joi.object({
@@ -32,9 +32,9 @@ export const updateUserSchema = Joi.object({
   address: Joi.string().optional().empty(""),
   areaId: Joi.number().optional().empty(""),
   gender: Joi.string().valid("male", "female", "other").optional().empty(""),
-  status: Joi.string().valid("active", "on_leave", "terminated").optional().empty(""),
+  status: Joi.string().valid("active", "in_active", "locked").optional().empty(""),
 });
 
 export const updateStatusSchema = Joi.object({
-  status: Joi.string().valid("active", "on_leave", "terminated").required(),
+  status: Joi.string().valid("active", "in_active", "locked").required(),
 });

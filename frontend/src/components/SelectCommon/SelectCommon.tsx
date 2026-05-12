@@ -3,8 +3,7 @@ interface SelectCommonProps {
     options: { label: string; value: number|string }[];
     placeholder: string;
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-    value: string;
-
+    value?: string;
 }
 export default function SelectCommon({options, placeholder , onChange,value, ...props}: SelectCommonProps) {
     const {select} = styles;

@@ -42,7 +42,7 @@ api.interceptors.response.use( (res) => res, async (error) => {
             return Promise.reject(error);
         }
         originalRequest._retry = originalRequest._retry || 0;
-        if (error.response.status === 403 && originalRequest._retry < 2) {
+        if (error.response.status === 403 && originalRequest._retry < 5) {
             originalRequest._retry++;
             if (isRefreshing) {
                 return new Promise<string>(function(resolve, reject) {

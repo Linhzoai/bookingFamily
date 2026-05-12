@@ -72,7 +72,7 @@ const SelectSearchMulti = forwardRef<HTMLSelectElement, SelectSearchMultiProps>(
             
             // Nếu Multi-select thì KHÔNG được đóng menu ngay sau khi chọn 1 cái
             // setIsOpen(false); // Đã bị vô hiệu hoá
-            
+        
             if (onChange) {
                 // Tạo một fake event đẩy lên cho react-hook-form hoặc func bắt giá trị mảng
                 const event = {
