@@ -48,7 +48,7 @@ class PaymentService {
       );
     }
 
-    // Lưu ý: Nếu bạn có trường paymentStatus trong db thì mở comment này
+    // Lưu ý: Nếu bạn cg db thì mở comment này
     if (booking.paymentStatus === "PAID") {
       throw new AppError("Đơn này đã được thanh toán", HttpStatus.BAD_REQUEST);
     }
@@ -96,6 +96,7 @@ class PaymentService {
       vnpUrl + "?" + Object.keys(vnp_Params).map(key => `${key}=${vnp_Params[key]}`).join("&");
     return paymentUrl;
   }
+  
   async verifyAndProcessIPN(vnpayParams) {
     let secureHash = vnpayParams["vnp_SecureHash"];
     delete vnpayParams["vnp_SecureHash"];
@@ -108,12 +109,7 @@ class PaymentService {
 
     if (secureHash === signed) {
       const txnRef = vnpayParams["vnp_TxnRef"];
-      const booking = await checkRecordExist(
-        prisma.booking,
-        { id: txnRef.split("_")[0] },
-        undefined,
-        "Không tìm thấy đơn đặt lịch",
-      );
+      const booking = await checkRecordExist( prisma.booking, { id: txnRef.split("_")[0] }, undefined, "Không tìm thấy đơn đặt lịch", );
       const responseCode = vnpayParams["vnp_ResponseCode"];
 
       const payment = await prisma.payment.findFirst({

@@ -8,7 +8,6 @@ class PaymentController {
             const user = req.user;
             const data = req.body;
             let ipAddr = req.ip ==='::1'? '127.0.0.1': req.ip;
-            console.log(ipAddr);
             const paymentUrl = await paymentService.buildVNPayUrl(user, data, ipAddr);
             return successResponse(res, {
                 message: "Tạo URL thanh toán VNPay thành công",
