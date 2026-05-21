@@ -12,7 +12,7 @@ class ProgressController {
             });
     });
     getAllProgress = catchAsync(async (req, res, next) => {
-            const progress = await progressService.getAllProgress(req.query);
+            const progress = await progressService.getAllProgress(req.validatedQuery);
             res.status(200).json({
                 success: true,
                 message: "Lấy danh sách tiến độ thành công",

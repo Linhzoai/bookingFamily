@@ -119,7 +119,7 @@ router.post(
  */
 router.get(
   "/",
-  validateMiddleware(getProgressSchema),
+  validateMiddleware(getProgressSchema,"query"),
   progressController.getAllProgress,
 );
 export default router;

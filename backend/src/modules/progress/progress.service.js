@@ -45,14 +45,17 @@ class ProgressService {
     });
   };
   getAllProgress = async (data) => {
-    const query={bookingId: data.bookingId}
+    const query = {};
+    if(data.bookingId){
+      query.bookingId = data.bookingId;
+    }
     if(data.stepName){
       query.stepName = data.stepName;
     }
     if(data.staffId){
       query.staffId = data.staffId;
     }
-    console.log(data);
+    
     return await paginatePrisma(prisma.taskProgress, query, data);
   };
 }
