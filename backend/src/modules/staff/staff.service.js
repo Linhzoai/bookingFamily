@@ -26,6 +26,9 @@ class StaffService {
   getProfile = async (id) => {
     const staffProfile = await prisma.staffProfile.findUniqueOrThrow({
       where: { staffId: id },
+      include: {
+        staff: true,
+      }
     });
     return staffProfile;
   };
