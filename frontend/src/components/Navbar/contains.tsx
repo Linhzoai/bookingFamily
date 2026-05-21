@@ -1,6 +1,7 @@
 export const NavItems = [
     {path: "/", label: "Dashboard", iconName: "dashboard"},
     {path: "/booking", label: "Quản lý đặt lịch", iconName: "calendar_month"},
+    {path: "/discount", label: "Mã giảm giá", iconName: "local_offer"},
     {path: "/service", label: "Dịch vụ", iconName: "construction"},
     {path: "/customer", label: "Khách hàng", iconName: "group"},
     {path: "/staff", label: "Nhân sự", iconName: "engineering"},

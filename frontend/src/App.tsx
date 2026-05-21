@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from './routes/route';
 import ProtectedRoute from './components/ProtectedRouter/ProtectedRoute';
@@ -8,10 +8,19 @@ import { ToastContainer } from 'react-toastify';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import FormCommon from './components/FormCommon/FormCommon';
 import { useSideBarStore } from './stores/useSidebarStore';
+import { useSocketStore } from './stores/useSocketStore';
+import { useAuthStore } from './stores/useAuthStore';
 
 const queryClient = new QueryClient();
 function App() {
     const {isOpen} = useSideBarStore();
+    const {connectSocket, disconectSocket} = useSocketStore();
+    const {token} = useAuthStore();
+    useEffect(()=>{
+        if(token) connectSocket();
+        return ()=> disconectSocket();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token])
     return (
         <QueryClientProvider client={queryClient}>
         <BrowserRouter>

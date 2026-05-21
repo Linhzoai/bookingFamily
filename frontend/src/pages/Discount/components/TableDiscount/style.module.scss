@@ -1,0 +1,76 @@
+@use '@/assets/styles/variable.module.scss' as *;
+
+.tableWrapper {
+    background-color: transparent;
+    overflow-x: auto;
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.5fr 2fr 1.2fr 1.5fr 0.8fr;
+    padding: 0 24px 16px 24px;
+    color: $gray-600;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: $font-family-mono;
+    min-width: 900px;
+}
+
+.tableBody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 900px;
+}
+
+.tableRow {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.5fr 2fr 1.2fr 1.5fr 0.8fr;
+    align-items: center;
+    padding: 20px 24px;
+    background-color: $white;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: #f1f4f6;
+        box-shadow: 0 12px 32px rgba(1, 58, 99, 0.04);
+        transform: translateY(-1px);
+    }
+
+    .col {
+        font-size: 0.875rem;
+        color: $black;
+
+        &.mono {
+            font-family: $font-family-mono;
+            letter-spacing: -0.02em;
+        }
+    }
+    .actionButtons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        opacity: 0;
+        .btn {
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            &:hover {
+                transform: translateY(-2px);
+            }
+            &.btnEdit {
+                color: $primary-color;
+            }
+            &.btnDelete {
+                color: red;
+            }
+        }
+    }
+    &:hover .actionButtons {
+        opacity: 1;
+    }
+}

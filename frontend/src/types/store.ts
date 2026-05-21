@@ -1,6 +1,6 @@
 import type { Customer, User } from './auth';
 import type { Area, Booking, Category, Service } from './booking';
-
+import type { Socket } from "socket.io-client";
 export interface AuthStore {
     loading: boolean;
     user: User | null;
@@ -71,4 +71,11 @@ export interface SideBarStore{
     customer: Customer | null,
     toggleSidebar: () => void,
     toggleType: (type: string, data?: {booking?: Booking | null, service?: Service | null, customer?: Customer | null}) => void,
+}
+
+export interface SocketState{
+    socket: Socket | null;
+    onlineUsers: string[];
+    connectSocket: () => void;
+    disconectSocket: () => void;
 }

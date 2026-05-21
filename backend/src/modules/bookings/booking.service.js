@@ -209,6 +209,30 @@ class BookingService {
     });
     return progress;
   };
+
+  getBookingIdForSocketId = async (userId) => {
+    const bookings = await prisma.booking.findMany({
+      where: {
+        OR: [
+          { customerId: userId },
+          {
+            staffAssignments: {
+              some: {
+                staffId: userId,
+                status: {
+                  not: "rejected",
+                },
+              },
+            },
+          },
+        ],
+      },
+      select: {
+        id: true,
+      },
+    });
+    return bookings;
+  };
 }
 
 export default new BookingService();

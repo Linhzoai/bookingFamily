@@ -70,6 +70,11 @@ class BookingController{
             data: booking
         })
     })
+
+    getBookingIdsForSocketIO = async (userId) =>{
+        const bookingsIds = await BookingService.getBookingIdForSocketId(userId)
+        return bookingsIds.map((b)=> b.id);
+    }
 }
 
 export default new BookingController()

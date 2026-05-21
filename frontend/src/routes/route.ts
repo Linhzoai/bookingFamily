@@ -8,6 +8,7 @@ const CustomerManagement = lazy(() => import('../pages/Customers/CustomerManagem
 const AreaManagement = lazy(() => import('../pages/Areas/AreaManagement'));
 const StaffManagement = lazy(() => import('../pages/Staff/StaffManagement'));
 const SettingManagement = lazy(() => import('../pages/Setting/SettingManagement'));
+const DiscountManagement = lazy(() => import('../pages/Discount/Discount'));
 interface Route {
     path: string;
     component: React.ComponentType;
@@ -21,6 +22,7 @@ const privateRoutes: Route[] = [
     { path: '/area', component: AreaManagement },
     { path: '/staff', component: StaffManagement },
     { path: '/setting', component: SettingManagement },
+    { path: '/discount', component: DiscountManagement },
 ];
 
 const publicRoutes: Route[] = [

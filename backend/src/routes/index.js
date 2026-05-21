@@ -11,6 +11,8 @@ import customerRoute from "../modules/customers/customer.route.js";
 import progressRoute from "../modules/progress/progres.route.js";
 import reportRoute from "../modules/Report/Report.route.js";
 import paymentRoute from "../modules/payments/payment.route.js";
+import reviewRoute from "../modules/bookings/review/review.route.js";
+import discountRoute from "../modules/bookings/discountCode/discount.route.js";
 const router = (app) => {
   app.head("/", (req, res) => res.status(200).send("OK"));
   app.get("/", (req, res) =>
@@ -29,6 +31,8 @@ const router = (app) => {
   app.use("/api/v1/assignments", assignmentRoute);
   app.use("/api/v1/customers", customerRoute);
   app.use("/api/v1/progress", progressRoute);
+  app.use("/api/v1/reviews", reviewRoute);
+  app.use("/api/v1/discounts", discountRoute);
 };
 
 export default router;
