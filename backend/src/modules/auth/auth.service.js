@@ -50,7 +50,6 @@ class authService {
     const existUser = await prisma.user.findUnique({
       where: { email: data.email },
     });
-    console.log(data);
     if (!existUser)
       throw new AppError("Email không tồn tại", HttpStatus.BAD_REQUEST);
     const isPasswordValid = await comparePassword(

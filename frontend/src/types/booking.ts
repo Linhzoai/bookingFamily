@@ -102,3 +102,21 @@ export interface AssignBooking {
     booking?: Booking;
     staff?: User;
 }
+
+export interface Discount {
+    id: string;
+    code: string;
+    name: string;
+    description?: string;
+    discountType: 'percentage' | 'fixed';
+    discountValue: number;
+    minOrderAmount: number;
+    maxDiscountAmount: number;
+    startDate: Date;
+    endDate: Date;
+    usageLimit: number;
+    usedCount: number;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}

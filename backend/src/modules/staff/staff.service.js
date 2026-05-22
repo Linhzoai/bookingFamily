@@ -27,7 +27,16 @@ class StaffService {
     const staffProfile = await prisma.staffProfile.findUniqueOrThrow({
       where: { staffId: id },
       include: {
-        staff: true,
+        staff: {
+          select:{
+            id: true,
+            name: true,
+            phone: true,
+            email: true,
+            gender: true,
+            address: true,
+          }
+        },
       }
     });
     return staffProfile;

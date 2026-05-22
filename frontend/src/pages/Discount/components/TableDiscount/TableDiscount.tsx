@@ -1,26 +1,23 @@
+import type { Discount } from '@/types/booking';
 import styles from './style.module.scss';
 import classNames from 'classnames';
 import { LuPenLine } from 'react-icons/lu';
 import { RiDeleteBinLine } from 'react-icons/ri';
-interface IDiscount {
-    id: number;
-    code: string;
-    type: string;
-    value: number;
-    startDate: string;
-    endDate: string;
-    usedCount: number;
-    usageLimit: number;
-    status: string;
-}
-
+import { useDeleteQuery } from '@/hooks/useQueryCustom';
+import { discountService } from '@/services/discountService';
+import Loading from '@/components/LoadingCommon/Loading';
 interface ITableDiscountProps {
-    data: IDiscount[];
+    data: Discount[];
 }
 
 export default function TableDiscount({ data }: ITableDiscountProps) {
+    const {mutate: deletefn, isPending: isDeleting} = useDeleteQuery('discounts', discountService.deleteDiscount, 'Xóa discount');
+    const handleDelete = (id: string)=>{
+        deletefn(id);
+    }
     return (
         <section className={styles.tableWrapper}>
+            {isDeleting && <Loading/>}
             <div className={styles.tableHeader}>
                 <div className={styles.col}>Mã Code</div>
                 <div className={styles.col}>Loại</div>
@@ -37,24 +34,24 @@ export default function TableDiscount({ data }: ITableDiscountProps) {
                         <div className={classNames(styles.col, styles.mono)}>{discount.code}</div>
                         <div className={styles.col}>
                             <span className={styles.typeBadge}>
-                                {discount.type === 'percentage' ? 'Phần trăm' : 'Cố định'}
+                                {discount.discountType === 'percentage' ? 'Phần trăm' : 'Cố định'}
                             </span>
                         </div>
                         <div className={classNames(styles.col, styles.mono)}>
-                            {discount.type === 'percentage'
-                                ? `${discount.value}%`
-                                : `${discount.value.toLocaleString('vi-VN')}đ`}
+                            {discount.discountType === 'percentage'
+                                ? `${discount.discountValue}%`
+                                : `${discount.discountValue.toLocaleString('vi-VN')}đ`}
                         </div>
                         <div className={classNames(styles.col, styles.mono)}>
-                            {discount.startDate} <br />
-                            <span className={styles.dimText}>đến</span> {discount.endDate}
+                            {new Date(discount.startDate).toLocaleDateString('vi-VN')} <br />
+                            <span className={styles.dimText}>đến</span> {new Date(discount.endDate).toLocaleDateString('vi-VN')}
                         </div>
                         <div className={classNames(styles.col, styles.mono)}>
                             {discount.usedCount} / {discount.usageLimit ? discount.usageLimit : '∞'}
                         </div>
                         <div className={styles.col}>
-                            <span className={classNames(styles.statusPill, styles[discount.status])}>
-                                {discount.status === 'active' ? 'Đang chạy' : 'Đã dừng'}
+                            <span className={classNames(styles.statusPill, styles[discount.isActive ? 'active' : 'inactive'])}>
+                                {discount.isActive  ? 'Đang hoạt động' : 'Không hoạt động'}
                             </span>
                         </div>
                         <div className={styles.col}>
@@ -62,7 +59,7 @@ export default function TableDiscount({ data }: ITableDiscountProps) {
                                 <button className={classNames(styles.btn, styles.btnEdit)}>
                                     <LuPenLine size={18} />
                                 </button>
-                                <button className={classNames(styles.btn, styles.btnDelete)}>
+                                <button className={classNames(styles.btn, styles.btnDelete)} onClick={()=> handleDelete(discount.id)}>
                                     <RiDeleteBinLine size={18} />
                                 </button>
                             </div>

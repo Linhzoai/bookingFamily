@@ -26,7 +26,7 @@ class AuthControlle {
             sameSite: isProduction ? "none" : "lax",
             maxAge: REFRESH_TOKEN_TTL
         });
-        return successResponse(res, { data: { accessToken: result.accessToken, user: result.user }, message: "Đăng nhập thành công" });
+        return successResponse(res, { data: { accessToken: result.accessToken, user: result.user, refreshToken: result.refreshToken }, message: "Đăng nhập thành công" });
     })
 
     //[POST] /api/v1/auth/sign-out - đăng xuất tài khoản

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMutation, useQuery, useQueryClient, type UseQueryOptions} from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 export const useGetQuery = <T, Q = void>(
     key: string,
@@ -16,7 +16,11 @@ export const useGetQuery = <T, Q = void>(
     });
 };
 
-export const useGenericMutation = <TVariables, TData = any>( key: string, func: (args: TVariables) => Promise<TData>, options?: { successMsg?: string; errorMsg?: string; onSuccess?: (data: TData) => void; } ) => {
+export const useGenericMutation = <TVariables, TData = any>(
+    key: string,
+    func: (args: TVariables) => Promise<TData>,
+    options?: { successMsg?: string; errorMsg?: string; onSuccess?: (data: TData) => void }
+) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: func,
@@ -26,30 +30,30 @@ export const useGenericMutation = <TVariables, TData = any>( key: string, func: 
             if (options?.onSuccess) options.onSuccess(data);
         },
         onError: (error: any) => {
-            const msg = error?.response?.data?.message || options?.errorMsg || "Thao tác thất bại";
+            const msg = error?.response?.data?.message || options?.errorMsg || 'Thao tác thất bại';
             toast.error(msg);
             console.error(error);
         }
     });
-}
+};
 
-export const useCreateQuery = <T>(key: string, func: (data: Partial<T>) => Promise<T>, label = "dữ liệu") => {
-    return useGenericMutation<T>(key, func, {
+export const useCreateQuery = <T>(key: string, func: (data: Partial<T>) => Promise<T>, label = 'dữ liệu') => {
+    return useGenericMutation<Partial<T>, T>(key, func as any, {
         successMsg: `Thêm ${label} thành công`,
         errorMsg: `Thêm ${label} thất bại`
     });
 };
 
-export const useUpdateQuery = <T, P>(key: string, func: (id: P, data: T) => Promise<any>, label = "dữ liệu") => {
+export const useUpdateQuery = <T, P>(key: string, func: (id: P, data: T) => Promise<any>, label = 'dữ liệu') => {
     return useGenericMutation<{ id: P; data: T }>(key, ({ id, data }) => func(id, data), {
         successMsg: `Cập nhật ${label} thành công`,
         errorMsg: `Cập nhật ${label} thất bại`
     });
 };
 
-export const useDeleteQuery = <T, P>(key:string, func: (id: P)=>Promise<T>, label = "dữ liệu") => {
-    return useGenericMutation<P>(key, (id:P) => func(id), {
+export const useDeleteQuery = <T, P>(key: string, func: (id: P) => Promise<T>, label = 'dữ liệu') => {
+    return useGenericMutation<P>(key, (id: P) => func(id), {
         successMsg: `Xóa ${label} thành công`,
         errorMsg: `Xóa ${label} thất bại`
-    })
-}
+    });
+};

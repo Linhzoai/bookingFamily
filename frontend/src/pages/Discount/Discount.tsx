@@ -4,18 +4,12 @@ import { Search, Plus, Filter } from 'lucide-react';
 import styles from './style.module.scss';
 import InputDiscountForm from './components/InputDisountForm/InputDiscountForm';
 import TableDiscount from './components/TableDiscount/TableDiscount';
-
-// Mock data
-const mockDiscounts = [
-  { id: 1, code: 'SUMMER2026', type: 'percentage', value: 15, minOrder: 0, startDate: '2026-06-01', endDate: '2026-08-31', usageLimit: 100, usedCount: 24, status: 'active' },
-  { id: 2, code: 'WELCOME50K', type: 'fixed', value: 50000, minOrder: 150000, startDate: '2026-01-01', endDate: '2026-12-31', usageLimit: null, usedCount: 412, status: 'active' },
-  { id: 3, code: 'FLASH10', type: 'percentage', value: 10, minOrder: 0, startDate: '2026-05-15', endDate: '2026-05-18', usageLimit: 50, usedCount: 50, status: 'inactive' },
-];
-
+import { useGetQuery } from '@/hooks/useQueryCustom';
+import { discountService } from '@/services/discountService';
 const Discount = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-
+  const { data:discounts} = useGetQuery('discounts', discountService.getAllDiscounts);
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -44,7 +38,7 @@ const Discount = () => {
               </button>
             </div>
           </section>
-          <TableDiscount data={mockDiscounts} />
+          <TableDiscount data={discounts?.data || []} />
         </div>
 
         {/* Form thêm mã */}
