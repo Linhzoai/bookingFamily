@@ -191,9 +191,7 @@ export default function BookingManagement() {
                                     <StatusBadge status={bk.status} text={bk.status} />
                                 </td>
                                 <td className={styles.amount_cell}>
-                                    {bk.bookingDetails
-                                        .reduce((acc, item) => acc + item.service.price * item.quantity, 0)
-                                        .toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                    {Number(bk.totalAmount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                 </td>
                                 <td className={styles.action_cell}>
                                     <button className="material-symbols-outlined" onClick={(    ) => setActiveMenu((prev) => prev === bk.id ? null : bk.id)} >more_vert</button>

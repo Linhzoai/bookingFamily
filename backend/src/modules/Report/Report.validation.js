@@ -9,7 +9,7 @@ export const queryRevenue = joi.object({
 })
 export const queryRevenueByPartner = joi.object({
     groupBy: joi.string().valid("day","month","year").default("year").optional(),
-    from : joi.date().optional(),
-    to : joi.date().optional(),
+    from : joi.date().required(),
+    to : joi.date().required(),
     status: joi.string().valid('completed','cancelled','ordered','all').optional().default('all')
 })

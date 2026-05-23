@@ -29,7 +29,7 @@ const createSchema = z.object({
         const now = new Date().getTime();
         return selectedTime > now;
     }, 'Thời gian làm việc phải lớn hơn thời gian hiện tại'),
-    discountCodeId: z.string().optional(),
+    discountCode: z.string().optional(),
     note: z.string().optional(),
     serviceIds: z.array(z.number()).min(1, 'Vui lòng chọn ít nhất 1 dịch vụ'),
     
@@ -48,7 +48,7 @@ export default function FormBooking({booking}: FormBookingProps){
             customerId: '',
             address: '',
             scheduledTime: '',
-            discountCodeId: '',
+            discountCode: '',
             note: '',
             serviceIds: [],
         }
@@ -81,7 +81,7 @@ export default function FormBooking({booking}: FormBookingProps){
             setValue('customerId', booking.customer.id)
             setValue('address', booking.address)
             setValue('scheduledTime', new Date(booking.scheduledTime).toISOString().slice(0, 16))
-            setValue('discountCodeId', booking?.discountId || '')
+            setValue('discountCode', booking?.discountId || '')
             setValue('note', booking.note)
             setValue('serviceIds', booking.bookingDetails.map((item) => Number(item.service.id)))
             const areas = booking.area.path.split('/').filter((item) => item !== '');
@@ -105,7 +105,7 @@ export default function FormBooking({booking}: FormBookingProps){
             areaId: wardId ? Number(wardId) : districtId ? Number(districtId) : Number(cityId),
             address: data.address,
             scheduledTime: data.scheduledTime,
-            discountCodeId: data.discountCodeId,
+            discountCode: data.discountCode,
             note: data.note,
             serviceId: data.serviceIds.map((item) => Number(item)),
         }
@@ -181,11 +181,13 @@ export default function FormBooking({booking}: FormBookingProps){
                     <div className={box_extend}>
                         <div className={box_input}>
                             <label htmlFor="">Mã giảm giá</label>
-                            <InputCommon placeholder="Nhập mã giảm giá"/>
+                            <InputCommon placeholder="Nhập mã giảm giá" {...register('discountCode')}/>
+                            {errors.discountCode && <p className={error}>{errors.discountCode.message}</p>}
                         </div>
                         <div className={box_input}>
                             <label htmlFor="">Ghi chú</label>
                             <textarea {...register('note')}  cols={30} rows={10}></textarea>
+                            {errors.note && <p className={error}>{errors.note.message}</p>}
                         </div>
                         
                     </div>

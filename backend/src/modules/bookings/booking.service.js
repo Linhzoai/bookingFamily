@@ -24,13 +24,30 @@ class BookingService {
         };
       }),
     );
-    const totalAmount = (await serviceInfo).reduce(
+    let totalAmount = (await serviceInfo).reduce(
       (acc, service) => acc + Number(service.price),
       0,
     );
-    dataBooking.totalAmount = totalAmount;
+    if (data.discountCode) {
+      const discount = await prisma.discountCode.findUnique({
+        where: { code: data.discountCode },
+      });
+      if (discount === null) {
+        throw new AppError(
+          "Mã giảm giá không tồn tại",
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      if (discount.discountType === "percentage") {
+        totalAmount = Number(totalAmount) - (Number(totalAmount) * Number(discount.discountValue)) / 100;
+      } else {
+        totalAmount = Number(totalAmount) - Number(discount.discountValue);
+      }
+    }
+    dataBooking.totalAmount = Number(totalAmount);
     dataBooking.scheduledTime = new Date(dataBooking.scheduledTime);
     delete dataBooking.serviceId;
+    console.log(dataBooking);
     const booking = await prisma.booking.create({
       data: {
         ...dataBooking,
