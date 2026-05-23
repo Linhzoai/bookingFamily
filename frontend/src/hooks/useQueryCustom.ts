@@ -2,12 +2,7 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
-export const useGetQuery = <T, Q = void>(
-    key: string,
-    func: (query?: Q) => Promise<T>,
-    query?: Q,
-    options?: Omit<UseQueryOptions<T, Error, T>, 'queryKey' | 'queryFn'>
-) => {
+export const useGetQuery = <T, Q = void>( key: string, func: (query?: Q) => Promise<T>, query?: Q, options?: Omit<UseQueryOptions<T, Error, T>, 'queryKey' | 'queryFn'> ) => {
     return useQuery({
         queryKey: query ? [key, query] : [key],
         queryFn: () => func(query),

@@ -1,6 +1,5 @@
 import { pagination } from "../utils/response.handle.js";
 export const paginatePrisma = async (module, query, filter, include = {}) =>{
-    console.log(query);
     const {page, limit, orderBy, order} = filter;
     const skip = (page - 1) * limit;
     const result = await module.findMany({

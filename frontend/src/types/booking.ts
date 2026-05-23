@@ -110,7 +110,7 @@ export interface Discount {
     description?: string;
     discountType: 'percentage' | 'fixed';
     discountValue: number;
-    minOrderAmount: number;
+    minBookingAmount: number;
     maxDiscountAmount: number;
     startDate: Date;
     endDate: Date;

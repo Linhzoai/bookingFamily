@@ -39,9 +39,9 @@ export const getByIdSchema = Joi.object({
 });
 
 export const getAllSchema = Joi.object({
-    code: Joi.string().optional(),
-    discountType: Joi.string().optional(),
-    startDate: Joi.date().optional(),
-    endDate: Joi.date().optional(),
+    code: Joi.string().optional().allow(""),
+    discountType: Joi.string().optional().allow(""),
+    startDate: Joi.date().optional().allow(""),
+    endDate: Joi.date().optional().allow(""),
     isActive: Joi.boolean().optional().default(true),
 }).concat(queryPaginationSchema);

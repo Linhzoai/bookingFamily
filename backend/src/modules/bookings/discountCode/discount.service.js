@@ -4,6 +4,7 @@ import HttpStatus from "#utils/http.status.js";
 import checkRecordExist from "#utils/check-exist.js";
 import { paginatePrisma } from "#helper/prisma.helper.js";
 class DiscountService {
+
   createDiscountCode = async (data) => {
     const existCode = await prisma.discountCode.findFirst({
       where: { code: data.code },
@@ -30,7 +31,8 @@ class DiscountService {
   };
 
   updateDiscountCode = async (id, data) => {
-    const existDiscountCode = await checkRecordExist(prisma.discountCode, id);
+    console.log("data của update",data);
+    const existDiscountCode = await checkRecordExist(prisma.discountCode,{id});
     if (!existDiscountCode) {
       throw new AppError("Mã giảm giá không tồn tại", HttpStatus.BAD_REQUEST);
     }
@@ -42,6 +44,7 @@ class DiscountService {
         throw new AppError("Mã giảm giá đã tồn tại", HttpStatus.BAD_REQUEST);
       }
     }
+
     const discountCode = await prisma.discountCode.update({
       where: { id },
       data: {
@@ -49,7 +52,7 @@ class DiscountService {
         description: data.description,
         discountType: data.discountType,
         discountValue: data.discountValue,
-        minOrderAmount: data.minOrderAmount,
+        minBookingAmount: data.minBookingAmount,
         maxDiscountAmount: data.maxDiscountAmount,
         startDate: data.startDate,
         endDate: data.endDate,
@@ -64,19 +67,19 @@ class DiscountService {
   getAllDiscountCode = async (data) => {
     const query = {};
     if (data.code) {
-      where.code = { contains: data.code };
+      query.code = { contains: data.code, mode: 'insensitive' };
     }
     if (data.discountType) {
-      where.discountType = data.discountType;
+      query.discountType = data.discountType;
     }
     if (data.startDate) {
-      where.startDate = { gte: new Date(data.startDate) };
+      query.startDate = { gte: new Date(data.startDate) };
     }
     if (data.endDate) {
-      where.endDate = { lte: new Date(data.endDate) };
+      query.endDate = { lte: new Date(data.endDate) };
     }
     if (data.isActive) {
-      where.isActive = data.isActive;
+      query.isActive = data.isActive;
     }
     const discountCodes = await paginatePrisma(
       prisma.discountCode,
@@ -96,6 +99,7 @@ class DiscountService {
     });
     return discountCode;
   };
+
 }
 
 export default new DiscountService();

@@ -14,7 +14,9 @@ class DiscountController {
     })
 
     getAllDiscount = catchAsync(async (req, res) => {
-        const discounts = await discountService.getAllDiscountCode(req.validatedQuery);
+        const query = req.validatedQuery;
+        console.log("query của getall",query)
+        const discounts = await discountService.getAllDiscountCode(query);
         return successResponse(res, {data: discounts, message: "Lấy danh sách mã giảm giá thành công"});
     })
 

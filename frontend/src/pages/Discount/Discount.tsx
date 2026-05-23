@@ -6,10 +6,20 @@ import InputDiscountForm from './components/InputDisountForm/InputDiscountForm';
 import TableDiscount from './components/TableDiscount/TableDiscount';
 import { useGetQuery } from '@/hooks/useQueryCustom';
 import { discountService } from '@/services/discountService';
+import type { Discount } from '@/types/booking';
 const Discount = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const { data:discounts} = useGetQuery('discounts', discountService.getAllDiscounts);
+  const [discount, setDiscount] = useState<Discount|null>(null);
+  const { data:discounts, isLoading:discountsLoading} = useGetQuery('discounts', discountService.getAllDiscounts,`code=${searchTerm}`);
+  const handleEdit = (discount: Discount)=>{
+    setDiscount(discount);
+    setIsOpen(true);
+  } 
+  const handleClose = () =>{
+    setIsOpen(prev => !prev);
+    setDiscount(null);
+  }
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -32,17 +42,17 @@ const Discount = () => {
                 <Filter size={18} />
                 Bộ lọc
               </button>
-              <button className={classNames(styles.btn, styles.btnPrimary)} onClick={() => setIsOpen(!isOpen)}>
+              <button className={classNames(styles.btn, styles.btnPrimary)} onClick={()=>handleEdit(null)}>
                 <Plus size={18} />
                 Thêm mã mới
               </button>
             </div>
           </section>
-          <TableDiscount data={discounts?.data || []} />
+          <TableDiscount data={discounts?.data || []} onEdit={handleEdit} isLoading={discountsLoading}/>
         </div>
 
         {/* Form thêm mã */}
-        <InputDiscountForm isOpen={isOpen} setIsOpen={setIsOpen} />
+        <InputDiscountForm isOpen={isOpen} handleClose={handleClose} discount={discount}/>
       </div>
     </div>
   );

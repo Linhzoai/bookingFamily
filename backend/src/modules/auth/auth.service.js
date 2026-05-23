@@ -27,7 +27,6 @@ class authService {
     //   throw new AppError("Khu vực không tồn tại", HttpStatus.BAD_REQUEST);
     const hashedPassword = await hashPassword(data.password);
     const newAddress = data.address + ", " + (await formatArea(data.areaId));
-    console.log(data);
     const user = await prisma.user.create({
       data: {
         name: data.name,

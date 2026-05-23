@@ -4,14 +4,16 @@ import styles from './style.module.scss';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useCreateQuery } from '@/hooks/useQueryCustom';
+import { useCreateQuery, useUpdateQuery } from '@/hooks/useQueryCustom';
 import { discountService } from '@/services/discountService';
 import type { Discount } from '@/types/booking';
 import Loading from '@/components/LoadingCommon/Loading';
+import { useEffect } from 'react';
 
 interface InputDiscountFormProps {
     isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
+    handleClose: () => void;
+    discount?: Discount;
 }
 
 const createSchema = () => {
@@ -46,36 +48,55 @@ const createSchema = () => {
 
 type FormData = z.infer<ReturnType<typeof createSchema>>;
 
-export default function InputDiscountForm({ isOpen, setIsOpen }: InputDiscountFormProps) {
+export default function InputDiscountForm({ isOpen, handleClose, discount }: InputDiscountFormProps) {
     const { register, handleSubmit, formState: { errors }, reset, watch, setValue } = useForm<FormData>({
         resolver: zodResolver(createSchema()),
         defaultValues: {
             code: '',
             discountType: 'percentage',
-            startDate: '',
-            endDate: '',
+            discountValue: 1,
+            maxDiscountAmount: null,
+            usageLimit: 9999999,
             isActive: true
         }
     });
-    const { mutate: createDiscounts, isPending: isCreating } = useCreateQuery(
-        'discounts',
-        discountService.createDiscount,
-        'Tạo discount'
-    );
-    const handleCreateDiscount = (data: FormData) => {
+    const { mutate: createDiscounts, isPending: isCreating } = useCreateQuery('discounts', discountService.createDiscount, 'Tạo discount');
+    const { mutate: updateDiscounts, isPending: isUpdating } = useUpdateQuery('discounts', discountService.updateDiscount, 'Cập nhật discount');
+    const handleCreateDiscount =async (data: FormData) => {
         const payload: Partial<Discount> = {
             ...data,
             discountType: data.discountType as 'percentage' | 'fixed',
             startDate: new Date(data.startDate),
             endDate: data.endDate ? new Date(data.endDate) : undefined
         };
-        createDiscounts(payload);
+        if (discount) {
+            await updateDiscounts({ id: discount.id, data: payload })
+        } else {
+            await createDiscounts(payload);
+        }
         reset();
-        setIsOpen(false);
+        handleClose();
     };
+    useEffect(() => {
+        if(discount){
+            reset({
+                code: discount.code,
+                discountType: discount.discountType,
+                discountValue: Number(discount.discountValue),
+                minBookingAmount: Number(discount.minBookingAmount),
+                maxDiscountAmount: Number(discount.maxDiscountAmount),
+                startDate: discount.startDate? new Date(discount.startDate).toISOString().split('T')[0] : '',
+                usageLimit: Number(discount.usageLimit),
+                endDate: discount.endDate? new Date(discount.endDate).toISOString().split('T')[0] : '',
+                isActive: discount.isActive
+            })
+        }else{
+            reset()
+        }
+    }, [discount,reset])
     return (
         <aside className={cls(styles.form_section, !isOpen && styles.form_closed)}>
-            {isCreating && <Loading />}
+            {(isCreating || isUpdating) && <Loading />}
             <div className={styles.form_card}>
                 <div className={styles.form_header}>
                     <p className={styles.label_tag}>Biểu mẫu</p>
@@ -186,9 +207,9 @@ export default function InputDiscountForm({ isOpen, setIsOpen }: InputDiscountFo
 
                     <div className={styles.form_actions}>
                         <button type="submit" className={styles.save_btn}>
-                            Tạo mã
+                            {discount ? 'Cập nhật' : 'Tạo mã'}
                         </button>
-                        <button type="button" className={styles.cancel_btn} onClick={() => setIsOpen(false)}>
+                        <button type="button" className={styles.cancel_btn} onClick={handleClose}>
                             Hủy
                         </button>
                     </div>

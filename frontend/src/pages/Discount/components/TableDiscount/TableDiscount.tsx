@@ -8,16 +8,18 @@ import { discountService } from '@/services/discountService';
 import Loading from '@/components/LoadingCommon/Loading';
 interface ITableDiscountProps {
     data: Discount[];
+    onEdit: (discount: Discount) => void;
+    isLoading: boolean;
 }
 
-export default function TableDiscount({ data }: ITableDiscountProps) {
+export default function TableDiscount({ data, onEdit, isLoading }: ITableDiscountProps) {
     const {mutate: deletefn, isPending: isDeleting} = useDeleteQuery('discounts', discountService.deleteDiscount, 'Xóa discount');
     const handleDelete = (id: string)=>{
         deletefn(id);
     }
     return (
         <section className={styles.tableWrapper}>
-            {isDeleting && <Loading/>}
+            {(isDeleting || isLoading) && <Loading/>}
             <div className={styles.tableHeader}>
                 <div className={styles.col}>Mã Code</div>
                 <div className={styles.col}>Loại</div>
@@ -56,7 +58,7 @@ export default function TableDiscount({ data }: ITableDiscountProps) {
                         </div>
                         <div className={styles.col}>
                             <div className={styles.actionButtons}>
-                                <button className={classNames(styles.btn, styles.btnEdit)}>
+                                <button className={classNames(styles.btn, styles.btnEdit)} onClick={()=>onEdit(discount)}>
                                     <LuPenLine size={18} />
                                 </button>
                                 <button className={classNames(styles.btn, styles.btnDelete)} onClick={()=> handleDelete(discount.id)}>

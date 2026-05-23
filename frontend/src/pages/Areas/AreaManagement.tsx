@@ -53,8 +53,7 @@ export default function AreaManagement() {
     const {mutate: createArea, isPending} = useCreateQuery('areas',AreaService.createArea, 'Khu vực');
     const {mutate: updateArea} = useUpdateQuery('areas',AreaService.updateArea, 'Khu vực');
 
-    const handleCreateArea = (data: FormData) => {
-        
+    const handleCreateArea = (data: FormData) => { 
         const newData = {
             name: data.name,
             isActive: isActicve,

@@ -1,7 +1,6 @@
 import express from "express";
 import validateMiddleware from "#middleware/validate.middleware.js";
-import { queryPaginationSchema } from "#helper/joi.helper.js";
-import { createSchema, updateSchema } from "./discout.validation.js";
+import { createSchema, updateSchema,getAllSchema } from "./discout.validation.js";
 import discountController from "./discount.controller.js";
 const router = express.Router();
 
@@ -193,7 +192,7 @@ router.put("/:id", validateMiddleware(updateSchema, "body"), discountController.
  *       200:
  *         description: Lấy danh sách thành công
  */
-router.get("/", validateMiddleware(queryPaginationSchema, "query"), discountController.getAllDiscount);
+router.get("/", validateMiddleware(getAllSchema, "query"), discountController.getAllDiscount);
 
 /**
  * @swagger
