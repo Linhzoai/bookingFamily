@@ -7,7 +7,7 @@ import { bookingService } from '@/services/bookingService';
 import formatDate from '@/utils/formatDate';
 import { AreaService } from '@/services/areaService';
 import SelectCommon from '@/components/SelectCommon/SelectCommon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { staffService } from '@/services/staffService';
 import SelectSearch from '@/components/SelectSearch/SelectSearch';
 import cls from 'classnames';
@@ -16,7 +16,7 @@ import { useSideBarStore } from '@/stores/useSidebarStore';
 import Loading from '@/components/LoadingCommon/Loading';
 import { toast } from 'react-toastify';
 import { assignBookingService } from '@/services/assignBookingService';
-
+import { useSocketStore } from '@/stores/useSocketStore';
 export default function BookingManagement() {
     const statusData = [
         { label: 'Tất cả trạng thái', value: '' },
@@ -26,6 +26,7 @@ export default function BookingManagement() {
         { label: 'Đã hoàn thành', value: 'completed' },
         { label: 'Đã hủy', value: 'cancelled' }
     ];
+    const {socket} = useSocketStore();
     const [status, setStatus] = useState<string>('');
     const [areaId, setAreaId] = useState<string>('');
     const [staffId, setStaffId] = useState<string>('');
@@ -33,7 +34,7 @@ export default function BookingManagement() {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
     const query = `status=${status}&areaId=${areaId}&staffId=${staffId}&page=${page}`;
-    const { data: bookings,  isRefetching } = useGetQuery('bookings', bookingService.getAllBookings, query);
+    const { data: bookings,  isRefetching,refetch } = useGetQuery('bookings', bookingService.getAllBookings, query);
     const { data: staffs } = useGetQuery('staff', staffService.getAllStaff);
     const { data: areas } = useGetQuery('areas', AreaService.getAllAreas);
     const dataArea = (areas?.data ?? []).map((item) => ({ label: item.name, value: item.id }));
@@ -81,7 +82,16 @@ export default function BookingManagement() {
         }
     }
 
-
+    useEffect(() => {
+        if(!socket) return;
+        const handlesocketUpdate = ()=>{
+            refetch();
+        }
+        socket.on('update-progress', handlesocketUpdate);
+        return () => {
+            socket.off('update-progress', handlesocketUpdate);
+        }
+    },[socket, refetch])
 
     return (
         <div className={styles.container}>
@@ -188,7 +198,7 @@ export default function BookingManagement() {
                                     )}
                                 </td>
                                 <td className={styles.text_center}>
-                                    <StatusBadge status={bk.status} text={bk.status} />
+                                    <StatusBadge status={bk.status} text={bk?.staffAssignments?.[0]?.status || 'pending assignment'} />
                                 </td>
                                 <td className={styles.amount_cell}>
                                     {Number(bk.totalAmount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}

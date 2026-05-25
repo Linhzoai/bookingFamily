@@ -24,6 +24,9 @@ export const useSocketStore = create<SocketState>((set, get) => ({
         socket.on('online-users', (users) => {
             set({ onlineUsers: users });
         });
+        socket.on('update-progress', (progress) => {
+            console.log('Cập nhật tiến độ', progress);
+        });
     },
 
     disconectSocket: () => {

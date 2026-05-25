@@ -14,40 +14,29 @@ class BookingService {
     dataBooking.address = data.address + ", " + (await formatArea(data.areaId));
     const serviceInfo = await Promise.all(
       data.serviceId.map(async (id) => {
-        const service = await checkRecordExist(prisma.service, {
-          id,
-          active: true,
-        });
-        return {
-          serviceId: id,
-          price: service.price,
-        };
+        const service = await checkRecordExist(prisma.service, { id, active: true, });
+        return { serviceId: id, price: service.price, };
       }),
     );
-    let totalAmount = (await serviceInfo).reduce(
-      (acc, service) => acc + Number(service.price),
-      0,
-    );
+    let totalAmount = (await serviceInfo).reduce((acc, service) => acc + Number(service.price), 0);
     if (data.discountCode) {
-      const discount = await prisma.discountCode.findUnique({
-        where: { code: data.discountCode },
-      });
+      const discount = await prisma.discountCode.findUnique({ where: { code: data.discountCode }, });
       if (discount === null) {
-        throw new AppError(
-          "Mã giảm giá không tồn tại",
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new AppError("Mã giảm giá không tồn tại", HttpStatus.BAD_REQUEST);
       }
       if (discount.discountType === "percentage") {
         totalAmount = Number(totalAmount) - (Number(totalAmount) * Number(discount.discountValue)) / 100;
       } else {
         totalAmount = Number(totalAmount) - Number(discount.discountValue);
       }
+      prisma.discountCode.update({
+        where: { code: data.discountCode },
+        data: { usedCount: discount.usedCount + 1 },
+      });
     }
     dataBooking.totalAmount = Number(totalAmount);
     dataBooking.scheduledTime = new Date(dataBooking.scheduledTime);
     delete dataBooking.serviceId;
-    console.log(dataBooking);
     const booking = await prisma.booking.create({
       data: {
         ...dataBooking,

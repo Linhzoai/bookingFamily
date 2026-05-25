@@ -3,6 +3,7 @@ import AppError from "../../utils/app.error.js";
 import HttpStatus from "../../utils/http.status.js";
 import bookingService from "../bookings/booking.service.js";
 import { paginatePrisma } from "../../helper/prisma.helper.js";
+import { io } from '../../socket/index.js';
 class ProgressService {
   createProgress = async (data, image) => {
     const progress = await bookingService.getProgressNow(data.bookingId);
@@ -29,7 +30,7 @@ class ProgressService {
           stepName: nextStep,
           evidenceImageUrl: image || '',
         },
-      });   
+      });
       await tx.staffAssignment.updateMany({
         where: { staffId: data.staffId, bookingId: data.bookingId },
         data: { status: nextStep },
@@ -40,7 +41,7 @@ class ProgressService {
           data: { status: "completed" },
         });
       }
-
+      io.to(data.bookingId).emit("update-progress", nextProgress);
       return nextProgress;
     });
   };

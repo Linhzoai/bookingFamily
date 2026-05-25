@@ -49,11 +49,11 @@ class ReportService {
         if (status === "cancelled") statusCondition = Prisma.sql`AND status = 'cancelled'`;
         if (status === "order") statusCondition = Prisma.sql`AND status <> 'cancelled'`;
         if (status === "all") statusCondition = Prisma.sql``;
-        if (user.role === "customer") partnerCondition = Prisma.sql`AND customerId = ${user.id}`;
+        if (user.role === "customer") partnerCondition = Prisma.sql`AND customer_id = ${user.id}`;
         if (user.role === "staff") partnerCondition = Prisma.sql`AND EXISTS (
-            SELECT 1 FROM staffAssignments sa
-            WHERE sa.bookingId = b.id
-            AND sa.staffId = ${user.id}
+            SELECT 1 FROM staff_assignments sa
+            WHERE sa.booking_id = b.booking_id
+            AND sa.staff_id = ${user.id}
             AND sa.status <> 'rejected'
         )`
         if (groupBy === "day" && diffDays < 31) {
