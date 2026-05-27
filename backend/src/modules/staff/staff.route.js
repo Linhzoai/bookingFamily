@@ -1,7 +1,7 @@
 import express  from "express";
 import staffController  from "./staff.controller.js";
 import validateMiddleware from "../../middlewares/validate.middleware.js";
-import { checkParamSchema,getJobSchema,updateJobSchema, getStaffListSchema,addProfileSchema,updateProfileSchema,updateStatusSchema } from "./staff.validation.js";
+import { checkParamSchema,getJobSchema,updateJobSchema, getStaffListSchema,addProfileSchema,updateProfileSchema,updateStatusSchema,createAreaSchema,deleteAreaSchema,getAreaOfStaffSchema } from "./staff.validation.js";
 const router = express.Router();
 
 /**
@@ -288,5 +288,90 @@ router.get("/:id/jobs", validateMiddleware(getJobSchema, 'query'), staffControll
  *         description: Không tìm thấy bản ghi công việc
  */
 router.patch("/:id/update-job", validateMiddleware(updateJobSchema), staffController.updateJob);
+
+/**
+ * @swagger
+ * /staff/add-area:
+ *   post:
+ *     summary: Phân công khu vực làm việc cho nhân viên
+ *     tags: [Staff]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - staffId
+ *               - areaId
+ *             properties:
+ *               staffId:
+ *                 type: string
+ *                 description: ID của nhân viên
+ *               areaId:
+ *                 type: string
+ *                 description: ID của khu vực
+ *               primaryArea:
+ *                 type: boolean
+ *                 description: Đặt làm khu vực làm việc chính (mặc định false)
+ *     responses:
+ *       201:
+ *         description: Thêm khu vực thành công
+ */
+router.post("/add-area", validateMiddleware(createAreaSchema), staffController.addArea);
+
+/**
+ * @swagger
+ * /staff/delete-area:
+ *   delete:
+ *     summary: Xóa khu vực làm việc của nhân viên
+ *     tags: [Staff]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - staffId
+ *               - areaId
+ *             properties:
+ *               staffId:
+ *                 type: string
+ *                 description: ID của nhân viên
+ *               areaId:
+ *                 type: string
+ *                 description: ID của khu vực
+ *     responses:
+ *       200:
+ *         description: Xóa khu vực thành công
+ */
+router.delete("/delete-area", validateMiddleware(deleteAreaSchema), staffController.deleteArea);
+
+/**
+ * @swagger
+ * /staff/{id}/get-area:
+ *   get:
+ *     summary: Lấy danh sách khu vực làm việc của nhân viên
+ *     tags: [Staff]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: staffId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID của nhân viên
+ *     responses:
+ *       200:
+ *         description: Lấy danh sách thành công
+ */
+router.get("/:staffId/get-area", validateMiddleware(getAreaOfStaffSchema, 'params'), staffController.getAreaOfStaff);
+
 
 export default router;

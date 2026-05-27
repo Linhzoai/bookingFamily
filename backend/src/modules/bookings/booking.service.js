@@ -4,6 +4,9 @@ import HttpStatus from "../../utils/http.status.js";
 import checkRecordExist from "../../utils/check-exist.js";
 import { formatArea } from "../../helper/format.helper.js";
 import { paginatePrisma } from "../../helper/prisma.helper.js";
+const caculateExpectEndTime = (serviceInfo) => {
+  return serviceInfo.reduce((acc, service) => acc + Number(service.duration), 0);
+}
 class BookingService {
   createBooking = async (data) => {
     const dataBooking = { ...data, status: "pending" };
@@ -15,7 +18,7 @@ class BookingService {
     const serviceInfo = await Promise.all(
       data.serviceId.map(async (id) => {
         const service = await checkRecordExist(prisma.service, { id, active: true, });
-        return { serviceId: id, price: service.price, };
+        return { serviceId: id, price: service.price, duration: service.duration };
       }),
     );
     let totalAmount = (await serviceInfo).reduce((acc, service) => acc + Number(service.price), 0);
@@ -29,13 +32,19 @@ class BookingService {
       } else {
         totalAmount = Number(totalAmount) - Number(discount.discountValue);
       }
-      prisma.discountCode.update({
+      if(discount.usageLimit && discount.usageLimit <= discount.usedCount){
+        throw new AppError("Mã giảm giá đã hết lượt sử dụng", HttpStatus.BAD_REQUEST);
+      }
+      await prisma.discountCode.update({
         where: { code: data.discountCode },
         data: { usedCount: discount.usedCount + 1 },
       });
     }
     dataBooking.totalAmount = Number(totalAmount);
     dataBooking.scheduledTime = new Date(dataBooking.scheduledTime);
+    dataBooking.expectedEndTime = new Date(
+      dataBooking.scheduledTime.getTime() + caculateExpectEndTime(serviceInfo) * 60 * 1000
+    );
     delete dataBooking.serviceId;
     const booking = await prisma.booking.create({
       data: {
@@ -85,19 +94,13 @@ class BookingService {
     if (data.serviceId) {
       const serviceInfo = await Promise.all(
         data.serviceId.map(async (id) => {
-          const service = await checkRecordExist(prisma.service, {
-            id,
-            active: true,
-          });
-          return {
-            serviceId: service.id,
-            price: service.price,
-          };
+          const service = await checkRecordExist(prisma.service, { id, active: true, });
+          return { serviceId: service.id, price: service.price, duration: service.duration };
         }),
       );
-      const totalAmount = serviceInfo.reduce(
-        (acc, service) => acc + Number(service.price),
-        0,
+      const totalAmount = serviceInfo.reduce((acc, service) => acc + Number(service.price), 0);
+      data.expectedEndTime = new Date(
+        data.scheduledTime.getTime() + caculateExpectEndTime(serviceInfo) * 60 * 1000
       );
       data.totalAmount = totalAmount;
       data.bookingDetails = {

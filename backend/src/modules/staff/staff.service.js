@@ -1,7 +1,7 @@
 import prisma from "../../config/prisma.js";
 import { pagination } from "../../utils/response.handle.js";
 import checkRecordExist from "../../utils/check-exist.js";
-import {paginatePrisma} from "../../helper/prisma.helper.js";
+import { paginatePrisma } from "../../helper/prisma.helper.js";
 class StaffService {
   //Thêm thông tin nhân viên
   addProfile = async (id, data) => {
@@ -28,16 +28,16 @@ class StaffService {
       where: { staffId: id },
       include: {
         staff: {
-          select:{
+          select: {
             id: true,
             name: true,
             phone: true,
             email: true,
             gender: true,
             address: true,
-          }
+          },
         },
-      }
+      },
     });
     return staffProfile;
   };
@@ -80,7 +80,7 @@ class StaffService {
       where: { role: "staff", name: { contains: search } },
       include: {
         staffProfile: true,
-        area: true
+        area: true,
       },
       skip,
       take: limit,
@@ -92,7 +92,10 @@ class StaffService {
       where: { role: "staff", name: { contains: search } },
     });
     const totalPages = Math.ceil(totalRecords / limit);
-    return {data:staffList, ...pagination(page, limit, totalPages, totalRecords)};
+    return {
+      data: staffList,
+      ...pagination(page, limit, totalPages, totalRecords),
+    };
   };
 
   //Xóa nhân viên
@@ -101,46 +104,129 @@ class StaffService {
     return staffProfile;
   };
 
-  getJob = async (id, data) =>{
-    const staff = await checkRecordExist(prisma.user, {id});
-    const query = {staffId: id};
-    if(data.status) query.status = data.status;
-    if(data.assignedAt) query.assignedAt = {
-      gte: new Date(data.assignedAt),
-    };
+  //Lấy danh sách công việc
+  getJob = async (id, data) => {
+    const staff = await checkRecordExist(prisma.user, { id });
+    const query = { staffId: id };
+    if (data.status) query.status = data.status;
+    if (data.assignedAt)
+      query.assignedAt = {
+        gte: new Date(data.assignedAt),
+      };
     console.log(data);
     const jobs = paginatePrisma(prisma.staffAssignment, query, data, {
       booking: true,
       staff: true,
     });
     return jobs;
-  }
+  };
 
-  updateJob = async (id, status) =>{
-
-    return await prisma.$transaction(async (tx)=>{
+  //Cập nhật công việc
+  updateJob = async (id, status) => {
+    return await prisma.$transaction(async (tx) => {
       // const staffAssignment = await tx.staffAssignment.findUniqueOrThrow({where: {id: id}});
       // console.log(staffAssignment);
       const updateStaffAssignment = await tx.staffAssignment.update({
-        where: {id: Number(id)},
-        data: {status: status}
-      })
+        where: { id: Number(id) },
+        data: { status: status },
+      });
 
-      if(status === "accepted"){
+      if (status === "accepted") {
         await tx.booking.update({
-          where: {id: updateStaffAssignment.bookingId},
-          data: {status: "accepted"}
-        })
+          where: { id: updateStaffAssignment.bookingId },
+          data: { status: "accepted" },
+        });
       }
-      if(status === "completed"){
+      if (status === "completed") {
         await tx.booking.update({
-          where: {id: updateStaffAssignment.bookingId},
-          data: {status: "completed"}
-        })
+          where: { id: updateStaffAssignment.bookingId },
+          data: { status: "completed" },
+        });
       }
       return updateStaffAssignment;
-    })
-  }
+    });
+  };
+
+  //Thêm khu vực làm việc
+  addArea = async (data) => {
+    const staff = await checkRecordExist(prisma.user, { id: data.staffId });
+    const area = await checkRecordExist(prisma.serviceArea, {
+      id: Number(data.areaId),
+    });
+    const staffArea = await prisma.$transaction(async (tx) => {
+      if (data.primaryArea) {
+        await tx.staffServiceArea.updateMany({
+          where: { staffId: data.staffId },
+          data: { primaryArea: false },
+        });
+      }
+
+      const createStaffArea = await tx.staffServiceArea.create({
+        data: {
+          staffId: data.staffId,
+          areaId: Number(data.areaId),
+          primaryArea: data.primaryArea,
+        },
+        include: {
+          area: true,
+        },
+      });
+      return createStaffArea;
+    });
+    return staffArea;
+  };
+
+  //Xóa khu vực làm việc
+  deleteArea = async (data) => {
+    const staff = await checkRecordExist(prisma.user, { id: data.staffId });
+    const area = await checkRecordExist(prisma.area, { id: data.areaId });
+    const staffArea = await prisma.staffArea.delete({
+      where: { staffId_areaId: { staffId: data.staffId, areaId: data.areaId } },
+    });
+    return staffArea;
+  };
+
+  //Lấy danh sách khu vực làm việc
+  getAreaOfStaff = async (id) => {
+    // 1. Kiểm tra tồn tại
+    const staff = await checkRecordExist(prisma.user, { id });
+
+    // 2. Query lồng nhau (Nested Include) để lấy 3 cấp
+    const staffServiceAreas = await prisma.staffServiceArea.findMany({
+      where: { staffId: id },
+      include: {
+        area: {
+          include: {
+            parent: {
+              include: {
+                parent: true, // Cấp 3 (Thành phố)
+              },
+            },
+          },
+        },
+      },
+    });
+    // 3. Format lại dữ liệu trả về
+    const formattedAreas = staffServiceAreas.map((record) => {
+      const currentArea = record.area;
+      const parentArea = currentArea?.parent;
+      const grandParentArea = parentArea?.parent;
+
+      // Gom tên các cấp lại thành mảng [Phường, Quận, Thành phố]
+      // filter(Boolean) dùng để xóa đi những giá trị null/undefined
+      // (ví dụ nếu nhân viên đó chỉ đăng ký tới cấp Quận thì mảng trả về sẽ chỉ có [Quận, Thành phố])
+      return {
+        areaId: record.areaId,
+        area: [
+          currentArea?.name,
+          parentArea?.name,
+          grandParentArea?.name,
+        ].filter(Boolean),
+      };
+    });
+
+    return formattedAreas;
+  };
 }
 
 export default new StaffService();

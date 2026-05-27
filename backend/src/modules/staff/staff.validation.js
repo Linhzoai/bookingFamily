@@ -45,3 +45,18 @@ export const getJobSchema = Joi.object({
 export const updateJobSchema = Joi.object({
     status: Joi.string().valid("accepted", "rejected", "assigned", "completed", "is_coming", "arrived", "is_working").required(),
 });
+
+export const createAreaSchema = Joi.object({
+    staffId: Joi.string().required(),
+    areaId: Joi.string().required(),
+    primaryArea: Joi.boolean().optional().default(false),
+});
+
+export const deleteAreaSchema = Joi.object({
+    staffId: Joi.string().required(),
+    areaId: Joi.string().required(),
+})
+
+export const getAreaOfStaffSchema = Joi.object({
+    staffId: Joi.string().required(),
+})

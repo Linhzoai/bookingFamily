@@ -41,7 +41,9 @@ class ProgressService {
           data: { status: "completed" },
         });
       }
-      io.to(data.bookingId).emit("update-progress", nextProgress);
+      const booking = await prisma.booking.findUnique({ where: { id: data.bookingId } });
+      io.to(booking.customerId).emit("update-progress", nextProgress);
+      io.to(data.staffId).emit("update-progress", nextProgress);
       return nextProgress;
     });
   };

@@ -3,6 +3,7 @@ import AppError from "../../utils/app.error.js";
 import HttpStatus from "../../utils/http.status.js";
 import crypto from "crypto";
 import checkRecordExist from "../../utils/check-exist.js";
+import {io} from "../../socket/index.js";
 function getVNPayDate(date) {
   const yyyy = date.getFullYear();
   const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -137,6 +138,12 @@ class PaymentService {
                 },
               });
             });
+            const booking = await checkRecordExist( prisma.booking, { id: payment.bookingId }, undefined, "Không tìm thấy đơn đặt lịch", );
+            io.to(booking.customerId).emit("payment-success", {
+              type: "PAYMENT_SUCCESS",
+              bookingId: booking.id,
+              message: "Thanh toán thành công",
+            });
           } else {
             if (payment) {
               await prisma.payment.update({
@@ -158,6 +165,12 @@ class PaymentService {
               status: "FAILED",
               gatewayResponse: vnpayParams,
             },
+          });
+          const booking = await checkRecordExist( prisma.booking, { id: payment.bookingId }, undefined, "Không tìm thấy đơn đặt lịch", );
+          io.to(booking.customerId).emit("payment-failed", {
+            type: "PAYMENT_FAILED",
+            bookingId: booking.id,
+            message: "Thanh toán thất bại",
           });
         }
         return { isSuccess: true };

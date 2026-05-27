@@ -34,7 +34,7 @@ export default function BookingManagement() {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
     const query = `status=${status}&areaId=${areaId}&staffId=${staffId}&page=${page}`;
-    const { data: bookings,  isRefetching,refetch } = useGetQuery('bookings', bookingService.getAllBookings, query);
+    const { data: bookings,  isRefetching,refetch, isLoading } = useGetQuery('bookings', bookingService.getAllBookings, query);
     const { data: staffs } = useGetQuery('staff', staffService.getAllStaff);
     const { data: areas } = useGetQuery('areas', AreaService.getAllAreas);
     const dataArea = (areas?.data ?? []).map((item) => ({ label: item.name, value: item.id }));
@@ -159,7 +159,7 @@ export default function BookingManagement() {
                         </tr>
                     </thead>
                     <tbody>
-                        {(isRefetching || isdelete || isUnssign) && <Loading />}
+                        {(isRefetching || isdelete || isUnssign || isLoading) && <Loading />}
                         {bookings?.data.map((bk) => (
                             <tr key={bk.id}>
                                 <td className={styles.id_cell}>{bk.id}</td>

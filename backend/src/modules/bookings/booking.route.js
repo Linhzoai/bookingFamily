@@ -1,7 +1,7 @@
 import { Router } from "express";
 import BookingController from "./booking.controller.js";
 import validateMiddleware from "../../middlewares/validate.middleware.js";
-import { createBookingValidation, getBookingValidation, getBookingByIdValidation, updateBookingValidation } from "./booking.validation.js";
+import { createBookingValidation, getBookingValidation, getBookingByIdValidation, updateBookingValidation,getEligibleStaffsValidation } from "./booking.validation.js";
 const router = Router();
 
 /**
@@ -207,6 +207,46 @@ router.put("/:id", validateMiddleware(updateBookingValidation), BookingControlle
  */
 router.delete("/:id", validateMiddleware(getBookingByIdValidation, 'params'), BookingController.deleteBooking);
 
-
+/**
+ * @swagger
+ * /bookings/{id}/progress:
+ *   get:
+ *     summary: Lấy tiến độ hiện tại của một lịch đặt
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID của lịch đặt
+ *     responses:
+ *       200:
+ *         description: Lấy tiến độ thành công
+ */
 router.get("/:id/progress", validateMiddleware(getBookingByIdValidation, 'params'), BookingController.getProgressNow);
+
+/**
+ * @swagger
+ * /bookings/{bookingId}/eligible-staffs:
+ *   get:
+ *     summary: Lấy danh sách nhân viên phù hợp cho một lịch đặt
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: bookingId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID của lịch đặt
+ *     responses:
+ *       200:
+ *         description: Lấy danh sách nhân viên thành công
+ */
+router.get("/:bookingId/eligible-staffs", validateMiddleware(getEligibleStaffsValidation, 'params'), BookingController.getEligibleStaffs)
+
 export default router;

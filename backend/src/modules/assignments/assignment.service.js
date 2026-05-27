@@ -1,6 +1,7 @@
 import prisma from "../../config/prisma.js";
 import AppError from "../../utils/app.error.js";
 import checkRecordExist from "../../utils/check-exist.js";
+import {io} from "../../socket/index.js"
 class AssignmentService{
     createAssignJob = async (data) =>{
         const {bookingId, staffId, assignedAt, status} = data;
@@ -25,6 +26,14 @@ class AssignmentService{
                 status,
             }
         })
+        io.to(staffId).to(booking.customerId).emit("new-assignment-job", {
+          type: 'STAFF_NEW_REQUEST',
+          payload: {
+            bookingId,
+            staffAssignment: assignJob,
+            message: `Bạn có một yêu cầu đặt dịch vụ mới từ Admin`
+          }
+        })
         return assignJob;
     }
 
@@ -37,6 +46,14 @@ class AssignmentService{
         const assignJob = await prisma.staffAssignment.update({
             where: { id },
             data
+        })
+        io.to(staffId).to(booking.customerId).emit("update-assignment-job", {
+          type: data.status==="accepted"?"STAFF_ACCEPT_REQUEST":"STAFF_REJECT_REQUEST",
+          payload: {
+            bookingId,
+            staffAssignment: assignJob,
+            message: data.status==="accepted"?"Nhân viên đã chấp nhận yêu cầu đặt dịch vụ":"Nhân viên đã từ chối yêu cầu đặt dịch vụ"
+          }
         })
         return assignJob;
     }

@@ -71,6 +71,26 @@ class StaffController {
     return successResponse(res, { data: job, message: "Cập nhật trạng thái công việc thành công", statusCode: HttpStatus.OK, });
   });
 
+  //[POST] /api/v1/staff/add-area - thêm khu vực làm việc
+  addArea = catchAsync(async (req, res) => {
+    const data = req.body;
+    const area = await StaffService.addArea(data);
+    return successResponse(res, { data: area, message: "Thêm khu vực làm việc thành công", statusCode: HttpStatus.CREATED, });
+  });
+
+  //[DELETE] /api/v1/staff/delete-area - xóa khu vực làm việc
+  deleteArea = catchAsync(async (req, res) => {
+    const data = req.body;
+    const area = await StaffService.deleteArea(data);
+    return successResponse(res, { data: area, message: "Xóa khu vực làm việc thành công", statusCode: HttpStatus.OK, });
+  });
+
+  //[GET] /api/v1/staff/:id/area - lấy danh sách khu vực làm việc của nhân viên
+  getAreaOfStaff = catchAsync(async (req, res) => {
+    const area = await StaffService.getAreaOfStaff(req.params.staffId);
+    return successResponse(res, { data: area, message: "Lấy danh sách khu vực làm việc thành công", statusCode: HttpStatus.OK, });
+  });
+
 }
 
 export default new StaffController();

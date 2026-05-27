@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useAuthStore } from '@/stores/useAuthStore';
 import styles from './style.module.scss';
-import SearchCommon from '@components/SearchCommon/SearchCommon';
 import { TiCameraOutline } from "react-icons/ti";
 import { useRef } from 'react';
 import { useUpdateQuery } from '@/hooks/useQueryCustom';
 import { authService } from '@/services/authService';
+import { useSideBarStore } from '@/stores/useSidebarStore';
 export default function Header() {
     const { container, container_box, box_left, box_right, box_actions, action_button, notification_btn, badge } =
         styles;
     const userInfor = useAuthStore((state) => state.user);
+    const {toggleType} = useSideBarStore();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const handleOpenFile = async () => {
         fileInputRef.current?.click();
@@ -28,15 +29,17 @@ export default function Header() {
         }
         return;
     }
+    const  handleOpenFormCreateBooking = () =>{
+        toggleType('create_booking');
+    }
     return (
         <header className={container}>
             <div className={container_box}>
                 <div className={box_left}>
-                    <SearchCommon placeholder="Tìm kiếm hệ thống..." />
                 </div>
                 <div className={box_right}>
                     <div className={box_actions}>
-                        <button className={action_button}>
+                        <button className={action_button} onClick={handleOpenFormCreateBooking}>
                             <span className="material-symbols-outlined">add</span>+ Trực tiếp tạo Booking
                         </button>
                         <div className={notification_btn}>

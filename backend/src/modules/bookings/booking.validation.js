@@ -8,7 +8,7 @@ export const createBookingValidation = Joi.object({
     scheduledTime: Joi.string().required().label("Thời gian đặt lịch"),
     discountCode: Joi.string().optional().label("Mã giảm giá").empty(''),
     status: Joi.string().optional().default('pending').label("Trạng thái").valid('pending','accepted','in_progress','completed','cancelled'),
-    note: Joi.string().optional().label("Ghi chú").max(500),
+    note: Joi.string().optional().label("Ghi chú").max(500).allow(''),
     serviceId: Joi.array().items(Joi.number()).required().label("Mã dịch vụ"),
 })
 
@@ -38,4 +38,8 @@ export const getBookingValidation = Joi.object({
 
 export const getBookingByIdValidation = Joi.object({
     id: Joi.string().required().label("Mã đặt lịch")
+})
+
+export const getEligibleStaffsValidation = Joi.object({
+    bookingId: Joi.string().required().label("Mã đặt lịch"),
 })

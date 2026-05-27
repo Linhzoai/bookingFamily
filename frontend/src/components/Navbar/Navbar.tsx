@@ -1,6 +1,5 @@
 import styles from './style.module.scss';
 import { NavItems } from './contains.tsx';
-import Button from '../Button/Button.tsx';
 import { IoHelpCircleOutline } from 'react-icons/io5';
 import { IoIosLogOut } from 'react-icons/io';
 import { useAuthStore } from '../../stores/useAuthStore.ts';
@@ -51,14 +50,6 @@ export default function Navbar() {
                         </NavLink>
                     ))}
                 </nav>
-                <div style={{ width: '90%', margin: '0 auto' }}>
-                    <Button
-                        title="+ Tạo đơn mới"
-                        onClick={() => {
-                            console.log('Tạo đơn mới');
-                        }}
-                    />
-                </div>
             </div>
 
             <div className={nav_footer}>

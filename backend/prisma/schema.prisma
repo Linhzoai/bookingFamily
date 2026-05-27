@@ -69,6 +69,7 @@ model Booking {
   address          String            @db.VarChar(500)
   areaId           Int               @map("area_id")
   scheduledTime    DateTime          @map("scheduled_time")
+  expectedEndTime  DateTime?          @map("expected_end_time")
   discountCode   String?            @map("discount_code")
   status           String            @db.VarChar(50)
   note             String?           @db.Text
