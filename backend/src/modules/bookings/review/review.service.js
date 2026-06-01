@@ -9,7 +9,6 @@ class ReviewService{
             checkRecordExist(prisma.user, {id: data.customerId, role: 'customer'}),
             checkRecordExist(prisma.user, {id: data.staffId, role: 'staff'}),
         ])
-
         const review = await prisma.review.create({
             data: {
                 ...data,
@@ -22,17 +21,19 @@ class ReviewService{
     }
 
     updateReview = async (id, data) => {
-        const review = await checkRecordExist(prisma.review, {id});
+        const numericId = Number(id);
+        const review = await checkRecordExist(prisma.review, {id: numericId});
         const updatedReview = await prisma.review.update({
-            where: {id},
+            where: {id: numericId},
             data
         })
         return updatedReview
     }
 
     deleteReview = async (id) => {
-        await checkRecordExist(prisma.review, {id});
-        await prisma.review.delete({where: {id}});
+        const numericId = Number(id);
+        await checkRecordExist(prisma.review, {id: numericId});
+        await prisma.review.delete({where: {id: numericId}});
         return;
     }
 

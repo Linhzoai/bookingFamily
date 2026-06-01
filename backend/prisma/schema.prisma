@@ -215,7 +215,7 @@ model Review {
   staffId    String   @map("staff_id")
   type       String   @db.VarChar(50)
   rating     Int
-  comment    String?  @db.Text
+  review    String?  @db.Text
   createdAt  DateTime @default(now()) @map("created_at")
   booking    Booking  @relation(fields: [bookingId], references: [id])
   customer   User     @relation("CustomerReviews", fields: [customerId], references: [id])
