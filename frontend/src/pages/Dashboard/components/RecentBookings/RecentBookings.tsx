@@ -7,7 +7,7 @@ import SelectCommon from '@/components/SelectCommon/SelectCommon';
 import { useMemo, useState } from 'react';
 import { useGetQuery } from '@/hooks/useQueryCustom';
 import { AreaService } from '@/services/areaService';
-
+import renderStatus from '@/utils/renderStatus';
 interface RecentBookingsProps {
     bookings: Booking[];
 }
@@ -59,7 +59,7 @@ export default function RecentBookings({bookings}: RecentBookingsProps) {
                                 <td className={styles.text_small}>{item.staff ? item.staff.name : ''}</td>
                                 <td className={styles.text_small}>{formatDate(item.scheduledTime)}</td>
                                 <td>
-                                    <StatusBadge status={item.status} text={item.status} />
+                                    <StatusBadge status={item.status} text={renderStatus(item.status)} />
                                 </td>
                                 <td className={styles.actions_cell}>
                                     <button className="material-symbols-outlined">more_vert</button>

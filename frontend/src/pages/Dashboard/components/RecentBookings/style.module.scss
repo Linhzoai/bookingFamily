@@ -69,6 +69,10 @@
                     font-size: 12px;
                     font-weight: 700;
                     color: #468faf;
+                    max-width: 20px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
                 .customer_name {

@@ -9,43 +9,7 @@ import { useEffect } from 'react';
 import { useSideBarStore } from '@/stores/useSidebarStore';
 import { staffService } from '@/services/staffService';
 export default function CustomerManagement() {
-    const {
-        container,
-        header,
-        title,
-        subtitle,
-        actions,
-        export_btn,
-        add_btn,
-        stats_grid,
-        stat_card,
-        stat_card_wide,
-        stat_label,
-        stat_value,
-        stat_trend_pos,
-        stat_trend_info,
-        stat_label_light,
-        stat_value_large,
-        stat_info_light,
-        badge,
-        filter_bar,
-        search_box,
-        select_box,
-        date_box,
-        table_card,
-        table,
-        text_center,
-        text_right,
-        mono_text,
-        cust_name,
-        cust_date,
-        contact_info,
-        email,
-        booking_count,
-        amount_text,
-        wide_content,
-        action_cell,
-    } = styles;
+    const { container, header, title, subtitle, actions, export_btn, add_btn, stats_grid, stat_card, stat_card_wide, stat_label, stat_value, stat_trend_pos, stat_trend_info, stat_label_light, stat_value_large, stat_info_light, badge, filter_bar, search_box, select_box, date_box, table_card, table, text_center, text_right, mono_text, cust_name, cust_date, contact_info, email, booking_count, amount_text, wide_content, action_cell, } = styles;
     const [page, setPage] = useState(1)
     let queryCustomer = `page=${page}`
     const [search, setSearch] = useState('');
@@ -136,7 +100,7 @@ export default function CustomerManagement() {
                 <table className={table}>
                     <thead>
                         <tr>
-                            <th>Mã KH</th>
+                            <th>STT</th>
                             <th>Khách hàng</th>
                             <th>Liên hệ</th>
                             <th className={text_center}>Booking</th>
@@ -145,9 +109,9 @@ export default function CustomerManagement() {
                         </tr>
                     </thead>
                     <tbody>
-                        {(customers?.data || []).map((cust) => (
+                        {(customers?.data || []).map((cust,index) => (
                             <tr key={cust.id}>
-                                <td className={mono_text}>{cust.id}</td>
+                                <td className={mono_text}>{(customers?.pageNumber-1)*customers.pageSize+index + 1}</td>
                                 <td>
                                     <img src={cust.avatarUrl} alt={cust.name} />
                                     <p className={cust_name}>{cust.name}</p>

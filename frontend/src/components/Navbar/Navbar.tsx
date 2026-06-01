@@ -1,6 +1,5 @@
 import styles from './style.module.scss';
 import { NavItems } from './contains.tsx';
-import { IoHelpCircleOutline } from 'react-icons/io5';
 import { IoIosLogOut } from 'react-icons/io';
 import { useAuthStore } from '../../stores/useAuthStore.ts';
 import { toast } from 'react-toastify';
@@ -42,10 +41,6 @@ export default function Navbar() {
 
             <div className={nav_footer}>
                 <div className={footer_info}>
-                    <div className={footer_info_item}>
-                        <IoHelpCircleOutline size={20} />
-                        <span>Hỗ trợ</span>
-                    </div>
                     <div className={footer_info_item} onClick={handleLogout}>
                         <IoIosLogOut size={20} />
                         <span>Đăng xuất</span>

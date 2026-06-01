@@ -38,19 +38,22 @@ class AssignmentService{
     }
 
     updateAssignJob = async (id, data) =>{
-        const {bookingId, staffId, assignAt, status} = data;
-        
         // Kiểm tra assignment có tồn tại không
-        await checkRecordExist(prisma.staffAssignment, {id}, undefined, 'Giao việc không tồn tại');
-
+        await checkRecordExist(prisma.staffAssignment, {id: Number(id)}, undefined, 'Giao việc không tồn tại');
         const assignJob = await prisma.staffAssignment.update({
-            where: { id },
+            where: { id: Number(id) },
             data
         })
-        io.to(staffId).to(booking.customerId).emit("update-assignment-job", {
+        const booking = await prisma.booking.findUnique({
+            where: { id: assignJob.bookingId },
+            include: {
+                customer: true
+            }
+        })
+        io.to(assignJob.staffId).to(booking?.customer?.id).emit("update-assignment-job", {
           type: data.status==="accepted"?"STAFF_ACCEPT_REQUEST":"STAFF_REJECT_REQUEST",
           payload: {
-            bookingId,
+            bookingId: assignJob.bookingId,
             staffAssignment: assignJob,
             message: data.status==="accepted"?"Nhân viên đã chấp nhận yêu cầu đặt dịch vụ":"Nhân viên đã từ chối yêu cầu đặt dịch vụ"
           }

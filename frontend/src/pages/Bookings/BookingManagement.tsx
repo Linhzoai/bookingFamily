@@ -17,6 +17,7 @@ import Loading from '@/components/LoadingCommon/Loading';
 import { toast } from 'react-toastify';
 import { assignBookingService } from '@/services/assignBookingService';
 import { useSocketStore } from '@/stores/useSocketStore';
+import renderStatus from '@/utils/renderStatus';
 export default function BookingManagement() {
     const statusData = [
         { label: 'Tất cả trạng thái', value: '' },
@@ -147,7 +148,7 @@ export default function BookingManagement() {
                 <table className={styles.table}>
                     <thead>
                         <tr>
-                            <th>Mã</th>
+                            <th>STT</th>
                             <th>Khách hàng</th>
                             <th>Dịch vụ</th>
                             <th>Lịch hẹn</th>
@@ -160,9 +161,9 @@ export default function BookingManagement() {
                     </thead>
                     <tbody>
                         {(isRefetching || isdelete || isUnssign || isLoading) && <Loading />}
-                        {bookings?.data.map((bk) => (
+                        {bookings?.data.map((bk,index) => (
                             <tr key={bk.id}>
-                                <td className={styles.id_cell}>{bk.id}</td>
+                                <td className={styles.id_cell}>{(bookings.pageNumber -1)*bookings.pageSize + index + 1}</td>
                                 <td>
                                     <div className={styles.bold_text}>{bk.customer.name}</div>
                                     <div className={styles.mono_text_xs}>{bk.customer.phone}</div>
@@ -198,7 +199,7 @@ export default function BookingManagement() {
                                     )}
                                 </td>
                                 <td className={styles.text_center}>
-                                    <StatusBadge status={bk.status} text={bk?.staffAssignments?.[0]?.status || 'pending assignment'} />
+                                    <StatusBadge status={bk.status} text={renderStatus(bk?.staffAssignments?.[0]?.status || 'pending assignment')} />
                                 </td>
                                 <td className={styles.amount_cell}>
                                     {Number(bk.totalAmount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}

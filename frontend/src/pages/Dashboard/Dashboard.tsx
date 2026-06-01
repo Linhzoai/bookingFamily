@@ -7,6 +7,7 @@ import RecentNotifications from './components/RecentNotifications/RecentNotifica
 import LoadingComponent from '@/components/Loading/Loading';
 import { useGetQuery } from '@/hooks/useQueryCustom';
 import { bookingService } from '@/services/bookingService';
+
 export default function Dashboard() {
     const { container, stats_grid, main_grid } = styles;
     const statsData = [
