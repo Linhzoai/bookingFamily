@@ -138,7 +138,7 @@ router.get("/", validateMiddleware(getBookingValidation, 'query'), BookingContro
  *       404:
  *         description: Mã Id không tồn tại
  */
-router.get("/:id", validateMiddleware(getBookingByIdValidation), BookingController.getBookingById);
+router.get("/:id", validateMiddleware(getBookingByIdValidation, 'params'), BookingController.getBookingById);
 
 /**
  * @swagger
