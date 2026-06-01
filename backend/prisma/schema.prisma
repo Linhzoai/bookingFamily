@@ -85,7 +85,7 @@ model Booking {
   discountCodes    DiscountCode?     @relation(fields: [discountCode], references: [code])
   issueReports     IssueReport[]
   payments         Payment[]
-  review           Review?
+  reviews          Review[]
   staffAssignments StaffAssignment[]
   taskProgress     TaskProgress[]
   bookingDetails   BookingDetails[]
@@ -102,6 +102,7 @@ model StaffAssignment {
   staffId    String   @map("staff_id")
   assignedAt DateTime @map("assigned_at")
   status     String   @db.VarChar(50)
+  reason     String?  @db.Text
   booking    Booking  @relation(fields: [bookingId], references: [id])
   staff      User     @relation("StaffAssignments", fields: [staffId], references: [id])
 
@@ -209,7 +210,7 @@ model LeaveRequest {
 
 model Review {
   id         Int      @id @default(autoincrement()) @map("review_id")
-  bookingId  String   @unique @map("booking_id")
+  bookingId  String   @map("booking_id")
   customerId String   @map("customer_id")
   staffId    String   @map("staff_id")
   type       String   @db.VarChar(50)
@@ -223,6 +224,7 @@ model Review {
   @@index([customerId])
   @@index([staffId])
   @@map("reviews")
+  @@unique([bookingId, type])
 }
 
 model IssueReport {

@@ -109,15 +109,45 @@ class StaffService {
     const staff = await checkRecordExist(prisma.user, { id });
     const query = { staffId: id };
     if (data.status) query.status = data.status;
-    if (data.assignedAt)
-      query.assignedAt = {
-        gte: new Date(data.assignedAt),
-      };
-    console.log(data);
-    const jobs = paginatePrisma(prisma.staffAssignment, query, data, {
-      booking: true,
-      staff: true,
-    });
+    if (data.assignedAt) query.assignedAt = { gte: new Date(data.assignedAt) };
+    const include =  {
+      booking: {
+        select: {
+          id: true,
+          scheduledTime: true,
+          expectedEndTime: true,
+          address: true,
+          totalAmount: true,
+          status: true,
+          note: true,
+          // Chỉ lấy các trường cần thiết của customer, tuyệt đối KHÔNG lấy hashPassword
+          customer: {
+            select: {
+              id: true,
+              name: true,
+              phone: true,
+              avatarUrl: true,
+            }
+          },
+          // Lấy chi tiết dịch vụ (chỉ cần tên, giá, thời lượng)
+          bookingDetails: {
+            select: {
+              quantity: true,
+              unitPrice: true,
+              service: {
+                select: {
+                  id: true,
+                  name: true,
+                  duration: true,
+                  imageUrl: true
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+    const jobs = paginatePrisma(prisma.staffAssignment, query, data, include);
     return jobs;
   };
 

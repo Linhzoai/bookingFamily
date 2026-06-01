@@ -7,19 +7,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, NavLink } from 'react-router-dom';
 
 export default function Navbar() {
-    const {
-        container,
-        title,
-        nav_menu,
-        nav_item,
-        nav_icon,
-        nav_label,
-        nav_footer,
-        footer_info,
-        footer_info_item,
-        nav_menu_container,
-        active_item
-    } = styles;
+    const { container, title, nav_menu, nav_item, nav_icon, nav_label, nav_footer, footer_info, footer_info_item, nav_menu_container, active_item } = styles;
     const { logout } = useAuthStore();
     const navigate = useNavigate();
 

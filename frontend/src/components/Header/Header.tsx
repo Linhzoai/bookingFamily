@@ -7,7 +7,7 @@ import { useUpdateQuery } from '@/hooks/useQueryCustom';
 import { authService } from '@/services/authService';
 import { useSideBarStore } from '@/stores/useSidebarStore';
 export default function Header() {
-    const { container, container_box, box_left, box_right, box_actions, action_button, notification_btn, badge } =
+    const { container, container_box, box_left, box_right, box_actions, action_button } =
         styles;
     const userInfor = useAuthStore((state) => state.user);
     const {toggleType} = useSideBarStore();
@@ -42,10 +42,6 @@ export default function Header() {
                         <button className={action_button} onClick={handleOpenFormCreateBooking}>
                             <span className="material-symbols-outlined">add</span>+ Trực tiếp tạo Booking
                         </button>
-                        <div className={notification_btn}>
-                            <span className="material-symbols-outlined">notifications</span>
-                            <span className={badge}></span>
-                        </div>
                     </div>
                     <div className={styles.user_profile}>
                         <div className={styles.info}>

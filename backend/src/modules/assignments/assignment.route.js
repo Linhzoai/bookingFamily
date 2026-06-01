@@ -39,7 +39,7 @@ const router = Router();
  *                 description: ID của nhân viên được giao việc
  *               status:
  *                 type: string
- *                 enum: [accepted, rejected, assigned, completed]
+ *                 enum: [accepted, rejected, assigned, completed, cancelled]
  *                 default: assigned
  *               assignedAt:
  *                 type: string
@@ -81,10 +81,13 @@ router.post('/', validateMiddleware(createProgressValidation), assignmentControl
  *                 type: string
  *               status:
  *                 type: string
- *                 enum: [accepted, rejected, assigned, completed]
+ *                 enum: [accepted, rejected, assigned, completed, cancelled]
  *               assignedAt:
  *                 type: string
  *                 format: date-time
+ *               reason:
+ *                 type: string
+ *                 description: Lý do (thường dùng khi hủy/từ chối phân công)
  *     responses:
  *       200:
  *         description: Cập nhật thành công

@@ -61,10 +61,10 @@ export default function AreaManagement() {
         }
         if(isEdit === 'update'){
             const id = watch('id');
-            if(data.districtId){
+            if(data.districtId && data.districtId != ''){
                 newData.parentId = Number(data.districtId);
             }
-            if(data.cityId && !data.districtId){
+            if(data.cityId && data.cityId != '' && !data.districtId){
                 newData.parentId = Number(data.cityId);
             }
             updateArea({id: Number(id),data:newData},{ onSuccess: () => { reset(); setIsOpen(false); } } );

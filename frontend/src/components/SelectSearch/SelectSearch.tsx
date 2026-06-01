@@ -73,7 +73,7 @@ const SelectSearch = forwardRef<HTMLSelectElement, SelectSearchProps>(
                     disabled={disabled}
                     {...props}
                 >
-                    <option value="">--- {placeholder} ---</option>
+                    <option value=''>--- {placeholder} ---</option>
                     {options.map((option) => (
                         <option key={option.value} value={option.value}>
                             {option.label}

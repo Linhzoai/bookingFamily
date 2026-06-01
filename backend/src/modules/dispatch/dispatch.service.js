@@ -2,7 +2,6 @@ import prisma from "#config/prisma.js";
 
 export const findEligibleStaffs = async (areaId, startTime, expectedEndTime) => {
     //1. Lấy thông tin khu vực hoạt động
-    console.log(areaId, startTime, expectedEndTime)
     const ward = await prisma.serviceArea.findUnique({where: {id: areaId}});
     const district = ward?.parentId ? await prisma.serviceArea.findUnique({where: {id: ward.parentId}}) : null;
     const city = district?.parentId ? await prisma.serviceArea.findUnique({where: {id: district.parentId}}) : null;

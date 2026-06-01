@@ -30,11 +30,23 @@ class AreaService {
             where:{ id: Number(id) }
         })
         if(!existArea){ throw new AppError("Địa điểm không tồn tại", 404); }
+        data.path = '/';
+        if(data.parentId){
+            const parentArea = await prisma.serviceArea.findUnique({
+                where:{ id: data.parentId }
+            })
+            if(!parentArea){ throw new AppError("Địa điểm cha không tồn tại", 404); }
+            data.path = parentArea.path;
+        }
         const area = await prisma.serviceArea.update({
             where:{ id: Number(id) },
             data
         })
-        return area;
+         const updatedArea  = await prisma.serviceArea.update({
+            where:{ id: area.id },
+            data:{ path: `${data.path}${area.id}/` }
+        })
+        return updatedArea;
     }
 
     deleteArea = async (id) =>{

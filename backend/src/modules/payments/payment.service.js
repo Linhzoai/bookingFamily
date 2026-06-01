@@ -107,7 +107,6 @@ class PaymentService {
     const signData = Object.keys(vnp_Params).map((key) =>`${key}=${vnp_Params[key]}`).join("&");
     const hmac = crypto.createHmac("sha512", secretKey);
     const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
-
     if (secureHash === signed) {
       const txnRef = vnpayParams["vnp_TxnRef"];
       const booking = await checkRecordExist( prisma.booking, { id: txnRef.split("_")[0] }, undefined, "Không tìm thấy đơn đặt lịch", );
