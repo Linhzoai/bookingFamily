@@ -156,7 +156,7 @@ class BookingService {
         area: true,
         staffAssignments: true,
         payments: true,
-        review: true,
+        reviews: true,
         issueReports: true,
         taskProgress: true,
       },
