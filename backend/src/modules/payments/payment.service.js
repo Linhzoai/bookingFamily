@@ -122,7 +122,7 @@ class PaymentService {
           if (payment) {
             await prisma.$transaction(async (tx) => {
               await tx.payment.update({
-                where: { id: payment.id, status: "PENDING" },
+                where: { id: payment.id },
                 data: {
                   status: "SUCCESS",
                   transactionId: vnpayParams["vnp_TransactionNo"],
@@ -159,7 +159,7 @@ class PaymentService {
       } else {
         if (payment) {
           await prisma.payment.update({
-            where: { id: payment.id, status: "PENDING" },
+            where: { id: payment.id },
             data: {
               status: "FAILED",
               gatewayResponse: vnpayParams,

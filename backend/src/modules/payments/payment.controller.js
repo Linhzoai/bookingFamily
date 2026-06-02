@@ -36,6 +36,7 @@ class PaymentController {
     async vnpayReturn(req, res, next) {
         try {
             const vnpayParams = req.query;
+
             const result = await paymentService.verifyReturnUrl(vnpayParams);
             
             // Redirect thẳng về Frontend hoặc trả JSON tuỳ frontend handle
