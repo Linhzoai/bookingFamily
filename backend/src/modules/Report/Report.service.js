@@ -24,11 +24,17 @@ class ReportService {
             formatTime.formatStr = "YYYY"
         }
         const result = await prisma.$queryRaw`
-            SELECT TO_CHAR(created_at, ${formatTime.formatStr}) AS "recordDate",
-            SUM(total_amount) as "totalAmounts",
-            CAST(COUNT(*) AS INTEGER ) as "totalBookings"
-            FROM bookings
-            WHERE created_at BETWEEN ${from} AND ${to}
+            SELECT TO_CHAR(b.created_at, ${formatTime.formatStr}) AS "recordDate",
+            SUM(b.total_amount) as "totalAmounts",
+            CAST(COUNT(*) AS INTEGER ) as "totalBookings",
+            SUM(CASE WHEN b.status = 'completed' THEN b.total_amount ELSE 0 END) as "totalCompletedAmount",
+            CAST(COUNT(CASE WHEN b.status = 'completed' THEN 1 END) AS INTEGER) as "totalCompletedBookings",
+            CAST((COUNT(CASE WHEN b.status = 'completed' THEN 1 END) * 100.0 / COUNT(*)) AS NUMERIC(10,2)) as "completedRate",
+            SUM(CASE WHEN b.status = 'cancelled' THEN b.total_amount ELSE 0 END) as "totalCancelledAmount",
+            CAST(COUNT(CASE WHEN b.status = 'cancelled' THEN 1 END) AS INTEGER) as "totalCancelledBookings",
+            CAST((COUNT(CASE WHEN b.status = 'cancelled' THEN 1 END) * 100.0 / COUNT(*)) AS NUMERIC(10,2)) as "cancelledRate"
+            FROM bookings b
+            WHERE b.created_at BETWEEN ${from} AND ${to}
             ${statusCondition}
             GROUP BY "recordDate"
             ORDER BY "recordDate" ASC
@@ -69,7 +75,13 @@ class ReportService {
         const result = await prisma.$queryRaw`
             SELECT TO_CHAR(b.created_at, ${formatTime.formatStr}) AS "recordDate",
             SUM(b.total_amount) as "totalAmounts",
-            CAST(COUNT(*) AS INTEGER ) as "totalBookings"
+            CAST(COUNT(*) AS INTEGER ) as "totalBookings",
+            SUM(CASE WHEN b.status = 'completed' THEN b.total_amount ELSE 0 END) as "totalCompletedAmount",
+            CAST(COUNT(CASE WHEN b.status = 'completed' THEN 1 END) AS INTEGER) as "totalCompletedBookings",
+            CAST((COUNT(CASE WHEN b.status = 'completed' THEN 1 END) * 100.0 / COUNT(*)) AS NUMERIC(10,2)) as "completedRate",
+            SUM(CASE WHEN b.status = 'cancelled' THEN b.total_amount ELSE 0 END) as "totalCancelledAmount",
+            CAST(COUNT(CASE WHEN b.status = 'cancelled' THEN 1 END) AS INTEGER) as "totalCancelledBookings",
+            CAST((COUNT(CASE WHEN b.status = 'cancelled' THEN 1 END) * 100.0 / COUNT(*)) AS NUMERIC(10,2)) as "cancelledRate"
             FROM bookings b
             WHERE b.created_at BETWEEN ${from} AND ${to}
             ${statusCondition}
