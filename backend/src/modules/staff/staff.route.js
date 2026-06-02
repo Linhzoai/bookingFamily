@@ -354,7 +354,7 @@ router.delete("/delete-area", validateMiddleware(deleteAreaSchema), staffControl
 
 /**
  * @swagger
- * /staff/{id}/get-area:
+ * /staff/{staffId}/get-area:
  *   get:
  *     summary: Lấy danh sách khu vực làm việc của nhân viên
  *     tags: [Staff]

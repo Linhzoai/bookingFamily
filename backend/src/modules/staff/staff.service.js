@@ -219,6 +219,7 @@ class StaffService {
   //Lấy danh sách khu vực làm việc
   getAreaOfStaff = async (id) => {
     // 1. Kiểm tra tồn tại
+    console.log(id);
     const staff = await checkRecordExist(prisma.user, { id });
 
     // 2. Query lồng nhau (Nested Include) để lấy 3 cấp

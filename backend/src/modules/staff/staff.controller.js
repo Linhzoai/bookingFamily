@@ -87,6 +87,7 @@ class StaffController {
 
   //[GET] /api/v1/staff/:id/area - lấy danh sách khu vực làm việc của nhân viên
   getAreaOfStaff = catchAsync(async (req, res) => {
+    console.log(req.params);
     const area = await StaffService.getAreaOfStaff(req.params.staffId);
     return successResponse(res, { data: area, message: "Lấy danh sách khu vực làm việc thành công", statusCode: HttpStatus.OK, });
   });
