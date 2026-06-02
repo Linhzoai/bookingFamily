@@ -104,7 +104,7 @@ class PaymentService {
     delete vnpayParams["vnp_SecureHashType"];
 
     vnpayParams = sortObject(vnpayParams);
-    const signData = Object.keys(vnp_Params).map((key) =>`${key}=${vnp_Params[key]}`).join("&");
+    const signData = Object.keys(vnpayParams).map((key) =>`${key}=${vnpayParams[key]}`).join("&");
     const hmac = crypto.createHmac("sha512", secretKey);
     const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
     if (secureHash === signed) {
