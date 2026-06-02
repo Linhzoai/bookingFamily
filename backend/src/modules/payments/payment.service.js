@@ -19,7 +19,7 @@ function sortObject(obj) {
   let str = [];
   let key;
   for (key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
       str.push(key);
     }
   }
@@ -99,18 +99,19 @@ class PaymentService {
   }
   
   async verifyAndProcessIPN(vnpayParams) {
-    let secureHash = vnpayParams["vnp_SecureHash"];
-    delete vnpayParams["vnp_SecureHash"];
-    delete vnpayParams["vnp_SecureHashType"];
+    let params = { ...vnpayParams };
+    let secureHash = params["vnp_SecureHash"];
+    delete params["vnp_SecureHash"];
+    delete params["vnp_SecureHashType"];
 
-    vnpayParams = sortObject(vnpayParams);
-    const signData = Object.keys(vnpayParams).map((key) =>`${key}=${vnpayParams[key]}`).join("&");
+    params = sortObject(params);
+    const signData = Object.keys(params).map((key) =>`${key}=${params[key]}`).join("&");
     const hmac = crypto.createHmac("sha512", secretKey);
     const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
     if (secureHash === signed) {
-      const txnRef = vnpayParams["vnp_TxnRef"];
+      const txnRef = params["vnp_TxnRef"];
       const booking = await checkRecordExist( prisma.booking, { id: txnRef.split("_")[0] }, undefined, "Không tìm thấy đơn đặt lịch", );
-      const responseCode = vnpayParams["vnp_ResponseCode"];
+      const responseCode = params["vnp_ResponseCode"];
 
       const payment = await prisma.payment.findFirst({
         where: { vnpayTnxRef: txnRef, status: "PENDING" },
