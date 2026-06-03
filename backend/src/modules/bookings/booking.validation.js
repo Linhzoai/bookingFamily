@@ -20,7 +20,7 @@ export const updateBookingValidation = Joi.object({
     scheduledTime: Joi.string().optional().label("Thời gian đặt lịch"),
     discountCodeId: Joi.string().optional().label("Mã giảm giá"),
     status: Joi.string().optional().label("Trạng thái").valid('pending','accepted','in_progress','completed','cancelled'),
-    note: Joi.string().optional().label("Ghi chú").max(500),
+    note: Joi.string().optional().label("Ghi chú").max(500).allow(""),
     actualStartTime: Joi.date().optional().label("Thời gian bắt đầu"),
     actualEndTime: Joi.date().optional().label("Thời gian kết thúc"),
     cancelReason: Joi.string().optional().label("Lý do hủy").max(500),

@@ -99,8 +99,12 @@ class BookingService {
         }),
       );
       const totalAmount = serviceInfo.reduce((acc, service) => acc + Number(service.price), 0);
+      const baseTime = data.scheduledTime ? new Date(data.scheduledTime) : new Date(booking.scheduledTime);
+      if (data.scheduledTime) {
+         data.scheduledTime = baseTime;
+      }
       data.expectedEndTime = new Date(
-        data.scheduledTime.getTime() + caculateExpectEndTime(serviceInfo) * 60 * 1000
+        baseTime.getTime() + caculateExpectEndTime(serviceInfo) * 60 * 1000
       );
       data.totalAmount = totalAmount;
       data.bookingDetails = {

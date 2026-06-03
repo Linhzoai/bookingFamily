@@ -6,6 +6,13 @@ import { paginatePrisma } from "../../helper/prisma.helper.js";
 import { io } from '../../socket/index.js';
 class ProgressService {
   createProgress = async (data, image) => {
+    const staffAssignment = await prisma.staffAssignment.findFirst({
+      where: { bookingId: data.bookingId, staffId: data.staffId , status: { notIn: ['cancelled', 'rejected'] }},
+    });
+    console.log(staffAssignment)
+    if (!staffAssignment || staffAssignment.staffId !== data.staffId) {
+      throw new AppError("Bạn không có quyền cập nhật tiến độ cho đơn này", HttpStatus.BAD_REQUEST);
+    }
     const progress = await bookingService.getProgressNow(data.bookingId);
     let nextStep = "is_coming";
     if (progress) {
@@ -19,7 +26,7 @@ class ProgressService {
       };
       nextStep = flow[progress.stepName] || progress.stepName;
     }
-
+    
     return await prisma.$transaction(async (tx) => {
       const nextProgress = await tx.taskProgress.create({
         data: {

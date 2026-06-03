@@ -67,13 +67,12 @@
                 flex: 1;
 
                 .bar {
-                    width: 8px;
+                    width: 12px;
                     background-color: #ace5fd;
-                    border-radius: 999px;
+                    //border-radius: 999px;
                     position: relative;
                     transition: height 0.3s ease;
                     cursor: pointer;
-
                     &:hover .tooltip {
                         opacity: 1;
                     }
@@ -96,7 +95,7 @@
                 }
 
                 .bar_active {
-                    background-color: #468faf;
+                    background-color: #11b7fea2;
                 }
 
                 .label {

@@ -112,43 +112,40 @@ class StaffService {
     if (data.assignedAt) query.assignedAt = { gte: new Date(data.assignedAt) };
     const include =  {
       booking: {
-        select: {
-          id: true,
-          scheduledTime: true,
-          expectedEndTime: true,
-          address: true,
-          totalAmount: true,
-          status: true,
-          note: true,
-          // Chỉ lấy các trường cần thiết của customer, tuyệt đối KHÔNG lấy hashPassword
-          customer: {
-            select: {
-              id: true,
-              name: true,
-              phone: true,
-              avatarUrl: true,
-            }
+        select: { id: true, scheduledTime: true, expectedEndTime: true, address: true, totalAmount: true, status: true, note: true,
+          customer: { 
+            select: { id: true, name: true, phone: true, avatarUrl: true, } 
           },
-          // Lấy chi tiết dịch vụ (chỉ cần tên, giá, thời lượng)
           bookingDetails: {
             select: {
               quantity: true,
               unitPrice: true,
-              service: {
-                select: {
-                  id: true,
-                  name: true,
-                  duration: true,
-                  imageUrl: true
-                }
-              }
+              service: { 
+                select: { id: true, name: true, duration: true, imageUrl: true } 
+              } 
             }
+          },
+          reviews: {
+            select: {type: true, rating: true, review: true, createdAt: true}
           }
         }
       }
     };
-    const jobs = paginatePrisma(prisma.staffAssignment, query, data, include);
-    return jobs;
+    const jobs = await paginatePrisma(prisma.staffAssignment, query, data, include);
+    const formatData = {
+      ...jobs,
+      data: jobs.data?.map((job) => {
+        const {reviews, ...dataBookings} = job.booking;
+        return {
+        ...job,
+        booking: {
+          ...dataBookings,
+          customerReview: reviews?.find(r => r.type === "customer"),
+          staffReview: job.booking?.reviews?.find(r => r.type === "staff")
+        }
+      }})
+    }
+    return formatData;
   };
 
   //Cập nhật công việc

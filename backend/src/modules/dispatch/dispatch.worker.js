@@ -56,14 +56,20 @@ const dispatchWorker = new Worker(
     const nextStaff = staffList[currentIndex];
 
     // Tạo StaffAssignment mới cho nhân viên tiếp theo
-    await prisma.staffAssignment.create({
-      data: {
-        bookingId,
-        staffId: nextStaff.id,
-        status: "assigned",
-        assignedAt: new Date(),
-      },
-    });
+    await prisma.$transaction((prisma)=>{
+      prisma.staffAssignment.create({
+        data: {
+          bookingId,
+          staffId: nextStaff.id,
+          status: "assigned",
+          assignedAt: new Date(),
+        },
+      });
+      prisma.booking.update({
+        where: { id: bookingId },
+        data: { status: "pending" },
+      });
+    })
 
     // [Tuỳ chọn] Bắn Socket thông báo cho app của nhân viên
     io.to(nextStaff.id).emit("new_booking_request", {

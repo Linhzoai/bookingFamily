@@ -62,7 +62,8 @@ class ReportService {
             AND sa.staff_id = ${user.id}
             AND sa.status <> 'rejected'
         )`
-        if (groupBy === "day" && diffDays < 31) {
+        console.log(diffDays);
+        if (groupBy === "day" && diffDays <= 31) {
             formatTime.formatStr = "DD-MM-YYYY";
         } else if (
             (groupBy === "month" && diffDays <= 365) ||
