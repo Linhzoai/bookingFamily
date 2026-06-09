@@ -10,6 +10,7 @@ export const createBookingValidation = Joi.object({
     status: Joi.string().optional().default('pending').label("Trạng thái").valid('pending','accepted','in_progress','completed','cancelled'),
     note: Joi.string().optional().label("Ghi chú").max(500).allow(''),
     serviceId: Joi.array().items(Joi.number()).required().label("Mã dịch vụ"),
+    paymentStatus: Joi.optional().default("CAST").label("Trạng thái thanh toán").allow('')
 })
 
 export const updateBookingValidation = Joi.object({
@@ -24,6 +25,7 @@ export const updateBookingValidation = Joi.object({
     actualStartTime: Joi.date().optional().label("Thời gian bắt đầu"),
     actualEndTime: Joi.date().optional().label("Thời gian kết thúc"),
     cancelReason: Joi.string().optional().label("Lý do hủy").max(500),
+    paymentStatus: Joi.optional().default("CAST").label("Trạng thái thanh toán").allow('')
 })
 
 export const getBookingValidation = Joi.object({

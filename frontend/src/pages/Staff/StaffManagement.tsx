@@ -8,48 +8,7 @@ import cls from 'classnames';
 import { useSideBarStore } from '@/stores/useSidebarStore';
 
 export default function StaffManagement() {
-    const {
-        container,
-        text_left,
-        header,
-        title,
-        subtitle,
-        actions,
-        export_btn,
-        add_btn,
-        stats_grid,
-        stat_card,
-        stat_card_wide,
-        stat_label,
-        stat_value,
-        stat_trend_pos,
-        stat_trend_info,
-        stat_label_light,
-        stat_value_large,
-        stat_info_light,
-        badge,
-        wide_content,
-        filter_bar,
-        search_box,
-        select_box,
-        date_box,
-        table_card,
-        table,
-        text_center,
-        text_right,
-        mono_text,
-        staff_name,
-        staff_date,
-        contact_info,
-        email,
-        booking_count,
-        action_cell,
-        status_badge,
-        avail_badge,
-        badge_active,
-        badge_leave,
-        badge_inactive,
-    } = styles;
+    const { container, text_left, header, title, subtitle, actions, add_btn, stats_grid, stat_card, stat_card_wide, stat_label, stat_value, stat_trend_pos, stat_trend_info, stat_label_light, stat_value_large, stat_info_light, badge, wide_content, filter_bar, search_box, select_box, date_box, table_card, table, text_center, text_right, mono_text, staff_name, staff_date, contact_info, email, booking_count, action_cell, status_badge, avail_badge, badge_active, badge_leave, badge_inactive, } = styles;
 
     const [page, setPage] = useState(1);
     let queryStaff = `page=${page}`;
@@ -110,10 +69,6 @@ export default function StaffManagement() {
                     <p className={subtitle}>Quản lý thông tin và điều phối nhân sự kỹ thuật.</p>
                 </div>
                 <div className={actions}>
-                    <button className={export_btn}>
-                        <span className="material-symbols-outlined">download</span>
-                        Xuất báo cáo
-                    </button>
                     <button className={add_btn} onClick={() => toggleType('create_staff')}>
                         <span className="material-symbols-outlined">add</span>
                         Thêm nhân viên

@@ -121,10 +121,8 @@ export default function AreaManagement() {
                 <div className={styles.tabs}>
                     <button onClick={()=>setPage('maneger')} className={cls(page==='maneger' && styles.active)}>Chung</button>
                     <button onClick={()=>setPage('system')} className={cls(page==='system' && styles.active)}>Khu vực dịch vụ</button>
-                    <button>Thông báo</button>
                 </div>
             </div>
-    
             <div className={styles.content_grid}>
                 {/* Left Side: Areas Table */}
                 {handleRenderPage(page)}

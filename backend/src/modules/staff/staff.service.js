@@ -35,6 +35,7 @@ class StaffService {
             email: true,
             gender: true,
             address: true,
+            avatarUrl: true,
           },
         },
       },

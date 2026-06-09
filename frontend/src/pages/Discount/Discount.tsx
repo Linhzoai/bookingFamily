@@ -6,12 +6,14 @@ import InputDiscountForm from './components/InputDisountForm/InputDiscountForm';
 import TableDiscount from './components/TableDiscount/TableDiscount';
 import { useGetQuery } from '@/hooks/useQueryCustom';
 import { discountService } from '@/services/discountService';
+import { useDebounce } from '@/hooks/useDebounce.ts';
 import type { Discount } from '@/types/booking';
 const Discount = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [discount, setDiscount] = useState<Discount|null>(null);
-  const { data:discounts, isLoading:discountsLoading} = useGetQuery('discounts', discountService.getAllDiscounts,`code=${searchTerm}`);
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const { data:discounts, isLoading:discountsLoading} = useGetQuery('discounts', discountService.getAllDiscounts,`code=${debouncedSearchTerm}`);
   const handleEdit = (discount: Discount)=>{
     setDiscount(discount);
     setIsOpen(true);

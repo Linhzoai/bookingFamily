@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import styles from './style.module.scss';
 import StatsCard from '@components/StatsCard/StatsCard';
@@ -105,7 +106,7 @@ export default function Dashboard() {
                 </div>
                 <div className={styles.right_col}>
                     <BookingChart reportData = {formatDataForChart(dataReport)}  cancelRate = {(dataReport?.reduce((a: number,b: {totalCancelledBookings: number}) => a + Number(b.totalCancelledBookings), 0)/dataReport?.reduce((a: number,b: {totalBookings: number}) => a + Number(b.totalBookings), 0)) * 100  }/>
-                    <RecentNotifications />
+                    {/* <RecentNotifications /> */}
                 </div>
             </div>
         </div>

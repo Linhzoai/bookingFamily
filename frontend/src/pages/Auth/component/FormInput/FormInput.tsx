@@ -10,7 +10,6 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 
 const createSchema = () => {
@@ -25,18 +24,17 @@ type FormData = z.infer<ReturnType<typeof createSchema>>;
 export default function FormInput() {
     const { container, title, boxInput, boxButton, boxForm, boxRemember } = styles;
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const { login } = useAuthStore();
+    const { login, loading } = useAuthStore();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({ resolver: zodResolver(createSchema()), defaultValues: { email: '', password: '' } });
 
     const handleLogin = async (data: FormData) => {
         await login(data)
             .then(() => {
-                toast.success('Đăng nhập thành công');
                 navigate('/');
             })
             .catch((error) => {
-                toast.error('Đăng nhập thất bại');
+                console.log("Lỗi:", error)
             });
     };
     return (

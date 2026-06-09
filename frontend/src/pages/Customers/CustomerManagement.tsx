@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { useSideBarStore } from '@/stores/useSidebarStore';
 import { staffService } from '@/services/staffService';
 export default function CustomerManagement() {
-    const { container, header, title, subtitle, actions, export_btn, add_btn, stats_grid, stat_card, stat_card_wide, stat_label, stat_value, stat_trend_pos, stat_trend_info, stat_label_light, stat_value_large, stat_info_light, badge, filter_bar, search_box, select_box, date_box, table_card, table, text_center, text_right, mono_text, cust_name, cust_date, contact_info, email, booking_count, amount_text, wide_content, action_cell, } = styles;
+    const { container, header, title, subtitle, actions, add_btn, stats_grid, stat_card, stat_card_wide, stat_label, stat_value, stat_trend_pos, stat_trend_info, stat_label_light, stat_value_large, stat_info_light, badge, filter_bar, search_box, select_box, date_box, table_card, table, text_center, text_right, mono_text, cust_name, cust_date, contact_info, email, booking_count, amount_text, wide_content, action_cell, } = styles;
     const [page, setPage] = useState(1)
     let queryCustomer = `page=${page}`
     const [search, setSearch] = useState('');
@@ -43,10 +43,6 @@ export default function CustomerManagement() {
                     <p className={subtitle}>Theo dõi và quản lý dữ liệu thành viên trong hệ thống.</p>
                 </div>
                 <div className={actions}>
-                    <button className={export_btn}>
-                        <span className="material-symbols-outlined">download</span>
-                        Xuất báo cáo
-                    </button>
                     <button className={add_btn} onClick={()=> toggleType('create_customer')}>
                         <span className="material-symbols-outlined">add</span>
                         Thêm Khách hàng

@@ -107,7 +107,7 @@
             border: 1px solid rgba(226, 232, 240, 0.8);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+            
             &:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
@@ -167,7 +167,7 @@
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%);
+                background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.2) 50%, transparent 60%);
                 background-size: 200% 200%;
                 animation: shine 4s linear infinite;
             }
@@ -184,10 +184,10 @@
                 pointer-events: none;
             }
 
-            @keyframes shine {
-                0% { background-position: 200% center; }
-                100% { background-position: -200% center; }
-            }
+                @keyframes shine {
+                    0% { background-position: 200% center; }
+                    100% { background-position: -200% center; }
+                }
 
             .wide_content {
                 position: relative;

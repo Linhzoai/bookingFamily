@@ -40,7 +40,7 @@ export default function Header() {
                 <div className={box_right}>
                     <div className={box_actions}>
                         <button className={action_button} onClick={handleOpenFormCreateBooking}>
-                            <span className="material-symbols-outlined">add</span>+ Trực tiếp tạo Booking
+                            <span className="material-symbols-outlined">add</span>Trực tiếp tạo Booking
                         </button>
                     </div>
                     <div className={styles.user_profile}>
