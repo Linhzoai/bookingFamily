@@ -238,10 +238,6 @@ class StaffService {
       const currentArea = record.area;
       const parentArea = currentArea?.parent;
       const grandParentArea = parentArea?.parent;
-
-      // Gom tên các cấp lại thành mảng [Phường, Quận, Thành phố]
-      // filter(Boolean) dùng để xóa đi những giá trị null/undefined
-      // (ví dụ nếu nhân viên đó chỉ đăng ký tới cấp Quận thì mảng trả về sẽ chỉ có [Quận, Thành phố])
       return {
         areaId: record.areaId,
         area: [
@@ -249,6 +245,7 @@ class StaffService {
           parentArea?.name,
           grandParentArea?.name,
         ].filter(Boolean),
+        isPrimary: record.primaryArea
       };
     });
 
