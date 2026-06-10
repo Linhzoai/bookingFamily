@@ -5,7 +5,8 @@ import bookingService from "../bookings/booking.service.js";
 import { paginatePrisma } from "../../helper/prisma.helper.js";
 import { io } from '../../socket/index.js';
 class ProgressService {
-  createProgress = async (data, image) => {
+  createProgress = async (data, images) => {
+    console.log("data: ", data);
     const staffAssignment = await prisma.staffAssignment.findFirst({
       where: { bookingId: data.bookingId, staffId: data.staffId , status: { notIn: ['cancelled', 'rejected'] }},
     });
@@ -35,7 +36,7 @@ class ProgressService {
           note: data.note,
           recordedAt: new Date(data.recordAt || new Date()),
           stepName: nextStep,
-          evidenceImageUrl: image || '',
+          evidenceImageUrl: images,
         },
       });
       await tx.staffAssignment.updateMany({

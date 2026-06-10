@@ -18,7 +18,7 @@ const createRomStorage = (folderName)=>{
             cb(null, dir);
         },
         filename: function(req, file,cb){
-            cb(null, `${Date.now()}-${req.user?.id || 'new'}-${file.originalname}`)
+            cb(null, `${Date.now()}-${file.originalname}`)
         }
     })
 }
@@ -54,7 +54,7 @@ export const CropAndSave = (folderName) =>{
             if(!fs.existsSync(dir)){
                 fs.mkdirSync(dir, {recursive: true})
             }
-            const fileName = `${Date.now()}-${req.user?.id || 'new'}.png`;
+            const fileName = `${Date.now()}.png`;
             const filePath = `${env.baseUrl}/${folderName}/${fileName}`;
             await sharp(req.file.buffer)
             .resize(500, 500, {fit: sharp.fit.cover , position: 'center'})

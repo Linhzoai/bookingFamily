@@ -47,22 +47,19 @@ const router = express.Router();
  *                 type: string
  *                 format: date-time
  *                 description: Thời gian ghi nhận
- *               image:
- *                 type: string
- *                 format: binary
- *                 description: Hình ảnh bằng chứng (ảnh hiện trường, ảnh hoàn thành...)
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Danh sách hình ảnh bằng chứng (ảnh hiện trường, ảnh hoàn thành...)
  *     responses:
  *       201:
  *         description: Cập nhật tiến độ thành công
  *       400:
  *         description: Dữ liệu không hợp lệ hoặc công việc đã hoàn thành
  */
-router.post(
-  "/",
-  validateMiddleware(createProgressSchema),
-  uploadImageStorage("progress").single("image"),
-  progressController.createProgress,
-);
+router.post( "/", validateMiddleware(createProgressSchema), uploadImageStorage("progress").array("images", 10), progressController.createProgress, );
 
 /**
  * @swagger
@@ -117,9 +114,5 @@ router.post(
  *       200:
  *         description: Lấy danh sách tiến độ thành công
  */
-router.get(
-  "/",
-  validateMiddleware(getProgressSchema,"query"),
-  progressController.getAllProgress,
-);
+router.get( "/", validateMiddleware(getProgressSchema,"query"), progressController.getAllProgress, );
 export default router;

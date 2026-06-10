@@ -152,11 +152,9 @@ class StaffService {
   //Cập nhật công việc
   updateJob = async (id, status) => {
     return await prisma.$transaction(async (tx) => {
-      // const staffAssignment = await tx.staffAssignment.findUniqueOrThrow({where: {id: id}});
-      // console.log(staffAssignment);
       const updateStaffAssignment = await tx.staffAssignment.update({
         where: { id: Number(id) },
-        data: { status: status },
+        data: { status },
       });
 
       if (status === "accepted") {
