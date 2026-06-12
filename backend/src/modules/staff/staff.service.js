@@ -111,41 +111,59 @@ class StaffService {
     const query = { staffId: id };
     if (data.status) query.status = data.status;
     if (data.assignedAt) query.assignedAt = { gte: new Date(data.assignedAt) };
-    const include =  {
+    const include = {
       booking: {
-        select: { id: true, scheduledTime: true, expectedEndTime: true, address: true, totalAmount: true, status: true, note: true,
-          customer: { 
-            select: { id: true, name: true, phone: true, avatarUrl: true, } 
+        select: {
+          id: true,
+          scheduledTime: true,
+          expectedEndTime: true,
+          address: true,
+          totalAmount: true,
+          status: true,
+          note: true,
+          customer: {
+            select: { id: true, name: true, phone: true, avatarUrl: true },
           },
           bookingDetails: {
             select: {
               quantity: true,
               unitPrice: true,
-              service: { 
-                select: { id: true, name: true, duration: true, imageUrl: true } 
-              } 
-            }
+              service: {
+                select: {
+                  id: true,
+                  name: true,
+                  duration: true,
+                  imageUrl: true,
+                },
+              },
+            },
           },
           reviews: {
-            select: {type: true, rating: true, review: true, createdAt: true}
-          }
-        }
-      }
+            select: { type: true, rating: true, review: true, createdAt: true },
+          },
+        },
+      },
     };
-    const jobs = await paginatePrisma(prisma.staffAssignment, query, data, include);
+    const jobs = await paginatePrisma(
+      prisma.staffAssignment,
+      query,
+      data,
+      include,
+    );
     const formatData = {
       ...jobs,
       data: jobs.data?.map((job) => {
-        const {reviews, ...dataBookings} = job.booking;
+        const { reviews, ...dataBookings } = job.booking;
         return {
-        ...job,
-        booking: {
-          ...dataBookings,
-          customerReview: reviews?.find(r => r.type === "customer"),
-          staffReview: job.booking?.reviews?.find(r => r.type === "staff")
-        }
-      }})
-    }
+          ...job,
+          booking: {
+            ...dataBookings,
+            customerReview: reviews?.find((r) => r.type === "customer"),
+            staffReview: job.booking?.reviews?.find((r) => r.type === "staff"),
+          },
+        };
+      }),
+    };
     return formatData;
   };
 
@@ -180,24 +198,31 @@ class StaffService {
       id: Number(data.areaId),
     });
     const staffArea = await prisma.$transaction(async (tx) => {
-      if (data.primaryArea) {
-        await tx.staffServiceArea.updateMany({
-          where: { staffId: data.staffId },
-          data: { primaryArea: false },
-        });
-      }
-
-      const createStaffArea = await tx.staffServiceArea.create({
-        data: {
-          staffId: data.staffId,
-          areaId: Number(data.areaId),
-          primaryArea: data.primaryArea,
-        },
-        include: {
-          area: true,
-        },
+      const staffArea = await tx.staffServiceArea.findFirst({
+        where: { staffId: data.staffId, areaId: Number(data.areaId) },
       });
-      return createStaffArea;
+      if (data.primaryArea) {
+          await tx.staffServiceArea.updateMany({
+            where: { staffId: data.staffId },
+            data: { primaryArea: false },
+          });
+        }
+      if (staffArea) {
+        const staffServiceArea = await tx.staffServiceArea.update({
+          where: { staffId_areaId: { staffId: data.staffId, areaId: Number(data.areaId) } },
+          data: { primaryArea: data.primaryArea },
+        });
+        return staffServiceArea;
+      } else {
+        const createStaffArea = await tx.staffServiceArea.create({
+          data: {
+            staffId: data.staffId,
+            areaId: Number(data.areaId),
+            primaryArea: data.primaryArea,
+          },
+        });
+        return createStaffArea;
+      }
     });
     return staffArea;
   };
@@ -245,7 +270,7 @@ class StaffService {
           parentArea?.name,
           grandParentArea?.name,
         ].filter(Boolean),
-        isPrimary: record.primaryArea
+        isPrimary: record.primaryArea,
       };
     });
 

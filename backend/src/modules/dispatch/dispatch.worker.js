@@ -11,9 +11,7 @@ export const connection = new IORedis(process.env.REDIS_URL, {
 export const dispatchQueue = new Queue("dispatchQueue", { connection });
 
 // Định nghĩa Worker để chạy nền các Job
-const dispatchWorker = new Worker(
-  "dispatchQueue",
-  async (job) => {
+const dispatchWorker = new Worker( "dispatchQueue", async (job) => {
     const { bookingId, staffList, currentIndex } = job.data;
     // Lấy Assignment hiện tại để kiểm tra xem nhân viên trước đó có bấm nhận không
     if (currentIndex > 0) {
@@ -46,7 +44,7 @@ const dispatchWorker = new Worker(
       // Tự động đẩy đơn qua trạng thái chờ Admin điều phối tay
       await prisma.booking.update({
         where: { id: bookingId },
-        data: { status: "no_staff_available" }, // Trạng thái tự định nghĩa
+        data: { status: "pending" }, 
       });
       return;
     }

@@ -44,6 +44,12 @@ class AssignmentService{
             where: { id: Number(id) },
             data
         })
+        if(data.status === "rejected"){
+            await prisma.booking.update({
+                where: {id: assignJob.bookingId},
+                data: {status: 'pending'}
+            })
+        }
         const booking = await prisma.booking.findUnique({
             where: { id: assignJob.bookingId },
             include: {

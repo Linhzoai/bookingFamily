@@ -8,7 +8,6 @@ class BookingController{
     createBooking = catchAsync(async (req, res, next) =>{
         const booking = await BookingService.createBooking(req.body)
         const eligibleStaffs = await findEligibleStaffs(booking.areaId,booking.scheduledTime, booking.expectedEndTime);
-        console.log(eligibleStaffs)
         if(eligibleStaffs.length > 0){
             await dispatchQueue.add('processNext', {
                 bookingId: booking.id,

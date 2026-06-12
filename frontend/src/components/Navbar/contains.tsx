@@ -5,7 +5,9 @@ export const NavItems = [
     {path: "/service", label: "Dịch vụ", iconName: "construction"},
     {path: "/customer", label: "Khách hàng", iconName: "group"},
     {path: "/staff", label: "Nhân sự", iconName: "engineering"},
-    {path: "/area", label: "Khu vực", iconName: "location_on"},
-    {path: "/report", label: "Tài chính", iconName: "payments"},
-    {path: "/setting", label: "Cài đặt", iconName: "settings"}, 
+    { path: "/area", label: "Khu vực", iconName: "location_on" },
+    { path: "/report", label: "Tài chính", iconName: "payments" },
+    { path: "/leave-request", label: "Quản lý xin nghỉ", iconName: "request_quote" },
+    { path: "/setting", label: "Cài đặt", iconName: "settings" },
+
 ]

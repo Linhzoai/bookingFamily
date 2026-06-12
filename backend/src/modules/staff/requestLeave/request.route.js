@@ -1,7 +1,7 @@
 import express from "express";
 import RequestController from "#modules/staff/requestLeave/request.controller.js";
 import validateMiddleware from "#middleware/validate.middleware.js";
-import { createValidation, updateValidation, deleteValidation, getValidation } from "./request.validation.js";
+import { createValidation, updateValidation, deleteValidation, getValidation,updateStatusValidation } from "./request.validation.js";
 
 const router = express.Router();
 
@@ -197,4 +197,40 @@ router.delete("/:id", validateMiddleware(deleteValidation, "params"), RequestCon
  */
 router.get("/", validateMiddleware(getValidation, "query"), RequestController.getAllRequests);
 
+/**
+ * @swagger
+ * /request-leave/{id}:
+ *   patch:
+ *     summary: Cập nhật trạng thái đơn xin nghỉ phép
+ *     tags: [Request Leave]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID của đơn xin nghỉ phép
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - status
+ *             properties:
+ *               status:
+ *                 type: string
+ *                 description: Trạng thái mới của đơn xin nghỉ phép
+ *     responses:
+ *       200:
+ *         description: Cập nhật trạng thái thành công
+ *       400:
+ *         description: Lỗi dữ liệu đầu vào
+ *       404:
+ *         description: Không tìm thấy đơn xin nghỉ phép
+ */
+router.patch("/:id", validateMiddleware(updateStatusValidation), RequestController.updateStatus);
 export default router;

@@ -352,7 +352,7 @@ async function main() {
       scheduledTime: new Date("2026-04-05T08:00:00"),
       status: "completed",
       totalAmount: 225000,
-      discountCodeId: discount1.id,
+      discountCode: discount1.code,
       actualStartTime: new Date("2026-04-05T08:05:00"),
       actualEndTime: new Date("2026-04-05T10:00:00"),
       bookingDetails: {
@@ -508,7 +508,7 @@ async function main() {
         staffId: staff1.id,
         type: "STAFF",
         rating: 5,
-        comment: "Chị Lan làm rất sạch sẽ và cẩn thận. Sẽ đặt lại!",
+        review: "Chị Lan làm rất sạch sẽ và cẩn thận. Sẽ đặt lại!",
       },
       {
         bookingId: booking2.id,
@@ -516,7 +516,7 @@ async function main() {
         staffId: staff1.id,
         type: "STAFF",
         rating: 4,
-        comment: "Nấu ăn ngon, nhưng đến trễ 10 phút.",
+        review: "Nấu ăn ngon, nhưng đến trễ 10 phút.",
       },
     ],
   });

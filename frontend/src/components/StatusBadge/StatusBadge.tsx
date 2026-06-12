@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './style.module.scss';
 
 interface StatusBadgeProps {
@@ -8,7 +7,6 @@ interface StatusBadgeProps {
 
 export default function StatusBadge({ status, text }: StatusBadgeProps) {
     const statusClass = status.toLowerCase().replace(' ', '_');
-    console.log(statusClass)
     return (
         <span className={`${styles.badge} ${styles[statusClass] || styles.default}`}>
             <span className={styles.dot}></span>

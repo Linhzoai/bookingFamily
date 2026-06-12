@@ -22,8 +22,12 @@ export const deleteValidation = Joi.object({
 })
 
 export const getValidation = Joi.object({
-    staffId: Joi.string().required(),
+    staffId: Joi.string().optional(),
     startTime: Joi.date().optional(),
     endTime: Joi.date().optional(),
     status: Joi.string().valid(...StatusEnum).optional(),
 }).concat(queryPaginationSchema);
+
+export const updateStatusValidation = Joi.object({
+    status: Joi.string().valid(...StatusEnum).required(),
+})

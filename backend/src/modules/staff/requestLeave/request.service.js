@@ -54,6 +54,16 @@ class RequestService {
         if(data.staffId) query.staffId = data.staffId;
         return await paginatePrisma(prisma.leaveRequest, query,data, {staff: true});
     }
+
+    //Cập nhật trạng thái yêu cầu xin nghỉ 
+    updateStatus = async (id, data, user) => {
+        await checkRecordExist(prisma.leaveRequest, {id}, "Yêu cầu nghỉ việc không tồn tại");
+        const request = await prisma.leaveRequest.update({
+            where: {id},
+            data: {status: data.status, approvedBy: user.id}
+        })
+        return request;
+    }
 }
 
 export default new RequestService();

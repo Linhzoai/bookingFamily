@@ -6,11 +6,9 @@ import { paginatePrisma } from "../../helper/prisma.helper.js";
 import { io } from '../../socket/index.js';
 class ProgressService {
   createProgress = async (data, images) => {
-    console.log("data: ", data);
     const staffAssignment = await prisma.staffAssignment.findFirst({
       where: { bookingId: data.bookingId, staffId: data.staffId , status: { notIn: ['cancelled', 'rejected'] }},
     });
-    console.log(staffAssignment)
     if (!staffAssignment || staffAssignment.staffId !== data.staffId) {
       throw new AppError("Bạn không có quyền cập nhật tiến độ cho đơn này", HttpStatus.BAD_REQUEST);
     }
@@ -43,12 +41,10 @@ class ProgressService {
         where: { staffId: data.staffId, bookingId: data.bookingId },
         data: { status: nextStep },
       });
-      if (nextStep === "completed") {
         await tx.booking.update({
           where: { id: data.bookingId },
-          data: { status: "completed" },
+          data: { status: nextStep },
         });
-      }
       const booking = await prisma.booking.findUnique({ where: { id: data.bookingId } });
       io.to(booking.customerId).emit("update-progress", nextProgress);
       io.to(data.staffId).emit("update-progress", nextProgress);

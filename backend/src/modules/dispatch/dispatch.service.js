@@ -11,11 +11,11 @@ export const findEligibleStaffs = async (areaId, startTime, expectedEndTime) => 
     const avaiableStaffs = await prisma.user.findMany({
         where: {
             role: 'staff',
-            status: 'active',
-            staffProfile: {
-                status: {in: ['active', 'approved']},
-                currentAvailability: 'available',
-            },
+            // status: 'active',
+            // staffProfile: {
+            //     status: {in: ['active', 'approved']},
+            //     currentAvailability: 'available',
+            // },
             //đang làm việc ở khu vực liên quan
             staffServiceAreas:{
                 some: {areaId: {in: areaIds}}

@@ -25,6 +25,11 @@ class RequestController {
         successResponse(res, {data: result, message: "Lấy danh sách yêu cầu nghỉ việc thành công", status: HttpStatus.OK});
     })
 
+    updateStatus = catchAsync(async (req, res, next) => {
+        const result = await RequestService.updateStatus(req.params.id, req.body, req.user);
+        successResponse(res, {data: result, message: "Cập nhật trạng thái yêu cầu nghỉ việc thành công", status: HttpStatus.OK});
+    })
+
 }
 
 export default new RequestController();
