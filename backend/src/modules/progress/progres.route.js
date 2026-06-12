@@ -5,7 +5,7 @@ import {
   createProgressSchema,
   getProgressSchema,
 } from "./progress.validation.js";
-import { uploadImageStorage } from "../../middlewares/upload.middleware.js";
+import { uploadMemory,UploadOriginalToCloudinary } from "../../middlewares/upload.middleware.js";
 const router = express.Router();
 
 /**
@@ -59,7 +59,7 @@ const router = express.Router();
  *       400:
  *         description: Dữ liệu không hợp lệ hoặc công việc đã hoàn thành
  */
-router.post( "/", validateMiddleware(createProgressSchema), uploadImageStorage("progress").array("images", 10), progressController.createProgress, );
+router.post( "/", validateMiddleware(createProgressSchema),uploadMemory.array("images", 10), UploadOriginalToCloudinary("progress"), progressController.createProgress, );
 
 /**
  * @swagger

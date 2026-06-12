@@ -6,7 +6,7 @@ class ServiceController{
     createService = catchAsync(async (req, res) => {
         const data = req.body;
         if(req.file){
-            data.imageUrl = `${env.baseUrl}/services/${req.file.filename}`;
+            data.imageUrl = req.file?.path;
         }
         const result = await ServiceService.createService(data);
         return successResponse(res, { data: result, message: "Tạo dịch vụ thành công" }, 201);
@@ -16,7 +16,7 @@ class ServiceController{
         const { id } = req.params;
         const data = req.body;
         if(req.file){
-            data.imageUrl = `${env.baseUrl}/services/${req.file.filename}`;
+            data.imageUrl = req.file?.path;
         }
         const result = await ServiceService.updateService(id, data);
         return successResponse(res, { data: result, message: "Cập nhật dịch vụ thành công" }, 200);

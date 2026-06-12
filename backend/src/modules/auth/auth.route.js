@@ -2,17 +2,8 @@ import express from "express";
 import authController from "./auth.controller.js";
 import validateMiddleware from "../../middlewares/validate.middleware.js";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
-import {
-  uploadAvatar,
-  CropAndSave,
-} from "../../middlewares/upload.middleware.js";
-import {
-  signUpSchema,
-  signInSchema,
-  fetchUserByIdSchema,
-  updateStatusSchema,
-  updateUserSchema,
-} from "./auth.validation.js";
+import { uploadMemory, CropAndSaveCloudinary, } from "../../middlewares/upload.middleware.js";
+import { signUpSchema, signInSchema, fetchUserByIdSchema, updateStatusSchema, updateUserSchema, } from "./auth.validation.js";
 const router = express.Router();
 
 /**
@@ -49,7 +40,7 @@ const router = express.Router();
  *       201:
  *         description: Đăng ký thành công
  */
-router.post( "/sign-up", uploadAvatar.single("avatar"), CropAndSave("avatar"), validateMiddleware(signUpSchema, "body"), authController.signUp, );
+router.post( "/sign-up", uploadMemory.single("avatar"), CropAndSaveCloudinary("avatar"), validateMiddleware(signUpSchema, "body"), authController.signUp, );
 
 /**
  * @swagger
@@ -71,7 +62,7 @@ router.post( "/sign-up", uploadAvatar.single("avatar"), CropAndSave("avatar"), v
  *       200:
  *         description: Đăng nhập thành công
  */
-router.post( "/sign-in", validateMiddleware(signInSchema, "body"), authController.signIn, );
+router.post( "/sign-in",  uploadMemory.single("avatar"), CropAndSaveCloudinary("avatar"),validateMiddleware(signInSchema, "body"), authController.signIn, );
 
 /**
  * @swagger
@@ -132,11 +123,7 @@ router.get("/me", authMiddleware, authController.fetchMe);
  *       200:
  *         description: Lấy thông tin người dùng thành công
  */
-router.get(
-  "/:id",
-  validateMiddleware(fetchUserByIdSchema, "params"),
-  authController.fetchUserById,
-);
+router.get( "/:id", validateMiddleware(fetchUserByIdSchema, "params"), authController.fetchUserById, );
 
 /**
  * @swagger
@@ -172,7 +159,7 @@ router.get(
  *       200:
  *         description: Cập nhật thành công
  */
-router.put( "/:id", uploadAvatar.single("avatar"), CropAndSave("avatar"), validateMiddleware(updateUserSchema, "body"), authController.updateUserById, );
+router.put( "/:id", uploadMemory.single("avatar"), CropAndSaveCloudinary("avatar"), validateMiddleware(updateUserSchema, "body"), authController.updateUserById, );
 
 /**
  * @swagger

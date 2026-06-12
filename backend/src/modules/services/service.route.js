@@ -2,7 +2,7 @@ import express from 'express';
 import validateMiddleware from '../../middlewares/validate.middleware.js';
 import { createServiceSchema, updateServiceSchema, getServicesSchema } from './service.validation.js';
 import ServiceController from './service.controller.js';
-import {uploadImageStorage} from '../../middlewares/upload.middleware.js';
+import {uploadMemory,UploadOriginalToCloudinary} from '../../middlewares/upload.middleware.js';
 import {authMiddleware} from '../../middlewares/auth.middleware.js';
 const router = express.Router();
 
@@ -103,7 +103,7 @@ router.use(authMiddleware);
  *       201:
  *         description: Tạo dịch vụ thành công
  */
-router.post('/create', uploadImageStorage('services').single('image'), validateMiddleware(createServiceSchema), ServiceController.createService);
+router.post('/create', uploadMemory.single('image'), UploadOriginalToCloudinary('services'), validateMiddleware(createServiceSchema), ServiceController.createService);
 
 /**
  * @swagger
@@ -138,7 +138,7 @@ router.post('/create', uploadImageStorage('services').single('image'), validateM
  *       200:
  *         description: Cập nhật thành công
  */
-router.put('/:id/update',uploadImageStorage('services').single('image'),validateMiddleware(updateServiceSchema), ServiceController.updateService);
+router.put('/:id/update',uploadMemory.single('image'), UploadOriginalToCloudinary('services'), validateMiddleware(updateServiceSchema), ServiceController.updateService);
 
 /**
  * @swagger
